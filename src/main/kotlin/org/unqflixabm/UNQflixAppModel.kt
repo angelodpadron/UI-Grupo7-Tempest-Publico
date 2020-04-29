@@ -3,6 +3,9 @@ package org.unqflixabm
 import data.getUNQFlix
 import domain.Serie
 import domain.UNQFlix
+import org.uqbar.commons.model.annotations.Observable
+
+@Observable
 
 class UNQflixAppModel {
 

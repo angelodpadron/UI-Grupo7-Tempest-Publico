@@ -12,9 +12,9 @@ class SeriesAppModel (var serie: Serie) {
     var description = ""
     var poster = ""
     var state : ContentState
-    var categories: MutableList<Category> = mutableListOf()
-    var seasons: MutableList<Season> = mutableListOf()
-    var relatedContent: MutableList<Content> = mutableListOf()
+    var categories: MutableList<CategoryAppModel> = mutableListOf()
+    var seasons: MutableList<SeasonAppModel> = mutableListOf()
+    var relatedContent: MutableList<ContentAppModel> = mutableListOf()
 
     init {
         this.id = serie.id

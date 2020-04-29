@@ -4,10 +4,10 @@ import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 
-class WindowSeries (owner: WindowOwner, seriesAppModel: SeriesAppModel): SimpleWindow<SeriesAppModel>(owner, seriesAppModel){
+class WindowSeries (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
+    SimpleWindow<UNQflixAppModel>(owner, unqflixAppModel){
 
     override fun addActions(p0: Panel?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun createFormPanel(p0: Panel?) {

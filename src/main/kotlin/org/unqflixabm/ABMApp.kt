@@ -6,8 +6,10 @@ import org.uqbar.arena.windows.Window
 class ABMApp: Application() {
 
     override fun createMainWindow(): Window<*> {
-        //return WindowSeries(this, )
+        return WindowSeries(this, UNQflixAppModel())
     }
-
 }
 
+fun main(){
+    ABMApp().start()
+}
