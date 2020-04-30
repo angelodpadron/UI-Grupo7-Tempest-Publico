@@ -3,6 +3,7 @@ package org.unqflixabm
 import domain.Chapter
 import domain.Season
 
+
 class SeasonAppModel(var season: Season){
     val id: String
     var title: String
@@ -22,7 +23,8 @@ class SeasonAppModel(var season: Season){
         return season.chapters.map{ChapterAppModel(it)}.toMutableList()
     }
 
-    fun addChapter(chapter: Chapter) = season.addChapter(chapter)
-
-    fun deleteChapter(input: String) = season.deleteChapter(input)
+    //agregar excepcion , no se pueden agregar dos veces el mismo capitulo.
+    fun addChapter(chapter: ChapterAppModel) =chapters.add(chapter)
+    
+    fun deleteChapter(idChapter: String) = chapters.removeIf { it.id == idChapter }
 }
