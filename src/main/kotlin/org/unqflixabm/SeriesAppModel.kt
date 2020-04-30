@@ -40,4 +40,8 @@ class SeriesAppModel (var serie: Serie) {
         return serie.relatedContent.map{ContentAppModel(it)}.toMutableList()
     }
 
+    //querys
+
+    fun getCantSeasons(): Int = this.seasons.size
+
 }
