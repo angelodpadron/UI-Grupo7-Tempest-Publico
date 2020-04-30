@@ -3,7 +3,7 @@ package org.unqflixabm
 import domain.Chapter
 import domain.Season
 
-class SeasonAppModel(var season: Season, var input : String ){
+class SeasonAppModel(var season: Season){
     val id: String
     var title: String
     var description: String

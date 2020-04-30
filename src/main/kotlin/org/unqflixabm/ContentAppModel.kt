@@ -1,5 +1,7 @@
 package org.unqflixabm
 
-class ContentAppModel {
+import domain.Content
+
+class ContentAppModel (content: Content) {
 
 }
