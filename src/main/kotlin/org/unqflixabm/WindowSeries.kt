@@ -3,6 +3,8 @@ package org.unqflixabm
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
+import org.uqbar.arena.kotlin.extensions.*
+import org.uqbar.arena.widgets.*
 
 class WindowSeries (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
     SimpleWindow<UNQflixAppModel>(owner, unqflixAppModel){
@@ -11,7 +13,65 @@ class WindowSeries (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
     }
 
     override fun createFormPanel(p0: Panel?) {
-        title = "ABM Control Panel"
+        title = "UnqFlix"
 
+        Panel (p0) with {
+            asHorizontal()
+            Label(it) with { text = "Search" }
+            TextBox(it) with {
+                bindTo("")
+            }
+            //TODO: ver cómo hacer búsqueda
+        }
+
+        Label (p0) with {
+            text = "Series:"
+        }
+        table<SeriesAppModel>(p0) {
+            bindItemsTo("series")
+            bindSelectionTo("")
+            column {
+                title = "#"
+                fixedSize = 75
+                bindContentsTo("id")
+            }
+            column {
+                title = "Title"
+                fixedSize = 250
+                bindContentsTo("title")
+            }
+            column {
+                title = "#Season"
+                fixedSize = 75
+                bindContentsTo("seasons")
+            }
+            column {
+                title = ""
+                fixedSize = 75
+                bindContentsTo("state")
+            }
+        }
+
+        Panel (p0) with {
+            asHorizontal()
+            Button(it) with {
+                caption = "Add new series"
+                //TODO: onClick
+            }
+            Button(it) with {
+                caption = "Modify series"
+                //TODO: onClick
+            }
+            Button(it) with {
+                caption = "Delete series"
+                //TODO: onClick
+            }
+            Button(it) with {
+                caption = "Show series"
+                //TODO: onClick
+            }
+        }
+
+        //TODO: armar funciones para botones
     }
 }
