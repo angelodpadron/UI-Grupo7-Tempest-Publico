@@ -1,7 +1,6 @@
-package org.unqflixabm
+package org.unqflixabm.appModels
 
 import data.getUNQFlix
-import domain.Serie
 import domain.UNQFlix
 import org.uqbar.commons.model.annotations.Observable
 
@@ -11,14 +10,20 @@ class UNQflixAppModel {
 
     var system: UNQFlix = getUNQFlix()
     var series: MutableList<SeriesAppModel> = initSeries()
-    var selectSerie: SeriesAppModel? = null                 //seleccionado en tabla
+    var selectSerie:String? = null                 //seleccionado en tabla
 
     fun initSeries(): MutableList<SeriesAppModel> {
         return system.series.map { SeriesAppModel(it) }.toMutableList()
     }
 
-    fun deleteSerie(selectSerie : SeriesAppModel?){
-        series.removeIf { it.id == selectSerie?.id }
+    fun deleteSerie(selectSerie : String?){
+        series.removeIf { it.id == selectSerie }
+    }
+
+    fun getSerie(selectSerie: String?): SeriesAppModel? {
+
+        return series.find {it.id == selectSerie }
+
     }
 
     //ALTA

@@ -1,4 +1,4 @@
-package org.unqflixabm
+package org.unqflixabm.appModels
 
 import domain.Category
 

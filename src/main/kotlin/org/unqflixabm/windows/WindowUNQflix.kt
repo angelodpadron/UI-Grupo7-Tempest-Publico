@@ -1,12 +1,14 @@
-package org.unqflixabm
+package org.unqflixabm.windows
 
+import org.unqflixabm.appModels.SeriesAppModel
+import org.unqflixabm.appModels.UNQflixAppModel
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 
-class WindowSeries (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
+class WindowUNQflix (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
     SimpleWindow<UNQflixAppModel>(owner, unqflixAppModel){
 
     override fun addActions(p0: Panel?) {
@@ -47,10 +49,7 @@ class WindowSeries (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
                 bindContentsTo("seasons")
             }
             column {
-                title = ""
-
                 title = "State"
-
                 fixedSize = 100
                 bindContentsTo("state")
             }
@@ -59,19 +58,19 @@ class WindowSeries (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
         Panel (p0) with {
             asHorizontal()
             Button(it) with {
-                caption = "Add new series"
+                caption = "Add new Serie"
                 //TODO: onClick
             }
             Button(it) with {
-                caption = "Modify series"
+                caption = "Modify Serie"
                 //TODO: onClick
             }
             Button(it) with {
-                caption = "Delete series"
-                //TODO: onClick
+                caption = "Delete Serie"
+                onClick( {ConfirmDeleteSerieDialog(owner, modelObject as UNQflixAppModel).open()} )
             }
             Button(it) with {
-                caption = "Show series"
+                caption = "Show Serie"
                 //TODO: onClick
             }
         }
