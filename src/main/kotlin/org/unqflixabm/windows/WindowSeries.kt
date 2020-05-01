@@ -1,5 +1,7 @@
-package org.unqflixabm
+package org.unqflixabm.windows
 
+import org.unqflixabm.appModel.SeriesAppModel
+import org.unqflixabm.appModel.UNQflixAppModel
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
@@ -56,19 +58,19 @@ class WindowSeries (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
         Panel (p0) with {
             asHorizontal()
             Button(it) with {
-                caption = "Add new series"
+                caption = "Add new Serie"
                 //TODO: onClick
             }
             Button(it) with {
-                caption = "Modify series"
+                caption = "Modify Serie"
                 //TODO: onClick
             }
             Button(it) with {
-                caption = "Delete series"
-                //TODO: onClick
+                caption = "Delete Serie"
+                onClick( {ConfirmDeleteSerieDialog(owner, modelObject as UNQflixAppModel).open()} )
             }
             Button(it) with {
-                caption = "Show series"
+                caption = "Show Serie"
                 //TODO: onClick
             }
         }

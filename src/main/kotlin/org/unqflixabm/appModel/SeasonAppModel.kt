@@ -1,4 +1,4 @@
-package org.unqflixabm
+package org.unqflixabm.appModel
 
 import domain.Chapter
 import domain.Season
