@@ -17,6 +17,10 @@ class UNQflixAppModel {
         return system.series.map { SeriesAppModel(it) }.toMutableList()
     }
 
+    fun deleteSerie(selectSerie : SeriesAppModel?){
+        series.removeIf { it.id == selectSerie?.id }
+    }
+
     //ALTA
 
     //BAJA
