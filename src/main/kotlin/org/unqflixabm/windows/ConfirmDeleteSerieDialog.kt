@@ -12,7 +12,7 @@ class ConfirmDeleteSerieDialog (owner :WindowOwner, model: UNQflixAppModel):Dial
     override fun createFormPanel(mainPanel: Panel?) {
         Label(mainPanel) with {
 
-            text = "Confirm delete of "+(getSerieTitle())
+            text = "Confirm delete of" + getSerieTitle()
         }
         Button(mainPanel)with{
             caption= "Accept"
@@ -28,7 +28,7 @@ class ConfirmDeleteSerieDialog (owner :WindowOwner, model: UNQflixAppModel):Dial
     fun  deleteSerie() {
         modelObject.deleteSerie(modelObject.selectSerie)
     }
-    fun getSerieTitle(): SeriesAppModel?{
-        return modelObject.getSerie(modelObject.selectSerie)
+    fun getSerieTitle(): String?{
+        return (modelObject.getSerie(modelObject.selectSerie))?.title
     }
 }
