@@ -3,14 +3,12 @@ package org.unqflixabm
 import domain.Chapter
 import domain.Season
 
-
 class SeasonAppModel(var season: Season) {
-    val id: String
-    var title: String
-    var description: String
-    var poster: String
-    var chapters: MutableList<ChapterAppModel>
-    var selectChapter: ChapterAppModel? = null
+    var id: String = ""
+    var title: String = ""
+    var description: String = ""
+    var poster: String = ""
+    var chapters: MutableList<ChapterAppModel> = mutableListOf()
 
     init {
         this.id = season.id
@@ -24,7 +22,18 @@ class SeasonAppModel(var season: Season) {
         return season.chapters.map { ChapterAppModel(it) }.toMutableList()
     }
 
-    //agregar excepcion , no se pueden agregar dos veces el mismo capitulo.
-    fun addChapter(chapter: ChapterAppModel) = chapters.add(chapter)
-}
+    fun addChapter(chapter: ChapterAppModel) = season.addChapter(toChapter(chapter))
 
+    fun deleteChapter(input: String) = season.deleteChapter(input)
+
+    private fun toChapter(chapterAppModel: ChapterAppModel): Chapter {
+        return Chapter(
+            chapterAppModel.id,
+            chapterAppModel.title,
+            chapterAppModel.description,
+            chapterAppModel.duration,
+            chapterAppModel.video,
+            chapterAppModel.thumbnail
+        )
+    }
+}
