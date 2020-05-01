@@ -15,6 +15,7 @@ class SeriesAppModel (var serie: Serie) {
     var state : ContentState
     var categories: MutableList<CategoryAppModel> = mutableListOf()
     var seasons: MutableList<SeasonAppModel> = mutableListOf()
+    var numberOfSeasons: Int
     var relatedContent: MutableList<ContentAppModel> = mutableListOf()
 
     init {
@@ -25,6 +26,7 @@ class SeriesAppModel (var serie: Serie) {
         this.state = serie.state
         this.categories = initCategories()
         this.seasons = initSeasons()
+        this.numberOfSeasons = this.seasons.count()
         this.relatedContent = initContents()
     }
 
