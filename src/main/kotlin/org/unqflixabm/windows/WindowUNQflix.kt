@@ -1,14 +1,14 @@
 package org.unqflixabm.windows
 
-import org.unqflixabm.appModel.SeriesAppModel
-import org.unqflixabm.appModel.UNQflixAppModel
+import org.unqflixabm.appModels.SeriesAppModel
+import org.unqflixabm.appModels.UNQflixAppModel
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 
-class WindowSeries (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
+class WindowUNQflix (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
     SimpleWindow<UNQflixAppModel>(owner, unqflixAppModel){
 
     override fun addActions(p0: Panel?) {

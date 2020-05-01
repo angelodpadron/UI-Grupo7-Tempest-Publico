@@ -1,4 +1,4 @@
-package org.unqflixabm.appModel
+package org.unqflixabm.appModels
 
 import domain.Chapter
 

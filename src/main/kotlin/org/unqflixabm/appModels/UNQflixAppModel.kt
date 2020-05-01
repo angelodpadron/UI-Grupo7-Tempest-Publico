@@ -1,4 +1,4 @@
-package org.unqflixabm.appModel
+package org.unqflixabm.appModels
 
 import data.getUNQFlix
 import domain.UNQFlix

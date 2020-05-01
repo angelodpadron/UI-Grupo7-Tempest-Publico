@@ -1,7 +1,7 @@
 package org.unqflixabm.windows
 
-import org.unqflixabm.appModel.SeriesAppModel
-import org.unqflixabm.appModel.UNQflixAppModel
+import org.unqflixabm.appModels.SeriesAppModel
+import org.unqflixabm.appModels.UNQflixAppModel
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 import org.uqbar.arena.windows.Dialog
