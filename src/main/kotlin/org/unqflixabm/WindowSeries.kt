@@ -12,14 +12,15 @@ class WindowSeries (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
     override fun addActions(p0: Panel?) {
     }
 
-    override fun createFormPanel(p0: Panel?) {
+    override fun createFormPanel(p0: Panel) {
         title = "UnqFlix"
 
         Panel (p0) with {
             asHorizontal()
             Label(it) with { text = "Search" }
             TextBox(it) with {
-                bindTo("")
+                width = 400
+                //TODO: bindTo("")
             }
             //TODO: ver cómo hacer búsqueda
         }
@@ -29,25 +30,25 @@ class WindowSeries (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
         }
         table<SeriesAppModel>(p0) {
             bindItemsTo("series")
-            bindSelectionTo("")
+            //TODO: bindSelectionTo("")
             column {
                 title = "#"
-                fixedSize = 75
+                fixedSize = 100
                 bindContentsTo("id")
             }
             column {
                 title = "Title"
-                fixedSize = 250
+                fixedSize = 300
                 bindContentsTo("title")
             }
             column {
                 title = "#Season"
-                fixedSize = 75
+                fixedSize = 100
                 bindContentsTo("seasons")
             }
             column {
                 title = ""
-                fixedSize = 75
+                fixedSize = 100
                 bindContentsTo("state")
             }
         }
