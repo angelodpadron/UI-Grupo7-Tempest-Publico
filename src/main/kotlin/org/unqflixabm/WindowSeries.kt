@@ -47,7 +47,10 @@ class WindowSeries (owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
                 bindContentsTo("seasons")
             }
             column {
+                title = ""
+
                 title = "State"
+
                 fixedSize = 100
                 bindContentsTo("state")
             }
