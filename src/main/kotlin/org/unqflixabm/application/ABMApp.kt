@@ -1,5 +1,7 @@
-package org.unqflixabm
+package org.unqflixabm.application
 
+import org.unqflixabm.appModel.UNQflixAppModel
+import org.unqflixabm.windows.WindowSeries
 import org.uqbar.arena.Application
 import org.uqbar.arena.windows.Window
 

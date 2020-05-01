@@ -1,6 +1,7 @@
-package org.unqflixabm
+package org.unqflixabm.appModel
 
 import domain.Chapter
+
 
 class ChapterAppModel (var chapter: Chapter) {
     val id: String
@@ -18,4 +19,5 @@ class ChapterAppModel (var chapter: Chapter) {
         this.video = chapter.video
         this.thumbnail = chapter.thumbnail
     }
+
 }

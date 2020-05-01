@@ -1,11 +1,9 @@
-package org.unqflixabm
+package org.unqflixabm.appModel
 
-import data.getUNQFlix
 import domain.*
 import org.uqbar.commons.model.annotations.Observable
 
 @Observable
-
 class SeriesAppModel (var serie: Serie) {
 
     var model = serie
@@ -31,13 +29,13 @@ class SeriesAppModel (var serie: Serie) {
     }
 
     fun initSeasons(): MutableList<SeasonAppModel>{
-        return serie.seasons.map{SeasonAppModel(it)}.toMutableList()
+        return serie.seasons.map{ SeasonAppModel(it) }.toMutableList()
     }
     fun initCategories(): MutableList<CategoryAppModel>{
-        return serie.categories.map{CategoryAppModel(it)}.toMutableList()
+        return serie.categories.map{ CategoryAppModel(it) }.toMutableList()
     }
     fun initContents(): MutableList<ContentAppModel>{
-        return serie.relatedContent.map{ContentAppModel(it)}.toMutableList()
+        return serie.relatedContent.map{ ContentAppModel(it) }.toMutableList()
     }
 
     //querys
