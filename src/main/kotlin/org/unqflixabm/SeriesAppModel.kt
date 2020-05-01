@@ -2,7 +2,9 @@ package org.unqflixabm
 
 import data.getUNQFlix
 import domain.*
+import org.uqbar.commons.model.annotations.Observable
 
+@Observable
 class SeriesAppModel (var serie: Serie) {
 
     var model = serie
