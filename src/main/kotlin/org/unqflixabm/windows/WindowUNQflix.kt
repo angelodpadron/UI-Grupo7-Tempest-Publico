@@ -71,7 +71,8 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
             }
             Button(it) with {
                 caption = "Delete Serie"
-                onClick({confirmDelete().open()})
+                onClick({tryDeleteException()
+                         confirmDelete().open()})
             }
             Button(it) with {
                 caption = "Show Serie"
@@ -79,6 +80,7 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
             }
         }
     }
+    private fun tryDeleteException()=modelObject.catchDeleteException(modelObject.selectSerie)
     private fun confirmDelete()= ConfirmDeleteSerieDialog(owner,modelObject)
     //TODO: armar funciones para botones
 
