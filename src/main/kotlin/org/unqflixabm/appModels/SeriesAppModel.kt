@@ -1,9 +1,12 @@
 package org.unqflixabm.appModels
 
 import domain.*
+import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
+import org.uqbar.commons.model.exceptions.UserException
 
 @Observable
+
 class SeriesAppModel (var serie: Serie) {
 
     var model = serie
@@ -17,6 +20,7 @@ class SeriesAppModel (var serie: Serie) {
     var seasons: MutableList<SeasonAppModel> = mutableListOf()
     var numberOfSeasons: Int
     var relatedContent: MutableList<ContentAppModel> = mutableListOf()
+    var selectSeason: SeasonAppModel? =null
 
     init {
         this.id = serie.id
@@ -43,5 +47,18 @@ class SeriesAppModel (var serie: Serie) {
     //querys
 
     fun getCantSeasons(): Int = this.seasons.size
+    fun catchNonSelectSeasonException(selectSeason: SeasonAppModel?){
+        try {
+            this.nonSelectSeasonException(selectSeason)
+        }
+        catch (e : NonSelectException){
+            throw UserException(e.message)
+        }
+    }
 
+    fun nonSelectSeasonException(selectSeason: SeasonAppModel?) {
+        if (selectSeason == null) {
+            throw NonSelectException("Please select a season before continue")
+        }
+    }
 }

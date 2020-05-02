@@ -7,7 +7,7 @@ import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 
-class WindowModifieSeason (owner: WindowOwner, seasonAppModel: SeasonAppModel):
+class WindowModifieSeason(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
     SimpleWindow<SeasonAppModel>(owner, seasonAppModel) {
         override fun addActions(p0: Panel?) {
         }

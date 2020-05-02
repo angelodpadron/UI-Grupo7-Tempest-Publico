@@ -1,9 +1,9 @@
 package org.unqflixabm.windows
 
-import org.eclipse.swt.widgets.Table
 import org.unqflixabm.appModels.CategoryAppModel
 import org.unqflixabm.appModels.ContentAppModel
 import org.unqflixabm.appModels.SeriesAppModel
+import org.unqflixabm.appModels.UNQflixAppModel
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
@@ -11,8 +11,9 @@ import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 import org.uqbar.arena.widgets.List
 
-class WindowModifieSerie (owner: WindowOwner, serieAppModel: SeriesAppModel):
-    SimpleWindow<SeriesAppModel>(owner, serieAppModel){
+class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
+    SimpleWindow<SeriesAppModel>(owner,model ){
+    var serie: SeriesAppModel = modelObject
 
         override fun addActions(p0: Panel?) {
         }
@@ -39,7 +40,7 @@ class WindowModifieSerie (owner: WindowOwner, serieAppModel: SeriesAppModel):
                 }
                 CheckBox(it) with {
                     title = "State"
-                    bindTo("state") //TODO: hay que lograr que defina states
+                    bindTo("") //TODO: hay que lograr que defina states
                 }
             }
 
@@ -47,7 +48,10 @@ class WindowModifieSerie (owner: WindowOwner, serieAppModel: SeriesAppModel):
                 asColumns(3)
                 KeyWordTextArea(it) with {
                     title = "Categories:"
-                    //TODO: habría que printear las categorías existentes, eso es posible?
+                }
+                List<CategoryAppModel>(it) with {
+                    bindItemsTo("categories").
+                    adaptWithProp<CategoryAppModel>("categoryName")
                 }
                 Panel(it) with {
                     asVertical()
@@ -61,7 +65,9 @@ class WindowModifieSerie (owner: WindowOwner, serieAppModel: SeriesAppModel):
                     }
                 }
                 List<CategoryAppModel>(it) with {
-                    //TODO: tienen que aparecer todas las opciones de categorías
+                    var unqflix : UNQflixAppModel
+                    bindItemsTo("categories").
+                    adaptWithProp<CategoryAppModel>("categoryName")
                 }
             }
 

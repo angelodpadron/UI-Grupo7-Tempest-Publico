@@ -8,9 +8,12 @@ import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 
-class WindowShowChapters (owner: WindowOwner, seasonAppModel: SeasonAppModel):
+class WindowShowChapters(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
     SimpleWindow<SeasonAppModel>(owner, seasonAppModel) {
-        override fun addActions(p0: Panel?) {
+
+    var selectedSeason: SeasonAppModel? =modelObject
+
+    override fun addActions(p0: Panel?) {
         }
 
         override fun createFormPanel(p0: Panel) {
@@ -21,7 +24,7 @@ class WindowShowChapters (owner: WindowOwner, seasonAppModel: SeasonAppModel):
             table<ChapterAppModel>(p0) {
                 title = "Chapters:"
                 bindItemsTo("chapters")
-                //TODO: bindSelectionTo
+                bindSelectionTo("selectChapter")
                 column {
                     title = "#"
                     fixedSize = 75
@@ -46,8 +49,10 @@ class WindowShowChapters (owner: WindowOwner, seasonAppModel: SeasonAppModel):
                 }
                 Button(it) with {
                     caption = "Modify chapter"
-                    //TODO: onClick
+                    onClick({tryCatchNonSelectChapterException()
+                             WindowModifiedChapter(owner,selectedSeason?.selectChapter).open()})
                 }
             }
         }
-    }
+    private fun tryCatchNonSelectChapterException()= selectedSeason?.catchNonSelectChapterException(selectedSeason?.selectChapter)
+}

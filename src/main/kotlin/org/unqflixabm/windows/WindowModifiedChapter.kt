@@ -1,5 +1,6 @@
 package org.unqflixabm.windows
 
+import org.unqflixabm.appModels.ChapterAppModel
 import org.unqflixabm.appModels.SeasonAppModel
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
@@ -7,8 +8,8 @@ import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 
-class WindowModifiedChapter (owner: WindowOwner, seasonAppModel: SeasonAppModel):
-    SimpleWindow<SeasonAppModel>(owner, seasonAppModel) {
+class WindowModifiedChapter(owner: WindowOwner, chapterAppModel: ChapterAppModel?):
+    SimpleWindow<ChapterAppModel>(owner, chapterAppModel) {
         override fun addActions(p0: Panel?) {
         }
 

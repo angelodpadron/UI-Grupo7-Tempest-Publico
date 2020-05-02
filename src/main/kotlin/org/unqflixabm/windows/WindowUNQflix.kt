@@ -1,6 +1,5 @@
 package org.unqflixabm.windows
 
-import domain.UNQFlix
 import org.unqflixabm.appModels.SeriesAppModel
 import org.unqflixabm.appModels.UNQflixAppModel
 import org.uqbar.arena.widgets.Panel
@@ -11,6 +10,8 @@ import org.uqbar.arena.widgets.*
 
 class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
     SimpleWindow<UNQflixAppModel>(owner, model ){
+
+    var modelo: UNQflixAppModel =modelObject
 
     override fun addActions(p0: Panel?) {
     }
@@ -66,20 +67,22 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
             }
             Button(it) with {
                 caption = "Modify Serie"
-                //TODO: onClick
+                onClick({tryNonSelectException()
+                         WindowModifieSerie(owner,modelo.selectSerie).open() })
             }
             Button(it) with {
                 caption = "Delete Serie"
-                onClick({tryDeleteException()
+                onClick({tryNonSelectException()
                          confirmDelete().open()})
             }
             Button(it) with {
                 caption = "Show Serie"
-                //TODO: onClick
+                onClick({tryNonSelectException()
+                          WindowShowSerie(owner,modelo.selectSerie).open()})
             }
         }
     }
-    private fun tryDeleteException()=modelObject.catchDeleteException(modelObject.selectSerie)
+    private fun tryNonSelectException()=modelObject.catchNonSelectSerieException(modelObject.selectSerie)
     private fun confirmDelete()= ConfirmDeleteSerieDialog(owner,modelObject)
     //TODO: armar funciones para botones
 

@@ -7,8 +7,11 @@ import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.windows.SimpleWindow
 
-class WindowShowSerie (owner: WindowOwner, seriesAppModel: SeriesAppModel):
+class WindowShowSerie(owner: WindowOwner, seriesAppModel: SeriesAppModel?):
     SimpleWindow<SeriesAppModel>(owner, seriesAppModel){
+
+    var selectedSerie: SeriesAppModel = modelObject
+
         override fun addActions(p0: Panel?) {
         }
 
@@ -16,13 +19,13 @@ class WindowShowSerie (owner: WindowOwner, seriesAppModel: SeriesAppModel):
             title = ""
 
             Label(p0) with {
-                //TODO: text = getSerieTitle()
+              text = getSerieTitle().toString()
             }
 
             table<SeasonAppModel>(p0) {
                 title = "Seasons:"
                 bindItemsTo("seasons")
-                //TODO: bindSelectionTo
+                bindSelectionTo("selectSeason")
                 column {
                     title = "#"
                     fixedSize = 75
@@ -48,12 +51,17 @@ class WindowShowSerie (owner: WindowOwner, seriesAppModel: SeriesAppModel):
                 }
                 Button(it) with {
                     caption = "Modify season"
-                    //TODO: onClick
+                    onClick({tryNonSelectException()
+                             WindowModifieSeason(owner,selectedSerie.selectSeason).open()})
                 }
                 Button(it) with {
                     caption = "Show chapters"
-                    //TODO: onClick
+                    onClick({tryNonSelectException()
+                             WindowShowChapters(owner,selectedSerie.selectSeason).open()})
                 }
             }
         }
-    }
+    private fun tryNonSelectException() = selectedSerie.catchNonSelectSeasonException(selectedSerie.selectSeason)
+    private fun getSerieTitle(): String? = modelObject.title
+
+}
