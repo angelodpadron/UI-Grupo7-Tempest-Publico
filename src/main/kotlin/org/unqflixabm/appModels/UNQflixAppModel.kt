@@ -23,7 +23,7 @@ class UNQflixAppModel {
     fun getSerie(selectSerie: String?): SeriesAppModel?{
         return series.find {it.id == selectSerie }
     }
-  
+
     //ALTA
 
     //BAJA
