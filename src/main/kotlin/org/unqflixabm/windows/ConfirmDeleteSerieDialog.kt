@@ -15,19 +15,19 @@ class ConfirmDeleteSerieDialog (owner :WindowOwner, model: UNQflixAppModel):Dial
         }
         Button(mainPanel)with{
             caption= "Accept"
-            onClick ({ deleteSerie()
-                close() })
+            onClick { deleteSerie()
+                close() }
         }
         Button(mainPanel)with{
             caption= "Cancel"
-            onClick({close()})
+            onClick {close()}
         }
     }
 
-    fun  deleteSerie() {
+    private fun  deleteSerie() {
         modelObject.deleteSerie(modelObject.selectSerie)
     }
-    fun getSerieTitle(): String?{
+    private fun getSerieTitle(): String?{
         return (modelObject.selectSerie?.title)
     }
 }
