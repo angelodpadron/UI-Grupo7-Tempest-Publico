@@ -8,7 +8,7 @@ import org.uqbar.commons.model.annotations.Observable
 
 class UNQflixAppModel {
 
-    var system: UNQFlix = getUNQFlix()
+    private var system: UNQFlix = getUNQFlix()
     var series: MutableList<SeriesAppModel> = initSeries()
     var selectSerie:SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
 
@@ -17,7 +17,11 @@ class UNQflixAppModel {
     }
 
     fun deleteSerie(selectSerie:SeriesAppModel?){
-        series.removeIf { it.id == selectSerie?.id }
+        if (selectSerie != null) {
+            system.deleteSerie(selectSerie.id)
+        }
+        series = initSeries()
+
     }
 
     fun getSerie(selectSerie: String?): SeriesAppModel?{
