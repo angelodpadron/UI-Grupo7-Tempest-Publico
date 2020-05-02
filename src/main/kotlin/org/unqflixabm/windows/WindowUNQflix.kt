@@ -34,24 +34,26 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
         table<SeriesAppModel>(p0) {
             bindSelectionTo("selectSerie")
             bindItemsTo("series")
-            column {
-                title = "#"
-                fixedSize = 75
-                bindContentsTo("id")
-            }
+            visibleRows = 10
             column {
                 title = "Title"
-                fixedSize = 300
+                fixedSize = 200
+
                 bindContentsTo("title")
             }
             column {
-                title = "#Season"
+                title = "Seasons"
                 fixedSize = 75
                 bindContentsTo("numberOfSeasons")
             }
             column {
+                title = "ID"
+                fixedSize = 30
+                bindContentsTo("id")
+            }
+            column {
                 title = "State"
-                fixedSize = 225
+                fixedSize = 100
                 bindContentsTo("state")
                 //TODO: extraer estado real
             }
