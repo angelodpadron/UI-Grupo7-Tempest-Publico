@@ -28,11 +28,10 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
             //TODO: ver cómo hacer búsqueda
         }
 
-        Label (p0) with {
-            text = "Series:"
-        }
         table<SeriesAppModel>(p0) {
+
             bindSelectionTo("selectSerie")
+            title = "Series"
             bindItemsTo("series")
             visibleRows = 10
             column {

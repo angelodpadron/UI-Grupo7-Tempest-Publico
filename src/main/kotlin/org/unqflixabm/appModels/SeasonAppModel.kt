@@ -9,6 +9,7 @@ class SeasonAppModel(var season: Season) {
     var description: String = ""
     var poster: String = ""
     var chapters: MutableList<ChapterAppModel> = mutableListOf()
+    var numberOfChapters: Int
 
     init {
         this.id = season.id
@@ -16,6 +17,7 @@ class SeasonAppModel(var season: Season) {
         this.description = season.description
         this.poster = season.poster
         this.chapters = initChapters(season)
+        this.numberOfChapters = this.chapters.count()
     }
 
     fun initChapters(season: Season): MutableList<ChapterAppModel> {
