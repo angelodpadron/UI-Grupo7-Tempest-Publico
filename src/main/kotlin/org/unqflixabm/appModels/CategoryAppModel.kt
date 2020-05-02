@@ -1,7 +1,9 @@
 package org.unqflixabm.appModels
 
 import domain.Category
+import org.uqbar.commons.model.annotations.Observable
 
+@Observable
 class CategoryAppModel(var category: Category){
 
     var id: String = ""
@@ -11,5 +13,5 @@ class CategoryAppModel(var category: Category){
         this.id = category.id
         this.name = category.name
     }
-
+    fun categoryName() = "$name"
 }
