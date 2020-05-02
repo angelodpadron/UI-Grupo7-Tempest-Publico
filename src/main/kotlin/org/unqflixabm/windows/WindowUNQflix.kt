@@ -32,8 +32,8 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
             text = "Series:"
         }
         table<SeriesAppModel>(p0) {
+            bindSelectionTo("selectSerie")
             bindItemsTo("series")
-            //TODO: bindSelectionTo("")
             column {
                 title = "#"
                 fixedSize = 75

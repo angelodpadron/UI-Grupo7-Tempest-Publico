@@ -10,21 +10,20 @@ class UNQflixAppModel {
 
     var system: UNQFlix = getUNQFlix()
     var series: MutableList<SeriesAppModel> = initSeries()
-    var selectSerie:String? = null
-    //Todo selectSerie selecciona un id de serie en la tabla ,cambiar nombre a selectIdSerie?
+    var selectSerie:SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
+
     fun initSeries(): MutableList<SeriesAppModel> {
         return system.series.map { SeriesAppModel(it) }.toMutableList()
     }
 
-    fun deleteSerie(selectSerie : String?){
-        series.removeIf { it.id == selectSerie }
+    fun deleteSerie(selectSerie:SeriesAppModel?){
+        series.removeIf { it.id == selectSerie?.id }
     }
 
-    fun getSerie(selectSerie: String?): SeriesAppModel? {
-
+    fun getSerie(selectSerie: String?): SeriesAppModel?{
         return series.find {it.id == selectSerie }
     }
-
+  
     //ALTA
 
     //BAJA

@@ -1,6 +1,5 @@
 package org.unqflixabm.windows
 
-import org.unqflixabm.appModels.SeriesAppModel
 import org.unqflixabm.appModels.UNQflixAppModel
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
@@ -12,12 +11,12 @@ class ConfirmDeleteSerieDialog (owner :WindowOwner, model: UNQflixAppModel):Dial
     override fun createFormPanel(mainPanel: Panel?) {
         Label(mainPanel) with {
 
-            text = "Confirm delete of" + getSerieTitle()
+            text = "Confirm delete of " + getSerieTitle()
         }
         Button(mainPanel)with{
             caption= "Accept"
-            onClick({ deleteSerie()
-                      close() })
+            onClick ({ deleteSerie()
+                close() })
         }
         Button(mainPanel)with{
             caption= "Cancel"
@@ -29,6 +28,6 @@ class ConfirmDeleteSerieDialog (owner :WindowOwner, model: UNQflixAppModel):Dial
         modelObject.deleteSerie(modelObject.selectSerie)
     }
     fun getSerieTitle(): String?{
-        return (modelObject.getSerie(modelObject.selectSerie))?.title
+        return (modelObject.selectSerie?.title)
     }
 }
