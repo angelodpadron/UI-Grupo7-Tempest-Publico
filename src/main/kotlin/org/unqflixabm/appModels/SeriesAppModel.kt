@@ -8,22 +8,28 @@ class SeriesAppModel (var serie: Serie) {
 
     var model = serie
 
+    //from Id
     var id = ""
+    //from Content
     var title = ""
     var description = ""
     var poster = ""
-    var state : ContentState
+    var state : Boolean
+    var relatedContent: MutableList<ContentAppModel> = mutableListOf()
+    //from self
     var categories: MutableList<CategoryAppModel> = mutableListOf()
     var seasons: MutableList<SeasonAppModel> = mutableListOf()
+
+    //for view
     var numberOfSeasons: Int
-    var relatedContent: MutableList<ContentAppModel> = mutableListOf()
+
 
     init {
         this.id = serie.id
         this.title = serie.title
         this.description = serie.description
         this.poster = serie.poster
-        this.state = serie.state
+        this.state = fromState(serie.state)
         this.categories = initCategories()
         this.seasons = initSeasons()
         this.numberOfSeasons = this.seasons.count()
@@ -43,5 +49,17 @@ class SeriesAppModel (var serie: Serie) {
     //querys
 
     fun getCantSeasons(): Int = this.seasons.size
+
+    //transform (temporal)
+
+    private fun fromState(cs: ContentState): Boolean = cs.javaClass == Available().javaClass
+    private fun fromBoolean(b: Boolean): ContentState{
+        return if (b){
+            Available()
+        }
+        else{
+            Unavailable()
+        }
+    }
 
 }
