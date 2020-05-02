@@ -32,11 +32,11 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
             text = "Series:"
         }
         table<SeriesAppModel>(p0) {
+            bindSelectionTo("selectSerie")
             bindItemsTo("series")
-            //TODO: bindSelectionTo("")
             column {
                 title = "#"
-                fixedSize = 100
+                fixedSize = 75
                 bindContentsTo("id")
             }
             column {
@@ -46,13 +46,14 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
             }
             column {
                 title = "#Season"
-                fixedSize = 100
-                bindContentsTo("seasons")
+                fixedSize = 75
+                bindContentsTo("numberOfSeasons")
             }
             column {
                 title = "State"
-                fixedSize = 100
+                fixedSize = 225
                 bindContentsTo("state")
+                //TODO: extraer estado real
             }
         }
 
