@@ -12,14 +12,13 @@ import org.uqbar.arena.widgets.*
 import org.uqbar.arena.widgets.List
 
 class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
-    SimpleWindow<SeriesAppModel>(owner,model ){
+    SimpleWindow<SeriesAppModel>(owner,model ) {
     var serie: SeriesAppModel = modelObject
 
-        override fun addActions(p0: Panel?) {
-        }
+    override fun addActions(p0: Panel?) {
+    }
 
-        override fun createFormPanel(p0: Panel) {
-
+    override fun createFormPanel(p0: Panel) {
             Panel(p0) with {
                 asHorizontal()
                 TextBox(it) with {
@@ -102,17 +101,16 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                     //TODO: tienen que aparecer todas las opciones de contenidos
                 }
             }
-
-            Panel(p0) with {
-                asHorizontal()
-                Button(it) with {
-                    caption = "Accept"
-                    //TODO: onClick
-                }
-                Button(it) with {
-                    caption = "Cancel"
-                    //TODO: onClick
-                }
+        Panel(p0) with {
+            asHorizontal()
+            Button(it) with {
+                caption = "Accept"
+                //TODO: onClick
+            }
+            Button(it) with {
+                caption = "Cancel"
+                //TODO: onClick
             }
         }
     }
+}

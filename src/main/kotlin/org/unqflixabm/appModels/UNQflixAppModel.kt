@@ -1,6 +1,8 @@
 package org.unqflixabm.appModels
 
 import data.getUNQFlix
+import domain.ExistsException
+import domain.Serie
 import domain.UNQFlix
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
@@ -26,6 +28,9 @@ class UNQflixAppModel {
     fun initCategories(): MutableList<CategoryAppModel> {
         return system.categories.map { CategoryAppModel(it) }.toMutableList()
     }
+    
+
+    //EXCEPTIONS
     fun catchNonSelectSerieException(selectSerie: SeriesAppModel?){
         try{
             this.nonSelectSerieException(selectSerie)
@@ -37,6 +42,18 @@ class UNQflixAppModel {
     fun nonSelectSerieException(selectSerie: SeriesAppModel?){
         if (selectSerie == null) {
             throw NonSelectException("Please select a serie before continue")
+        }
+    }  
+      
+    fun catchExistSerieException(serie :SeriesAppModel){
+
+        var unqflix : UNQflixAppModel = this
+
+        try{
+           unqflix.addSerie(serie)
+        }
+        catch( e : ExistsException){
+            UserException(e.message)
         }
     }
    

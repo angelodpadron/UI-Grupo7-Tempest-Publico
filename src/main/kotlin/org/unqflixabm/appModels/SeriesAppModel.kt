@@ -17,8 +17,8 @@ class SeriesAppModel (private var model: Serie) {
     var categories: MutableList<CategoryAppModel> = mutableListOf()
     var seasons: MutableList<SeasonAppModel> = mutableListOf()
     var numberOfSeasons: Int
-    var relatedContent: MutableList<ContentAppModel> = mutableListOf()
     var selectSeason: SeasonAppModel? =null
+    var relatedContent: MutableList<ContentAppModel> = mutableListOf()
 
     init {
         this.id = model.id
@@ -47,6 +47,19 @@ class SeriesAppModel (private var model: Serie) {
         return model
     }
 
+    //ADDS
+    fun addSeason(seasonAppModel: SeasonAppModel){
+        //agregar al modelo
+        system.addSeason(seasonAppModel.model())
+        //update viewmodel
+        this.initSeasons()
+    }
+
+    //TO MODEL
+    fun model(): Serie{
+        return model
+    }
+
     //QUERYS
     fun getCantSeasons(): Int = this.seasons.size
   
@@ -66,6 +79,18 @@ class SeriesAppModel (private var model: Serie) {
         }
     }
 
+    fun catchExistSeasonException(seasonAppModel :SeasonAppModel){
+
+        var serie: SeriesAppModel = this
+
+        try{
+            serie.addSeason(seasonAppModel)
+        }
+        catch( e : ExistsException){
+            UserException(e.message)
+        }
+    }
+
     //transform (temporal)
     private fun fromState(cs: ContentState): Boolean = cs.javaClass == Available().javaClass
 
@@ -77,7 +102,5 @@ class SeriesAppModel (private var model: Serie) {
             Unavailable()
         }
     }
-
-    
 
 }

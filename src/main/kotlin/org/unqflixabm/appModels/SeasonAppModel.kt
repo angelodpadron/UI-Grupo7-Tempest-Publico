@@ -1,14 +1,17 @@
 package org.unqflixabm.appModels
 
 import domain.Chapter
+import domain.ExistsException
 import domain.Season
+import domain.Serie
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
 import org.uqbar.commons.model.exceptions.UserException
 
 @Observable
 
-class SeasonAppModel(var season: Season) {
+class SeasonAppModel(private var model: Season) {
+    var system: Season = model
     var id: String = ""
     var title: String = ""
     var description: String = ""
@@ -18,11 +21,11 @@ class SeasonAppModel(var season: Season) {
     var selectChapter: ChapterAppModel? = null
 
     init {
-        this.id = season.id
-        this.title = season.title
-        this.description = season.description
-        this.poster = season.poster
-        this.chapters = initChapters(season)
+        this.id = model.id
+        this.title = model.title
+        this.description = model.description
+        this.poster = model.poster
+        this.chapters = initChapters(model)
         this.numberOfChapters = this.chapters.count()
     }
 
@@ -30,9 +33,8 @@ class SeasonAppModel(var season: Season) {
         return season.chapters.map { ChapterAppModel(it) }.toMutableList()
     }
 
-    fun addChapter(chapter: ChapterAppModel) = season.addChapter(toChapter(chapter))
-
-    fun deleteChapter(input: String) = season.deleteChapter(input)
+    //To Model
+    fun model(): Season = model
 
     private fun toChapter(chapterAppModel: ChapterAppModel): Chapter {
         return Chapter(
@@ -44,6 +46,27 @@ class SeasonAppModel(var season: Season) {
             chapterAppModel.thumbnail
         )
     }
+    //Querys
+
+    fun addChapter(chapterAppModel: ChapterAppModel){
+        //agregar al modelo
+        system.addChapter(chapterAppModel.model())
+        //update viewmodel
+        this.initChapters(model)
+    }
+
+    //Exceptions
+
+    fun catchExistChapterException(chapter: ChapterAppModel){
+        var season : SeasonAppModel = this
+        try{
+            season.addChapter(chapter)
+        }
+        catch( e : ExistsException){
+            UserException(e.message)
+        }
+    }
+
     fun catchNonSelectChapterException(selectChapter: ChapterAppModel?){
         try{
             this.nonSelectChapterException(selectChapter)
