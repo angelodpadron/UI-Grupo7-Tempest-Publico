@@ -7,32 +7,25 @@ import org.uqbar.commons.model.exceptions.UserException
 
 @Observable
 
-class SeriesAppModel (var serie: Serie) {
+class SeriesAppModel (private var model: Serie) {
 
-    var model = serie
-
-    //from Id
     var id = ""
-    //from Content
     var title = ""
     var description = ""
     var poster = ""
     var state : Boolean
-    var relatedContent: MutableList<ContentAppModel> = mutableListOf()
-    //from self
     var categories: MutableList<CategoryAppModel> = mutableListOf()
     var seasons: MutableList<SeasonAppModel> = mutableListOf()
-
-    //for view
     var numberOfSeasons: Int
     var selectSeason: SeasonAppModel? =null
+    var relatedContent: MutableList<ContentAppModel> = mutableListOf()
 
     init {
-        this.id = serie.id
-        this.title = serie.title
-        this.description = serie.description
-        this.poster = serie.poster
-        this.state = fromState(serie.state)
+        this.id = model.id
+        this.title = model.title
+        this.description = model.description
+        this.poster = model.poster
+        this.state = fromState(model.state)
         this.categories = initCategories()
         this.seasons = initSeasons()
         this.numberOfSeasons = this.seasons.count()
@@ -40,16 +33,21 @@ class SeriesAppModel (var serie: Serie) {
     }
 
     fun initSeasons(): MutableList<SeasonAppModel>{
-        return serie.seasons.map{ SeasonAppModel(it) }.toMutableList()
+        return model.seasons.map{ SeasonAppModel(it) }.toMutableList()
     }
     fun initCategories(): MutableList<CategoryAppModel>{
-        return serie.categories.map{ CategoryAppModel(it) }.toMutableList()
+        return model.categories.map{ CategoryAppModel(it) }.toMutableList()
     }
     fun initContents(): MutableList<ContentAppModel>{
-        return serie.relatedContent.map{ ContentAppModel(it) }.toMutableList()
+        return model.relatedContent.map{ ContentAppModel(it) }.toMutableList()
     }
 
-    //querys
+    //TO MODEL
+    fun model(): Serie{
+        return model
+    }
+
+    //QUERYS
 
     fun getCantSeasons(): Int = this.seasons.size
     fun catchNonSelectSeasonException(selectSeason: SeasonAppModel?){
@@ -70,6 +68,7 @@ class SeriesAppModel (var serie: Serie) {
     //transform (temporal)
 
     private fun fromState(cs: ContentState): Boolean = cs.javaClass == Available().javaClass
+
     private fun fromBoolean(b: Boolean): ContentState{
         return if (b){
             Available()
