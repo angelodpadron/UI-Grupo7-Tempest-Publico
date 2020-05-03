@@ -46,7 +46,7 @@ class WindowModifiedChapter(owner: WindowOwner, chapterAppModel: ChapterAppModel
                 }
                 Button(it) with {
                     caption = "Cancel"
-                    //TODO: onClick
+                    onClick({close()})
                 }
             }
         }

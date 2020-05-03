@@ -1,9 +1,7 @@
 package org.unqflixabm.appModels
 
 import data.getUNQFlix
-import domain.ExistsException
-import domain.Serie
-import domain.UNQFlix
+import domain.*
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
 import org.uqbar.commons.model.exceptions.UserException
@@ -16,12 +14,20 @@ class UNQflixAppModel {
     var series: MutableList<SeriesAppModel> = initSeries()
     var categories: MutableList<CategoryAppModel> = initCategories()
     var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
-
+    //Fields to add a New Serie
+    var id = ""
+    var title = ""
+    var description = ""
+    var poster = ""
+    var stateSerie:ContentState = Unavailable()
+    var categoriesSerie: MutableList<Category> = mutableListOf()
+    var seasonsSerie: MutableList<Season> = mutableListOf()
+    var relatedContentSerie: MutableList<Content> = mutableListOf()
+    //
 
     fun initSeries(): MutableList<SeriesAppModel> {
         return system.series.map { SeriesAppModel(it) }.toMutableList()
     }
-
     fun initCategories(): MutableList<CategoryAppModel> {
         return system.categories.map { CategoryAppModel(it) }.toMutableList()
     }
@@ -38,13 +44,10 @@ class UNQflixAppModel {
             throw NonSelectException("Please select a serie before continue")
         }
     }
-
-    fun catchExistSerieException(serie :SeriesAppModel){
-
-        var unqflix : UNQflixAppModel = this
-
+    fun catchExistSerieException(){
+        var unqflix: UNQflixAppModel = this
         try{
-           unqflix.addSerie(serie)
+           unqflix.addSerie()
         }
         catch( e : ExistsException){
             UserException(e.message)
@@ -52,9 +55,12 @@ class UNQflixAppModel {
     }
 
     //ALTA
-    fun addSerie(seriesAppModel: SeriesAppModel){
+    fun newSerie(): Serie{
+        return Serie(id,title,description,poster,stateSerie,categoriesSerie,seasonsSerie,relatedContentSerie)
+    }
+    fun addSerie(){
         //agregar al modelo
-        system.addSerie(seriesAppModel.model())
+        system.addSerie(newSerie())
         //update viewmodel
         this.initSeries()
     }
