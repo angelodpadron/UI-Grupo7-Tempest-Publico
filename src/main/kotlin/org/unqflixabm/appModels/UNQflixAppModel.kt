@@ -19,6 +19,10 @@ class UNQflixAppModel {
     fun initSeries(): MutableList<SeriesAppModel> {
         return system.series.map { SeriesAppModel(it) }.toMutableList()
     }
+
+    fun getSerie(selectSerie: String?): SeriesAppModel?{
+        return series.find {it.id == selectSerie }
+
     fun initCategories(): MutableList<CategoryAppModel> {
         return system.categories.map { CategoryAppModel(it) }.toMutableList()
     }
@@ -35,20 +39,25 @@ class UNQflixAppModel {
             throw NonSelectException("Please select a serie before continue")
         }
     }
-    fun deleteSerie(selectSerie: SeriesAppModel?) {
+   
+    //ALTA
+    fun addSerie(seriesAppModel: SeriesAppModel){
+        //TODO: excepciones!
+        //agregar al modelo
+        system.addSerie(seriesAppModel.model())
+        //update viewmodel
+        series = initSeries()
+    }
+
+    //BAJA
+    fun deleteSerie(selectSerie:SeriesAppModel?){
+        //TODO: excepciones!
         if (selectSerie != null) {
             system.deleteSerie(selectSerie.id)
         }
         series = initSeries()
     }
 
-    fun getSerie(selectSerie: String?): SeriesAppModel? {
-        return series.find { it.id == selectSerie }
-    }
-
-    //ALTA
-
-    //BAJA
-
     //MODIFICACION
+
 }
