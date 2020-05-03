@@ -1,8 +1,9 @@
 package org.unqflixabm.appModels
 
 import domain.Chapter
+import org.uqbar.commons.model.annotations.Observable
 
-
+@Observable
 class ChapterAppModel (var chapter: Chapter) {
     val id: String
     var title: String
