@@ -24,10 +24,12 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                 asHorizontal()
                 TextBox(it) with {
                     title = "Title"
+                    width = 300
                     bindTo("title")
                 }
                 TextBox(it) with {
                     title = "Poster"
+                    width = 200
                     bindTo("poster")
                 }
             }
@@ -36,20 +38,22 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                 asHorizontal()
                 KeyWordTextArea(it) with {
                     title = "Description:"
+                    width = 400
+                    height = 100
                     bindTo("description")
                 }
                 CheckBox(it) with {
                     title = "State"
-                    bindTo("") //TODO: hay que lograr que defina states
+                    bindTo("state") //TODO: hay que lograr que defina states
                 }
             }
 
             Panel(p0) with {
-                asColumns(3)
-                KeyWordTextArea(it) with {
-                    title = "Categories:"
-                }
+                asHorizontal()
+                title = "Categories:"
                 List<CategoryAppModel>(it) with {
+                    width = 150
+                    height = 200
                     bindItemsTo("categories").
                     adaptWithProp<CategoryAppModel>("categoryName")
                 }
@@ -66,29 +70,35 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                 }
                 List<CategoryAppModel>(it) with {
                     var unqflix : UNQflixAppModel
+                    width = 150
+                    height = 200
                     bindItemsTo("categories").
                     adaptWithProp<CategoryAppModel>("categoryName")
                 }
             }
 
             Panel(p0) with {
-                asColumns(3)
+                asHorizontal()
                 KeyWordTextArea(it) with {
                     title = "Related content:"
+                    width = 150
+                    height = 200
                     //TODO: habría que printear el contenido existentes, eso es posible?
                 }
-                Panel(it) with {
+                Panel(it) with { it1 ->
                     asVertical()
-                    Button(it) with {
+                    Button(it1) with {
                         caption = "<"
                         //TODO: onClick
                     }
-                    Button(it) with {
+                    Button(it1) with {
                         caption = ">"
                         //TODO: onClick
                     }
                 }
                 List<ContentAppModel>(it) with {
+                    width = 150
+                    height = 200
                     //TODO: tienen que aparecer todas las opciones de contenidos
                 }
             }
