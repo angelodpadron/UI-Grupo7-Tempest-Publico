@@ -39,12 +39,12 @@ class UNQflixAppModel {
         }
     }
 
-    fun catchExistSerieException(selectSerie :SeriesAppModel){
+    fun catchExistSerieException(serie :SeriesAppModel){
 
-        var serie: Serie = selectSerie.model()
         var unqflix : UNQflixAppModel = this
+
         try{
-           unqflix.addSerie(selectSerie)
+           unqflix.addSerie(serie)
         }
         catch( e : ExistsException){
             UserException(e.message)
@@ -53,7 +53,6 @@ class UNQflixAppModel {
 
     //ALTA
     fun addSerie(seriesAppModel: SeriesAppModel){
-        //TODO: excepciones!
         //agregar al modelo
         system.addSerie(seriesAppModel.model())
         //update viewmodel

@@ -8,7 +8,7 @@ import org.uqbar.commons.model.exceptions.UserException
 @Observable
 
 class SeriesAppModel (private var model: Serie) {
-
+    var system : Serie = model
     var id = ""
     var title = ""
     var description = ""
@@ -42,14 +42,35 @@ class SeriesAppModel (private var model: Serie) {
         return model.relatedContent.map{ ContentAppModel(it) }.toMutableList()
     }
 
-    //TO MODEL
+    //To Model
+
     fun model(): Serie{
         return model
     }
 
-    //QUERYS
+    //Querys
 
-    fun getCantSeasons(): Int = this.seasons.size
+    fun addSeason(seasonAppModel: SeasonAppModel){
+        //agregar al modelo
+        system.addSeason(seasonAppModel.model())
+        //update viewmodel
+        this.initSeasons()
+    }
+
+    //Exceptions
+
+    fun catchExistSeasonException(seasonAppModel :SeasonAppModel){
+
+        var serie: SeriesAppModel = this
+
+        try{
+            serie.addSeason(seasonAppModel)
+        }
+        catch( e : ExistsException){
+            UserException(e.message)
+        }
+    }
+
     fun catchNonSelectSeasonException(selectSeason: SeasonAppModel?){
         try {
             this.nonSelectSeasonException(selectSeason)
