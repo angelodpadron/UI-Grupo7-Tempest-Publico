@@ -8,7 +8,7 @@ import org.uqbar.commons.model.exceptions.UserException
 @Observable
 
 class SeriesAppModel (private var model: Serie) {
-    var system : Serie = model
+
     var id = ""
     var title = ""
     var description = ""
@@ -42,14 +42,12 @@ class SeriesAppModel (private var model: Serie) {
         return model.relatedContent.map{ ContentAppModel(it) }.toMutableList()
     }
 
-    //To Model
-
+    //TO MODEL
     fun model(): Serie{
         return model
     }
 
-    //Querys
-
+    //ADDS
     fun addSeason(seasonAppModel: SeasonAppModel){
         //agregar al modelo
         system.addSeason(seasonAppModel.model())
@@ -57,7 +55,29 @@ class SeriesAppModel (private var model: Serie) {
         this.initSeasons()
     }
 
-    //Exceptions
+    //TO MODEL
+    fun model(): Serie{
+        return model
+    }
+
+    //QUERYS
+    fun getCantSeasons(): Int = this.seasons.size
+  
+    //EXCEPTIONS
+    fun catchNonSelectSeasonException(selectSeason: SeasonAppModel?){
+        try {
+            this.nonSelectSeasonException(selectSeason)
+        }
+        catch (e : NonSelectException){
+            throw UserException(e.message)
+        }
+    }
+    
+    fun nonSelectSeasonException(selectSeason: SeasonAppModel?) {
+        if (selectSeason == null) {
+            throw NonSelectException("Please select a season before continue")
+        }
+    }
 
     fun catchExistSeasonException(seasonAppModel :SeasonAppModel){
 
@@ -71,23 +91,7 @@ class SeriesAppModel (private var model: Serie) {
         }
     }
 
-    fun catchNonSelectSeasonException(selectSeason: SeasonAppModel?){
-        try {
-            this.nonSelectSeasonException(selectSeason)
-        }
-        catch (e : NonSelectException){
-            throw UserException(e.message)
-        }
-    }
-
-    fun nonSelectSeasonException(selectSeason: SeasonAppModel?) {
-        if (selectSeason == null) {
-            throw NonSelectException("Please select a season before continue")
-        }
-    }
-
     //transform (temporal)
-
     private fun fromState(cs: ContentState): Boolean = cs.javaClass == Available().javaClass
 
     private fun fromBoolean(b: Boolean): ContentState{
