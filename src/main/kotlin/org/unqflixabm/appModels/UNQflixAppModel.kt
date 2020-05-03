@@ -40,5 +40,5 @@ class UNQflixAppModel {
     }
 
     //MODIFICACION
-    
+
 }

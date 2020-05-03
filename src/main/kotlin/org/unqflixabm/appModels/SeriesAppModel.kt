@@ -38,7 +38,12 @@ class SeriesAppModel (private var model: Serie) {
         return model.relatedContent.map{ ContentAppModel(it) }.toMutableList()
     }
 
-    //querys
+    //TO MODEL
+    fun model(): Serie{
+        return model
+    }
+
+    //QUERYS
 
     fun getCantSeasons(): Int = this.seasons.size
 
