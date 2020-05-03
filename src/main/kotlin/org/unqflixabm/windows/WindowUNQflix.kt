@@ -63,7 +63,7 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
             asHorizontal()
             Button(it) with {
                 caption = "Add new Serie"
-                onClick({WindowAddSerie(owner,modelo)})
+                onClick({WindowAddSerie(owner,modelo).open()})
             }
             Button(it) with {
                 caption = "Modify Serie"
