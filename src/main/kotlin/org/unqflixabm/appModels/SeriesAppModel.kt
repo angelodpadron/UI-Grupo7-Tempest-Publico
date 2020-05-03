@@ -50,14 +50,9 @@ class SeriesAppModel (private var model: Serie) {
     //ADDS
     fun addSeason(seasonAppModel: SeasonAppModel){
         //agregar al modelo
-        system.addSeason(seasonAppModel.model())
+        model.addSeason(seasonAppModel.model())
         //update viewmodel
         this.initSeasons()
-    }
-
-    //TO MODEL
-    fun model(): Serie{
-        return model
     }
 
     //QUERYS

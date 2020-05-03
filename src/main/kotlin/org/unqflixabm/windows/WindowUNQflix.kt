@@ -67,18 +67,18 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
             }
             Button(it) with {
                 caption = "Modify Serie"
-                onClick({tryNonSelectException()
-                         WindowModifieSerie(owner,modelo.selectSerie).open() })
+                onClick {tryNonSelectException()
+                    WindowModifieSerie(owner,modelo.selectSerie).open() }
             }
             Button(it) with {
                 caption = "Delete Serie"
-                onClick({tryNonSelectException()
-                         confirmDelete().open()})
+                onClick {tryNonSelectException()
+                    confirmDelete().open()}
             }
             Button(it) with {
                 caption = "Show Serie"
-                onClick({tryNonSelectException()
-                          WindowShowSerie(owner,modelo.selectSerie).open()})
+                onClick {tryNonSelectException()
+                    WindowShowSerie(owner,modelo.selectSerie).open()}
             }
         }
     }
