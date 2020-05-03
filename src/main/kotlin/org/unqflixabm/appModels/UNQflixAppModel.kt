@@ -31,6 +31,9 @@ class UNQflixAppModel {
     fun initCategories(): MutableList<CategoryAppModel> {
         return system.categories.map { CategoryAppModel(it) }.toMutableList()
     }
+    
+
+    //EXCEPTIONS
     fun catchNonSelectSerieException(selectSerie: SeriesAppModel?){
         try{
             this.nonSelectSerieException(selectSerie)
@@ -45,7 +48,8 @@ class UNQflixAppModel {
         }
     }
     fun catchExistSerieException(){
-        var unqflix: UNQflixAppModel = this
+        var unqflix : UNQflixAppModel = this
+
         try{
            unqflix.addSerie()
         }
@@ -53,7 +57,7 @@ class UNQflixAppModel {
             UserException(e.message)
         }
     }
-
+   
     //ALTA
     fun newSerie(): Serie{
         return Serie(id,title,description,poster,stateSerie,categoriesSerie,seasonsSerie,relatedContentSerie)
@@ -62,11 +66,12 @@ class UNQflixAppModel {
         //agregar al modelo
         system.addSerie(newSerie())
         //update viewmodel
-        this.initSeries()
+        series = initSeries()
     }
 
     //BAJA
     fun deleteSerie(selectSerie:SeriesAppModel?){
+        //TODO: excepciones!
         if (selectSerie != null) {
             system.deleteSerie(selectSerie.id)
         }

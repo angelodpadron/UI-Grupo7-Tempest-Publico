@@ -13,7 +13,6 @@ class ContentAppModel (model: Content){
     init {
         id = model.id
         title = model.title
-
     }
 
 }
