@@ -14,6 +14,7 @@ class UNQflixAppModel {
     var series: MutableList<SeriesAppModel> = initSeries()
     var categories: MutableList<CategoryAppModel> = initCategories()
     var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
+    var searchString: String = ""
 
 
     fun initSeries(): MutableList<SeriesAppModel> {
@@ -38,8 +39,15 @@ class UNQflixAppModel {
     }
     fun nonSelectSerieException(selectSerie: SeriesAppModel?){
         if (selectSerie == null) {
-            throw NonSelectException("Please select a serie before continue")
+            throw NonSelectException("Please select a show before continue")
         }
+    }
+
+    //QUERYS
+
+    fun searchSerie(){
+        //TODO: excepciones!
+        series = system.searchSeries(searchString).map { SeriesAppModel(it) }.toMutableList()
     }
 
     //ALTA

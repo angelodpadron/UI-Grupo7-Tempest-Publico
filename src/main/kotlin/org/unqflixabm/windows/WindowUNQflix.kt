@@ -22,11 +22,15 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
         Panel (p0) with {
             asHorizontal()
             Label(it) with { text = "Search" }
-            TextBox(it) with {
+            KeyWordTextArea(it) with {
                 width = 400
-                //TODO: bindTo("")
+                bindTo("searchString")
             }
-            //TODO: ver cómo hacer búsqueda
+            Button(it) with {
+                caption = "Go"
+                onClick { modelo.searchSerie() }
+            }
+
         }
 
         table<SeriesAppModel>(p0) {
