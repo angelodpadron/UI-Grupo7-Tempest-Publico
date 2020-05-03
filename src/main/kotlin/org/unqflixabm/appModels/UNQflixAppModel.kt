@@ -1,6 +1,8 @@
 package org.unqflixabm.appModels
 
 import data.getUNQFlix
+import domain.ExistsException
+import domain.Serie
 import domain.UNQFlix
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
@@ -40,6 +42,18 @@ class UNQflixAppModel {
             system.deleteSerie(selectSerie.id)
         }
         series = initSeries()
+    }
+
+    fun cathExistSerieException(selectSerie :SeriesAppModel?){
+
+        var serie: Serie = selectSerie.model()
+
+        try{
+            system.addSerie(serie)
+        }
+        catch( e : ExistsException){
+            UserException(e.message)
+        }
     }
 
     fun getSerie(selectSerie: String?): SeriesAppModel? {
