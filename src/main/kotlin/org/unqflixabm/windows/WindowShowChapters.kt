@@ -23,6 +23,7 @@ class WindowShowChapters(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
 
             table<ChapterAppModel>(p0) {
                 title = "Chapters:"
+                visibleRows = 10
                 bindItemsTo("chapters")
                 bindSelectionTo("selectChapter")
                 column {
@@ -45,7 +46,7 @@ class WindowShowChapters(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
             Panel(p0) with {
                 Button(it) with {
                     caption = "Add new chapter"
-                    //TODO: onClick
+                    onClick({WindowAddChapter(owner,selectedSeason).open()})
                 }
                 Button(it) with {
                     caption = "Modify chapter"

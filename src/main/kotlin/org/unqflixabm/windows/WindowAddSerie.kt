@@ -113,9 +113,9 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             asHorizontal()
             Button(it) with {
                 caption = "Accept"
-                onClick({ close()
-                          tryCatchExistsSerieException()
-                          addNewSerie() })
+                onClick({tryCatchExistsSerieException()
+                         close()
+                         addNewSerie() })
             }
             Button(it) with {
                 caption = "Cancel"

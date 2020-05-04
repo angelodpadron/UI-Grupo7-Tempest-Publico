@@ -59,7 +59,7 @@ class UNQflixAppModel {
            unqflix.addSerie()
         }
         catch(e: ExistsException){
-            UserException(e.message)
+           throw UserException(e.message)
         }
     }
    
@@ -93,6 +93,7 @@ class UNQflixAppModel {
     //Querys
     fun getNextSerieId():String {
         val lastSerieId :String = this.series.last().id
+
         return "ser_${(lastSerieId.split("_").last()).toInt()+1}"
     }
 
