@@ -41,13 +41,13 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                 width = 400
                 height = 100
                 bindTo("description")
-            }/*
-                CheckBox(it) with {
-                    title = "State"
-                    bindTo("state").setTransformer(StateToBooleanTransformer())
-                }
-              */
             }
+            CheckBox(it) with {
+                title = "State"
+                bindTo("state").setTransformer(StateToBooleanTransformer())
+            }
+
+        }
 
             Panel(p0) with {
                 asHorizontal()

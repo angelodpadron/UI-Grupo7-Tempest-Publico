@@ -13,7 +13,7 @@ class SeriesAppModel (private var model: Serie) {
     var title = ""
     var description = ""
     var poster = ""
-    var state : Boolean
+    var state : ContentState
     var categories: MutableList<CategoryAppModel> = mutableListOf()
     var seasons: MutableList<SeasonAppModel> = mutableListOf()
     var numberOfSeasons: Int
@@ -32,7 +32,7 @@ class SeriesAppModel (private var model: Serie) {
         this.title = model.title
         this.description = model.description
         this.poster = model.poster
-        this.state = fromState(model.state)
+        this.state = model.state
         this.categories = initCategories()
         this.seasons = initSeasons()
         this.numberOfSeasons = this.seasons.count()
@@ -111,16 +111,16 @@ class SeriesAppModel (private var model: Serie) {
     }
 
     //transform (temporal)
-    private fun fromState(cs: ContentState): Boolean = cs.javaClass == Available().javaClass
+    //private fun fromState(cs: ContentState): Boolean = cs.javaClass == Available().javaClass
 
-    private fun fromBoolean(b: Boolean): ContentState{
-        return if (b){
-            Available()
-        }
-        else{
-            Unavailable()
-        }
-    }
+    //private fun fromBoolean(b: Boolean): ContentState{
+    //    return if (b){
+    //        Available()
+    //    }
+    //    else{
+    //        Unavailable()
+    //    }
+    //}
 
 
 
