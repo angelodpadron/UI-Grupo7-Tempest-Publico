@@ -22,9 +22,11 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
 
         Panel (p0) with {
             asHorizontal()
+
             Label(it) with { text = "Search" }
             KeyWordTextArea(it) with {
                 width = 400
+
                 bindTo("searchString")
             }
             Button(it) with {
@@ -96,6 +98,7 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
             }
         }
     }
+    private fun imagen(): String = modelObject.poster
     private fun tryNonSelectException()=modelObject.catchNonSelectSerieException(modelObject.selectSerie)
     private fun confirmDelete()= ConfirmDeleteSerieDialog(owner,modelObject)
     //TODO: armar funciones para botones

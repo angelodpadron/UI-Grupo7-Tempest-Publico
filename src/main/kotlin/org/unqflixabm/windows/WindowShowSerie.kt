@@ -43,6 +43,8 @@ class WindowShowSerie(owner: WindowOwner, seriesAppModel: SeriesAppModel?):
                 column {
                     title = "#Chapters"
                     fixedSize = 150
+                    background = Color.decode("#3A383B")
+                    color = Color.WHITE
                     bindContentsTo("numberOfChapters")
                 }
             }
