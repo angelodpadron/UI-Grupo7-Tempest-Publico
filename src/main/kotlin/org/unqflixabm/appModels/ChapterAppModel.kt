@@ -4,7 +4,7 @@ import domain.Chapter
 import org.uqbar.commons.model.annotations.Observable
 
 @Observable
-class ChapterAppModel (var chapter: Chapter) {
+class ChapterAppModel (private var model: Chapter) {
     val id: String
     var title: String
     var description: String
@@ -13,12 +13,13 @@ class ChapterAppModel (var chapter: Chapter) {
     var thumbnail: String
 
     init {
-        this.id = chapter.id
-        this.title = chapter.title
-        this.description = chapter.description
-        this.duration = chapter.duration
-        this.video = chapter.video
-        this.thumbnail = chapter.thumbnail
+        this.id = model.id
+        this.title = model.title
+        this.description = model.description
+        this.duration = model.duration
+        this.video = model.video
+        this.thumbnail = model.thumbnail
     }
 
+    fun model():Chapter = model
 }

@@ -1,7 +1,7 @@
 package org.unqflixabm.appModels
 
 import data.getUNQFlix
-import domain.UNQFlix
+import domain.*
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
 import org.uqbar.commons.model.exceptions.UserException
@@ -14,7 +14,19 @@ class UNQflixAppModel {
     var series: MutableList<SeriesAppModel> = initSeries()
     var categories: MutableList<CategoryAppModel> = initCategories()
     var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
-
+    var contents: MutableList<ContentAppModel> = initContents()
+    //Required fields to add a New Serie
+    var id = ""
+    var title = ""
+    var description = ""
+    var poster = ""
+    var stateSerie:ContentState = Unavailable()
+    var categoriesSerie: MutableList<Category> = mutableListOf()
+    var seasonsSerie: MutableList<Season> = mutableListOf()
+    var relatedContentSerie: MutableList<Content> = mutableListOf()
+    var selectContent: ContentAppModel? = null
+    var selectCategory: CategoryAppModel? = null
+    //
 
     fun initSeries(): MutableList<SeriesAppModel> {
         return system.series.map { SeriesAppModel(it) }.toMutableList()
@@ -22,6 +34,12 @@ class UNQflixAppModel {
     fun initCategories(): MutableList<CategoryAppModel> {
         return system.categories.map { CategoryAppModel(it) }.toMutableList()
     }
+    fun initContents(): MutableList<ContentAppModel> {
+        return system.banners.map { ContentAppModel(it) }.toMutableList()
+    }
+
+
+    //EXCEPTIONS
     fun catchNonSelectSerieException(selectSerie: SeriesAppModel?){
         try{
             this.nonSelectSerieException(selectSerie)
@@ -35,20 +53,47 @@ class UNQflixAppModel {
             throw NonSelectException("Please select a serie before continue")
         }
     }
-    fun deleteSerie(selectSerie: SeriesAppModel?) {
+    fun catchExistSerieException(){
+        var unqflix : UNQflixAppModel = this
+        try{
+           unqflix.addSerie()
+        }
+        catch(e: ExistsException){
+            UserException(e.message)
+        }
+    }
+   
+    //ALTA
+    fun newSerie(): Serie{
+        return Serie(getNextSerieId(),title,description,poster,stateSerie,categoriesSerie,seasonsSerie,relatedContentSerie)
+    }
+    fun addSerie(){
+        //agregar al modelo
+        system.addSerie(newSerie())
+        //update viewmodel
+        series = initSeries()
+    }
+    fun addSerieCategory(selectCategory: CategoryAppModel?){
+        SeriesAppModel(newSerie()).addCategory(selectCategory)
+
+    }
+    fun addSerieContent(selectContent: ContentAppModel?){
+        SeriesAppModel(newSerie()).addContent(selectContent)
+    }
+
+    //BAJA
+    fun deleteSerie(selectSerie:SeriesAppModel?){
+        //TODO: excepciones!
         if (selectSerie != null) {
             system.deleteSerie(selectSerie.id)
         }
         series = initSeries()
     }
 
-    fun getSerie(selectSerie: String?): SeriesAppModel? {
-        return series.find { it.id == selectSerie }
+    //Querys
+    fun getNextSerieId():String {
+        val lastSerieId :String = this.series.last().id
+        return "ser_${(lastSerieId.split("_").last()).toInt()+1}"
     }
 
-    //ALTA
-
-    //BAJA
-
-    //MODIFICACION
 }
