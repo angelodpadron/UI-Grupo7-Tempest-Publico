@@ -3,6 +3,7 @@ package org.unqflixabm.windows
 import org.unqflixabm.appModels.CategoryAppModel
 import org.unqflixabm.appModels.ContentAppModel
 import org.unqflixabm.appModels.UNQflixAppModel
+import org.unqflixabm.transformers.StateToBooleanTransformer
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
@@ -42,7 +43,7 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             }
             CheckBox(it) with {
                 title = "State"
-                bindTo("stateSerie") //TODO: falta probar transformer para que quede en boolean
+                bindTo("state").setTransformer(StateToBooleanTransformer())
             }
         }
 
