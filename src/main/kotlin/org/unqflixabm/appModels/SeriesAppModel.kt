@@ -19,6 +19,13 @@ class SeriesAppModel (private var model: Serie) {
     var numberOfSeasons: Int
     var selectSeason: SeasonAppModel? =null
     var relatedContent: MutableList<ContentAppModel> = mutableListOf()
+    //Fields to create a new Season
+    var idSeason : String = ""
+    var titleSeason: String = ""
+    var descriptionSeason: String = ""
+    var posterSeason: String = ""
+    var chaptersSeason: MutableList<Chapter> = mutableListOf()
+    //
 
     init {
         this.id = model.id
@@ -43,21 +50,34 @@ class SeriesAppModel (private var model: Serie) {
     }
 
     //TO MODEL
-    fun model(): Serie{
-        return model
-    }
+
+    fun toModel() = model
 
     //ADDS
-    fun addSeason(seasonAppModel: SeasonAppModel){
-        //agregar al modelo
-        system.addSeason(seasonAppModel.model())
+    fun newSeason():Season {
+        return Season(idSeason,titleSeason,descriptionSeason,posterSeason,chaptersSeason)
+    }
+    fun addSeason(){
+        //addSeasonToModel
+        model.addSeason(newSeason())
         //update viewmodel
         this.initSeasons()
     }
-
-    //TO MODEL
-    fun model(): Serie{
-        return model
+    fun addContent(selectContent: ContentAppModel?) {
+        if (selectContent != null) {
+            //addContentToModel
+            model.relatedContent.add(selectContent.toModel())
+        }
+        //update viewModel
+        this.initContents()
+    }
+    fun addCategory(selectCategory: CategoryAppModel?) {
+        if (selectCategory != null) {
+            //addCategoryToModel
+            model.categories.add(selectCategory.toModel())
+        }
+        //update viewmodel
+        this.initCategories()
     }
 
     //QUERYS
@@ -78,13 +98,12 @@ class SeriesAppModel (private var model: Serie) {
             throw NonSelectException("Please select a season before continue")
         }
     }
-
-    fun catchExistSeasonException(seasonAppModel :SeasonAppModel){
+    fun catchExistSeasonException(){
 
         var serie: SeriesAppModel = this
 
         try{
-            serie.addSeason(seasonAppModel)
+            serie.addSeason()
         }
         catch( e : ExistsException){
             UserException(e.message)
@@ -102,5 +121,7 @@ class SeriesAppModel (private var model: Serie) {
             Unavailable()
         }
     }
+
+
 
 }
