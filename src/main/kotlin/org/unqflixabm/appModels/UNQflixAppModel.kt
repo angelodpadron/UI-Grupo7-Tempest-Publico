@@ -15,6 +15,7 @@ class UNQflixAppModel {
     var categories: MutableList<CategoryAppModel> = initCategories()
     var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
     var contents: MutableList<ContentAppModel> = initContents()
+    var searchString: String = ""
     //Required fields to add a New Serie
     var id = ""
     var title = ""
@@ -38,8 +39,6 @@ class UNQflixAppModel {
         return system.banners.map { ContentAppModel(it) }.toMutableList()
     }
 
-
-    //EXCEPTIONS
     fun catchNonSelectSerieException(selectSerie: SeriesAppModel?){
         try{
             this.nonSelectSerieException(selectSerie)
@@ -50,20 +49,33 @@ class UNQflixAppModel {
     }
     fun nonSelectSerieException(selectSerie: SeriesAppModel?){
         if (selectSerie == null) {
-            throw NonSelectException("Please select a serie before continue")
+            throw NonSelectException("Please select a show before continue")
         }
     }
-    fun catchExistSerieException(){
-        var unqflix : UNQflixAppModel = this
-        try{
-           unqflix.addSerie()
+    fun catchExistSerieException() {
+        var unqflix: UNQflixAppModel = this
+        try {
+            unqflix.addSerie()
         }
-        catch(e: ExistsException){
-           throw UserException(e.message)
+        catch (e: ExistsException) {
+            throw UserException(e.message)
         }
     }
-   
-    //ALTA
+
+    //QUERYS
+
+    fun searchSerie(){
+        //TODO: excepciones!
+        series = system.searchSeries(searchString).map { SeriesAppModel(it) }.toMutableList()
+    }
+    fun getNextSerieId():String {
+        val lastSerieId :String = this.series.last().id
+
+        return "ser_${(lastSerieId.split("_").last()).toInt()+1}"
+    }
+
+    //ADDS
+
     fun newSerie(): Serie{
         return Serie(getNextSerieId(),title,description,poster,stateSerie,categoriesSerie,seasonsSerie,relatedContentSerie)
     }
@@ -81,20 +93,13 @@ class UNQflixAppModel {
         SeriesAppModel(newSerie()).addContent(selectContent)
     }
 
-    //BAJA
+    //DELETES
+
     fun deleteSerie(selectSerie:SeriesAppModel?){
         //TODO: excepciones!
         if (selectSerie != null) {
             system.deleteSerie(selectSerie.id)
         }
         series = initSeries()
+        }
     }
-
-    //Querys
-    fun getNextSerieId():String {
-        val lastSerieId :String = this.series.last().id
-
-        return "ser_${(lastSerieId.split("_").last()).toInt()+1}"
-    }
-
-}

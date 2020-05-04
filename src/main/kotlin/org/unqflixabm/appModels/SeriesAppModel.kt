@@ -53,6 +53,7 @@ class SeriesAppModel (private var model: Serie) {
     fun toModel() = model
 
     //ADDS
+
     fun newSeason():Season {
         return Season(getNextSeasonId(),titleSeason,descriptionSeason,posterSeason,chaptersSeason)
     }
