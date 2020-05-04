@@ -20,32 +20,33 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
     }
 
     override fun createFormPanel(p0: Panel) {
-            Panel(p0) with {
-                asHorizontal()
-                TextBox(it) with {
-                    title = "Title"
-                    width = 300
-                    bindTo("title")
-                }
-                TextBox(it) with {
-                    title = "Poster"
-                    width = 200
-                    bindTo("poster")
-                }
+        Panel(p0) with {
+            asHorizontal()
+            TextBox(it) with {
+                title = "Title"
+                width = 300
+                bindTo("title")
             }
+            TextBox(it) with {
+                title = "Poster"
+                width = 200
+                bindTo("poster")
+            }
+        }
 
-            Panel(p0) with {
-                asHorizontal()
-                KeyWordTextArea(it) with {
-                    title = "Description:"
-                    width = 400
-                    height = 100
-                    bindTo("description")
-                }
+        Panel(p0) with {
+            asHorizontal()
+            KeyWordTextArea(it) with {
+                title = "Description:"
+                width = 400
+                height = 100
+                bindTo("description")
+            }/*
                 CheckBox(it) with {
                     title = "State"
                     bindTo("state").setTransformer(StateToBooleanTransformer())
                 }
+              */
             }
 
             Panel(p0) with {
@@ -54,8 +55,7 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                 List<CategoryAppModel>(it) with {
                     width = 150
                     height = 200
-                    bindItemsTo("categories").
-                    adaptWithProp<CategoryAppModel>("categoryName")
+                    bindItemsTo("categories").adaptWithProp<CategoryAppModel>("categoryName")
                 }
                 Panel(it) with {
                     asVertical()
@@ -69,11 +69,10 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                     }
                 }
                 List<CategoryAppModel>(it) with {
-                    var unqflix : UNQflixAppModel
+                    var unqflix: UNQflixAppModel
                     width = 150
                     height = 200
-                    bindItemsTo("categories").
-                    adaptWithProp<CategoryAppModel>("categoryName")
+                    bindItemsTo("categories").adaptWithProp<CategoryAppModel>("categoryName")
                 }
             }
 
@@ -102,16 +101,16 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                     //TODO: tienen que aparecer todas las opciones de contenidos
                 }
             }
-        Panel(p0) with {
-            asHorizontal()
-            Button(it) with {
-                caption = "Accept"
-                //TODO: onClick
-            }
-            Button(it) with {
-                caption = "Cancel"
-                //TODO: onClick
+            Panel(p0) with {
+                asHorizontal()
+                Button(it) with {
+                    caption = "Accept"
+                    //TODO: onClick
+                }
+                Button(it) with {
+                    caption = "Cancel"
+                    //TODO: onClick
+                }
             }
         }
-    }
 }

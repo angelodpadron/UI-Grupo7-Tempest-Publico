@@ -58,7 +58,7 @@ class UNQflixAppModel {
         try{
            unqflix.addSerie()
         }
-        catch( e : ExistsException){
+        catch(e: ExistsException){
             UserException(e.message)
         }
     }

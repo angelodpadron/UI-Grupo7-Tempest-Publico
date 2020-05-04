@@ -41,10 +41,13 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
                 height = 100
                 bindTo("description")
             }
+
             CheckBox(it) with {
                 title = "State"
-                bindTo("state").setTransformer(StateToBooleanTransformer())
+                bindTo("stateSerie").setTransformer(StateToBooleanTransformer())
             }
+
+
         }
 
         Panel(p0) with {
