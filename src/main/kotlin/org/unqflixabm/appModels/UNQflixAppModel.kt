@@ -101,15 +101,13 @@ class UNQflixAppModel {
     }
     fun getNextSerieId():String {
 
-        var lastSerieId: String = ""
-
-        if(selectSerie?.seasons?.isEmpty()!!){
+        var lastSerieId: String
+        if (this.series.isEmpty()) {
             lastSerieId = "ser_1"
         }
-        else
-        {
-             lastSerieId = this.series.last().id
-             lastSerieId ="ser_${(lastSerieId.split("_").last()).toInt()+1}"
+        else {
+            lastSerieId = this.series.last().id
+            lastSerieId = "ser_${(lastSerieId.split("_").last()).toInt() + 1}"
         }
         return lastSerieId
     }

@@ -103,11 +103,15 @@ class SeriesAppModel (private var model: Serie) {
     //QUERYS
 
     fun getNextSeasonId(): String {
-        val lastSeasonId: String = this.seasons.last().id
-        //TODO : recordar hacer funcion
-        var nextId: String = "sea_${(lastSeasonId.split("_").last()).toInt() + 1}"
-
-        return nextId
+        var lastSeasonId: String
+        if (this.seasons.isEmpty()) {
+            lastSeasonId = "sea_1"
+        }
+        else {
+            lastSeasonId = this.seasons.last().id
+            lastSeasonId = "ser_${(lastSeasonId.split("_").last()).toInt() + 1}"
+        }
+        return lastSeasonId
     }
 
     //EXCEPTIONS
