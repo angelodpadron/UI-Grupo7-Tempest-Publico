@@ -46,9 +46,8 @@ class WindowAddSeason(owner: WindowOwner, seriesAppModel: SeriesAppModel):
                 width = 110
                 height = 30
                 bgColor = Color.decode("#870AAE")
-                onClick({tryCatchExistSeasonException()
-                        close()
-                        addSeason()})
+                onClick({addNewSeason()
+                         close()})
             }
             Button(it) with {
                 width = 110
@@ -59,6 +58,5 @@ class WindowAddSeason(owner: WindowOwner, seriesAppModel: SeriesAppModel):
             }
         }
     }
-    private fun tryCatchExistSeasonException() = modelObject.catchExistSeasonException()
-    private fun addSeason()= modelObject.addSeason()
+    private fun addNewSeason()= modelObject.addSeason()
 }

@@ -53,26 +53,19 @@ class SeasonAppModel(private var model: Season) {
         return Chapter(getNextChapterId(),titleChapter,descriptionChapter,durationChapter,videoChapter,thumbNailChapter)
     }
     fun addChapter(){
-        //agregar al modelo
-        system.addChapter(newChapter())
-        //update viewmodel
-        chapters = initChapters()
+        try{
+            //agregar al modelo
+            system.addChapter(newChapter())
+            //update viewmodel
+            chapters = initChapters()
+            numberOfChapters = this.chapters.count()
+        }
+        catch( e : ExistsException){
+            throw UserException(e.message)
+        }
     }
 
     //EXCEPTIONS
-
-    /*
-    @Function  control that the Season To add wasn't added before
-     */
-    fun catchExistChapterException(){
-        var season : SeasonAppModel = this
-        try{
-            season.addChapter()
-        }
-        catch( e : ExistsException){
-           throw UserException(e.message)
-        }
-    }
 
     /*
     @Function  control that a chapter is selected before interact with him

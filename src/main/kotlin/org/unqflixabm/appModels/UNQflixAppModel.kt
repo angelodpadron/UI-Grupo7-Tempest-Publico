@@ -17,7 +17,9 @@ class UNQflixAppModel {
     var contents: MutableList<ContentAppModel> = initContents()
     var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
     var searchString: String = ""
+    val lastSeriesId: String = this.series.last().id
     //Required fields to add a New Serie
+    var idGenerator : IdGenerator = IdGenerator()
     var title = ""
     var description = ""
     var poster = ""
@@ -109,10 +111,15 @@ class UNQflixAppModel {
         return Serie(getNextSerieId(),title,description,poster,stateSerie,categoriesSerie,seasonsSerie,relatedContentSerie)
     }
     fun addSerie(){
-        //agregar al modelo
-        system.addSerie(newSerie())
-        //update viewmodel
-        series = initSeries()
+        try {
+            //agregar al modelo
+            system.addSerie(newSerie())
+            //update viewmodel
+            series = initSeries()
+        }
+        catch (e: ExistsException) {
+            throw UserException(e.message)
+        }
     }
     fun addSerieCategory(selectCategory: CategoryAppModel?) {
         SeriesAppModel(newSerie()).addCategory(selectCategory)
