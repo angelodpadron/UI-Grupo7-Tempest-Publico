@@ -4,6 +4,7 @@ import org.unqflixabm.appModels.CategoryAppModel
 import org.unqflixabm.appModels.ContentAppModel
 import org.unqflixabm.appModels.SeriesAppModel
 import org.unqflixabm.appModels.UNQflixAppModel
+import org.unqflixabm.transformers.StateToBooleanTransformer
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
@@ -19,42 +20,38 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
     }
 
     override fun createFormPanel(p0: Panel) {
-            Panel(p0) with {
-                asHorizontal()
-                TextBox(it) with {
-                    title = "Title"
-                    width = 300
-                    bindTo("title")
-                }
-                TextBox(it) with {
-                    title = "Poster"
-                    width = 200
-                    bindTo("poster")
-                }
+        title = "Modify a serie"
+        Panel(p0) with {
+            asHorizontal()
+            TextBox(it) with {
+                width = 300
+                bindTo("title")
             }
+            TextBox(it) with {
+                width = 200
+                bindTo("poster")
+            }
+        }
+
+        Panel(p0) with {
+            asHorizontal()
+            KeyWordTextArea(it) with {
+                width = 400
+                height = 100
+                bindTo("description")
+            }
+            CheckBox(it) with {
+                bindTo("state").setTransformer(StateToBooleanTransformer())
+            }
+
+        }
 
             Panel(p0) with {
                 asHorizontal()
-                KeyWordTextArea(it) with {
-                    title = "Description:"
-                    width = 400
-                    height = 100
-                    bindTo("description")
-                }
-                CheckBox(it) with {
-                    title = "State"
-                    bindTo("state") //TODO: hay que lograr que defina states
-                }
-            }
-
-            Panel(p0) with {
-                asHorizontal()
-                title = "Categories:"
                 List<CategoryAppModel>(it) with {
                     width = 150
                     height = 200
-                    bindItemsTo("categories").
-                    adaptWithProp<CategoryAppModel>("categoryName")
+                    bindItemsTo("categories").adaptWithProp<CategoryAppModel>("categoryName")
                 }
                 Panel(it) with {
                     asVertical()
@@ -68,18 +65,16 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                     }
                 }
                 List<CategoryAppModel>(it) with {
-                    var unqflix : UNQflixAppModel
+                    var unqflix: UNQflixAppModel
                     width = 150
                     height = 200
-                    bindItemsTo("categories").
-                    adaptWithProp<CategoryAppModel>("categoryName")
+                    bindItemsTo("categoriesSyst").adaptWithProp<CategoryAppModel>("categoryName")
                 }
             }
 
             Panel(p0) with {
                 asHorizontal()
                 KeyWordTextArea(it) with {
-                    title = "Related content:"
                     width = 150
                     height = 200
                     //TODO: habría que printear el contenido existentes, eso es posible?
@@ -101,16 +96,16 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                     //TODO: tienen que aparecer todas las opciones de contenidos
                 }
             }
-        Panel(p0) with {
-            asHorizontal()
-            Button(it) with {
-                caption = "Accept"
-                //TODO: onClick
-            }
-            Button(it) with {
-                caption = "Cancel"
-                //TODO: onClick
+            Panel(p0) with {
+                asHorizontal()
+                Button(it) with {
+                    caption = "Accept"
+                    //TODO: onClick
+                }
+                Button(it) with {
+                    caption = "Cancel"
+                    //TODO: onClick
+                }
             }
         }
-    }
 }

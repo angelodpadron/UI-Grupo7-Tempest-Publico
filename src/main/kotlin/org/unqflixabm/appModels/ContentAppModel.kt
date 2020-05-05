@@ -5,7 +5,7 @@ import org.uqbar.commons.model.annotations.Observable
 
 @Observable
 
-class ContentAppModel (model: Content){
+class ContentAppModel (var model: Content){
 
     var id : String = ""
     var title : String = ""
@@ -14,5 +14,13 @@ class ContentAppModel (model: Content){
         id = model.id
         title = model.title
     }
+
+    //TO MODEL
+
+    fun toModel() = model
+
+    //ADAPTERS
+
+    fun contentDescription() = "$id - $title"
 
 }
