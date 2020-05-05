@@ -38,6 +38,8 @@ class SeriesAppModel (private var model: Serie) {
         this.relatedContent = initContents()
     }
 
+    //INITIATORS
+
     fun initSeasons(): MutableList<SeasonAppModel>{
         return model.seasons.map{ SeasonAppModel(it) }.toMutableList()
     }
@@ -77,12 +79,10 @@ class SeriesAppModel (private var model: Serie) {
             model.categories.add(selectCategory.toModel())
             //update viewmodel
             categories = initCategories()
-
         }
     }
 
     //QUERYS
-    fun getCantSeasons(): Int = this.seasons.size
 
     fun getNextSeasonId():String {
         val lastSeasonId :String = this.seasons.last().id
@@ -91,6 +91,10 @@ class SeriesAppModel (private var model: Serie) {
     }
   
     //EXCEPTIONS
+
+    /*
+   @Function  control that a season is selected before interact with him
+   */
     fun catchNonSelectSeasonException(selectSeason: SeasonAppModel?){
         try {
             this.nonSelectSeasonException(selectSeason)
@@ -99,12 +103,15 @@ class SeriesAppModel (private var model: Serie) {
             throw UserException(e.message)
         }
     }
-    
     fun nonSelectSeasonException(selectSeason: SeasonAppModel?) {
         if (selectSeason == null) {
             throw NonSelectException("Please select a season before continue")
         }
     }
+
+    /*
+   @Function  control that the Season To add wasn't added before
+    */
     fun catchExistSeasonException(){
         var serie: SeriesAppModel = this
         try{

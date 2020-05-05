@@ -15,7 +15,12 @@ class ContentAppModel (var model: Content){
         title = model.title
     }
 
+    //TO MODEL
+
     fun toModel() = model
+
+    //ADAPTERS
+
     fun contentDescription() = "$id - $title"
 
 }

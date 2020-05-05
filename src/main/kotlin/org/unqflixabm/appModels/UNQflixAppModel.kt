@@ -27,6 +27,7 @@ class UNQflixAppModel {
     var relatedContentSerie: MutableList<Content> = mutableListOf()
     var selectContent: ContentAppModel? = null
     var selectCategory: CategoryAppModel? = null
+    //
 
     //INITIATORS
 
@@ -58,6 +59,7 @@ class UNQflixAppModel {
             throw NonSelectException("Please select a show before continue")
         }
     }
+
     /*
     @Function  control that the newSerie To add wasn't added before
      */
@@ -70,6 +72,7 @@ class UNQflixAppModel {
             throw UserException(e.message)
         }
     }
+
     /*
     @Function  verify that searched series are added in the system if not throw mssg exception
      */
@@ -113,7 +116,6 @@ class UNQflixAppModel {
     }
     fun addSerieCategory(selectCategory: CategoryAppModel?) {
         SeriesAppModel(newSerie()).addCategory(selectCategory)
-
     }
     fun addSerieContent(selectContent: ContentAppModel?){
         SeriesAppModel(newSerie()).addContent(selectContent)

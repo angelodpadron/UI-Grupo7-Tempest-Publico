@@ -11,6 +11,7 @@ import org.uqbar.commons.model.exceptions.UserException
 @Observable
 
 class SeasonAppModel(private var model: Season) {
+
     var system: Season = model
     var id: String = ""
     var title: String = ""
@@ -36,24 +37,18 @@ class SeasonAppModel(private var model: Season) {
         this.numberOfChapters = this.chapters.count()
     }
 
+    //INITIATORS
+
     fun initChapters(): MutableList<ChapterAppModel> {
         return model.chapters.map { ChapterAppModel(it) }.toMutableList()
     }
 
-    //To Model
+    //TO MODEL
+
     fun model(): Season = model
 
-    private fun toChapter(chapterAppModel: ChapterAppModel): Chapter {
-        return Chapter(
-            chapterAppModel.id,
-            chapterAppModel.title,
-            chapterAppModel.description,
-            chapterAppModel.duration,
-            chapterAppModel.video,
-            chapterAppModel.thumbnail
-        )
-    }
     //ADDS
+
     fun newChapter():Chapter{
         return Chapter(getNextChapterId(),titleChapter,descriptionChapter,durationChapter,videoChapter,thumbNailChapter)
     }
@@ -66,6 +61,9 @@ class SeasonAppModel(private var model: Season) {
 
     //EXCEPTIONS
 
+    /*
+    @Function  control that the Season To add wasn't added before
+     */
     fun catchExistChapterException(){
         var season : SeasonAppModel = this
         try{
@@ -76,6 +74,9 @@ class SeasonAppModel(private var model: Season) {
         }
     }
 
+    /*
+    @Function  control that a chapter is selected before interact with him
+     */
     fun catchNonSelectChapterException(selectChapter: ChapterAppModel?){
         try{
             this.nonSelectChapterException(selectChapter)
