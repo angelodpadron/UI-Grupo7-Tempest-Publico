@@ -19,18 +19,25 @@ class SeasonAppModel(private var model: Season) {
     var chapters: MutableList<ChapterAppModel> = mutableListOf()
     var numberOfChapters: Int
     var selectChapter: ChapterAppModel? = null
+    //Required Fields To add a new Chapter
+    var titleChapter: String = ""
+    var descriptionChapter: String = ""
+    var durationChapter: Int = 0
+    var thumbNailChapter: String = ""
+    var videoChapter: String = ""
+    //
 
     init {
         this.id = model.id
         this.title = model.title
         this.description = model.description
         this.poster = model.poster
-        this.chapters = initChapters(model)
+        this.chapters = initChapters()
         this.numberOfChapters = this.chapters.count()
     }
 
-    fun initChapters(season: Season): MutableList<ChapterAppModel> {
-        return season.chapters.map { ChapterAppModel(it) }.toMutableList()
+    fun initChapters(): MutableList<ChapterAppModel> {
+        return model.chapters.map { ChapterAppModel(it) }.toMutableList()
     }
 
     //To Model
@@ -46,24 +53,26 @@ class SeasonAppModel(private var model: Season) {
             chapterAppModel.thumbnail
         )
     }
-    //Querys
-
-    fun addChapter(chapterAppModel: ChapterAppModel){
+    //ADDS
+    fun newChapter():Chapter{
+        return Chapter(getNextChapterId(),titleChapter,descriptionChapter,durationChapter,videoChapter,thumbNailChapter)
+    }
+    fun addChapter(){
         //agregar al modelo
-        system.addChapter(chapterAppModel.model())
+        system.addChapter(newChapter())
         //update viewmodel
-        this.initChapters(model)
+        chapters = initChapters()
     }
 
-    //Exceptions
+    //EXCEPTIONS
 
-    fun catchExistChapterException(chapter: ChapterAppModel){
+    fun catchExistChapterException(){
         var season : SeasonAppModel = this
         try{
-            season.addChapter(chapter)
+            season.addChapter()
         }
         catch( e : ExistsException){
-            UserException(e.message)
+           throw UserException(e.message)
         }
     }
 
@@ -79,5 +88,13 @@ class SeasonAppModel(private var model: Season) {
         if (selectChapter == null) {
             throw NonSelectException("Please select a chapter before continue")
         }
+    }
+
+    //QUERYS
+
+    fun getNextChapterId():String {
+        val lastChapterId :String = this.chapters.last().id
+
+        return "cha_${(lastChapterId.split("_").last()).toInt()+1}"
     }
 }

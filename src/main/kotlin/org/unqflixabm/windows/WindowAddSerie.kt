@@ -58,6 +58,7 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
                 height = 200
                 bindItemsTo("categoriesSerie").
                 adaptWithProp<CategoryAppModel>("categoryName")
+                bindSelectedTo("selectCategory")
             }
             Panel(it) with {
                 asVertical()
@@ -113,9 +114,9 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             asHorizontal()
             Button(it) with {
                 caption = "Accept"
-                onClick({ close()
-                          tryCatchExistsSerieException()
-                          addNewSerie() })
+                onClick({tryCatchExistsSerieException()
+                         close()
+                         addNewSerie() })
             }
             Button(it) with {
                 caption = "Cancel"

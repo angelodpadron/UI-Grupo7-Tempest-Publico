@@ -5,6 +5,7 @@ import domain.*
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
 import org.uqbar.commons.model.exceptions.UserException
+import support.itemFromList as dasdasdasdasdasdasd
 
 @Observable
 
@@ -13,10 +14,10 @@ class UNQflixAppModel {
     private var system: UNQFlix = getUNQFlix()
     var series: MutableList<SeriesAppModel> = initSeries()
     var categories: MutableList<CategoryAppModel> = initCategories()
-    var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
     var contents: MutableList<ContentAppModel> = initContents()
+    var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
+    var searchString: String = ""
     //Required fields to add a New Serie
-    var id = ""
     var title = ""
     var description = ""
     var poster = ""
@@ -26,7 +27,8 @@ class UNQflixAppModel {
     var relatedContentSerie: MutableList<Content> = mutableListOf()
     var selectContent: ContentAppModel? = null
     var selectCategory: CategoryAppModel? = null
-    //
+
+    //INITIATORS
 
     fun initSeries(): MutableList<SeriesAppModel> {
         return system.series.map { SeriesAppModel(it) }.toMutableList()
@@ -38,8 +40,11 @@ class UNQflixAppModel {
         return system.banners.map { ContentAppModel(it) }.toMutableList()
     }
 
-
     //EXCEPTIONS
+
+    /*
+    @Function  control that a series is selected before interact with him
+     */
     fun catchNonSelectSerieException(selectSerie: SeriesAppModel?){
         try{
             this.nonSelectSerieException(selectSerie)
@@ -50,20 +55,53 @@ class UNQflixAppModel {
     }
     fun nonSelectSerieException(selectSerie: SeriesAppModel?){
         if (selectSerie == null) {
-            throw NonSelectException("Please select a serie before continue")
+            throw NonSelectException("Please select a show before continue")
         }
     }
-    fun catchExistSerieException(){
-        var unqflix : UNQflixAppModel = this
-        try{
-           unqflix.addSerie()
+    /*
+    @Function  control that the newSerie To add wasn't added before
+     */
+    fun catchExistSerieException() {
+        var unqflix: UNQflixAppModel = this
+        try {
+            unqflix.addSerie()
         }
-        catch(e: ExistsException){
-            UserException(e.message)
+        catch (e: ExistsException) {
+            throw UserException(e.message)
         }
     }
-   
-    //ALTA
+    /*
+    @Function  verify that searched series are added in the system if not throw mssg exception
+     */
+    fun catchNotFoundSerieException(){
+        var unqflix: UNQflixAppModel = this
+        try {
+            unqflix.searchSerie()
+        }
+        catch (e: NotFoundException) {
+            throw UserException(e.message)
+        }
+    }
+
+    //QUERYS
+
+    fun searchSerie(){
+        if(series.any { it.title.contains(searchString,true)}){
+            series = system.searchSeries(searchString).map { SeriesAppModel(it) }.toMutableList()
+        }
+        else
+        {
+            throw NotFoundException("Serie","Title",searchString)
+        }
+    }
+    fun getNextSerieId():String {
+        val lastSerieId :String = this.series.last().id
+
+        return "ser_${(lastSerieId.split("_").last()).toInt()+1}"
+    }
+
+    //ADDS
+
     fun newSerie(): Serie{
         return Serie(getNextSerieId(),title,description,poster,stateSerie,categoriesSerie,seasonsSerie,relatedContentSerie)
     }
@@ -73,7 +111,7 @@ class UNQflixAppModel {
         //update viewmodel
         series = initSeries()
     }
-    fun addSerieCategory(selectCategory: CategoryAppModel?){
+    fun addSerieCategory(selectCategory: CategoryAppModel?) {
         SeriesAppModel(newSerie()).addCategory(selectCategory)
 
     }
@@ -81,19 +119,12 @@ class UNQflixAppModel {
         SeriesAppModel(newSerie()).addContent(selectContent)
     }
 
-    //BAJA
+    //DELETES
+
     fun deleteSerie(selectSerie:SeriesAppModel?){
-        //TODO: excepciones!
         if (selectSerie != null) {
             system.deleteSerie(selectSerie.id)
         }
         series = initSeries()
+        }
     }
-
-    //Querys
-    fun getNextSerieId():String {
-        val lastSerieId :String = this.series.last().id
-        return "ser_${(lastSerieId.split("_").last()).toInt()+1}"
-    }
-
-}

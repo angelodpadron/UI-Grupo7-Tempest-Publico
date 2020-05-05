@@ -6,9 +6,12 @@ import org.uqbar.arena.widgets.*
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.windows.SimpleWindow
+import java.awt.Color
 
 class WindowShowSerie(owner: WindowOwner, seriesAppModel: SeriesAppModel?):
     SimpleWindow<SeriesAppModel>(owner, seriesAppModel){
+
+    var modelo : SeriesAppModel = modelObject
 
     var selectedSerie: SeriesAppModel = modelObject
 
@@ -24,11 +27,12 @@ class WindowShowSerie(owner: WindowOwner, seriesAppModel: SeriesAppModel?):
 
             table<SeasonAppModel>(p0) {
                 title = "Seasons:"
+                visibleRows = 6
                 bindItemsTo("seasons")
                 bindSelectionTo("selectSeason")
                 column {
                     title = "#"
-                    fixedSize = 75
+                    fixedSize = 150
                     bindContentsTo("id")
                 }
                 column {
@@ -37,8 +41,10 @@ class WindowShowSerie(owner: WindowOwner, seriesAppModel: SeriesAppModel?):
                     bindContentsTo("title")
                 }
                 column {
-                    title = "#Chapter"
-                    fixedSize = 100
+                    title = "#Chapters"
+                    fixedSize = 150
+                    background = Color.decode("#3A383B")
+                    color = Color.WHITE
                     bindContentsTo("numberOfChapters")
                 }
             }
@@ -47,15 +53,21 @@ class WindowShowSerie(owner: WindowOwner, seriesAppModel: SeriesAppModel?):
                 asHorizontal()
                 Button(it) with {
                     caption = "Add new season"
-                    //TODO: onClick
+                    bgColor = Color.decode("#580AAF")
+                    width = 200
+                    onClick({WindowAddSeason(owner,modelo).open()})
                 }
                 Button(it) with {
                     caption = "Modify season"
+                    bgColor = Color.decode("#580AAF")
+                    width = 200
                     onClick({tryNonSelectException()
                              WindowModifieSeason(owner,selectedSerie.selectSeason).open()})
                 }
                 Button(it) with {
                     caption = "Show chapters"
+                    bgColor = Color.decode("#580AAF")
+                    width = 200
                     onClick({tryNonSelectException()
                              WindowShowChapters(owner,selectedSerie.selectSeason).open()})
                 }

@@ -19,8 +19,7 @@ class SeriesAppModel (private var model: Serie) {
     var numberOfSeasons: Int
     var selectSeason: SeasonAppModel? =null
     var relatedContent: MutableList<ContentAppModel> = mutableListOf()
-    //Fields to create a new Season
-    var idSeason : String = ""
+    //Required fields to create a new Season
     var titleSeason: String = ""
     var descriptionSeason: String = ""
     var posterSeason: String = ""
@@ -54,34 +53,42 @@ class SeriesAppModel (private var model: Serie) {
     fun toModel() = model
 
     //ADDS
+
     fun newSeason():Season {
-        return Season(idSeason,titleSeason,descriptionSeason,posterSeason,chaptersSeason)
+        return Season(getNextSeasonId(),titleSeason,descriptionSeason,posterSeason,chaptersSeason)
     }
     fun addSeason(){
         //addSeasonToModel
         model.addSeason(newSeason())
         //update viewmodel
-        this.initSeasons()
+        seasons = initSeasons()
     }
     fun addContent(selectContent: ContentAppModel?) {
         if (selectContent != null) {
             //addContentToModel
             model.relatedContent.add(selectContent.toModel())
+            //update viewModel
+            relatedContent = initContents()
         }
-        //update viewModel
-        this.initContents()
     }
     fun addCategory(selectCategory: CategoryAppModel?) {
         if (selectCategory != null) {
             //addCategoryToModel
             model.categories.add(selectCategory.toModel())
+            //update viewmodel
+            categories = initCategories()
+
         }
-        //update viewmodel
-        this.initCategories()
     }
 
     //QUERYS
     fun getCantSeasons(): Int = this.seasons.size
+
+    fun getNextSeasonId():String {
+        val lastSeasonId :String = this.seasons.last().id
+
+        return "sea_${(lastSeasonId.split("_").last()).toInt()+1}"
+    }
   
     //EXCEPTIONS
     fun catchNonSelectSeasonException(selectSeason: SeasonAppModel?){
@@ -99,14 +106,12 @@ class SeriesAppModel (private var model: Serie) {
         }
     }
     fun catchExistSeasonException(){
-
         var serie: SeriesAppModel = this
-
         try{
             serie.addSeason()
         }
         catch( e : ExistsException){
-            UserException(e.message)
+            throw UserException(e.message)
         }
     }
 

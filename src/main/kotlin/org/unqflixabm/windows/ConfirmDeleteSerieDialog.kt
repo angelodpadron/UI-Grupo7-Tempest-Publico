@@ -5,6 +5,7 @@ import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 import org.uqbar.arena.windows.Dialog
 import org.uqbar.arena.windows.WindowOwner
+import java.awt.Color
 
 class ConfirmDeleteSerieDialog (owner :WindowOwner, model: UNQflixAppModel):Dialog<UNQflixAppModel>(owner,model){
 
@@ -15,11 +16,15 @@ class ConfirmDeleteSerieDialog (owner :WindowOwner, model: UNQflixAppModel):Dial
         }
         Button(mainPanel)with{
             caption= "Accept"
+            background = Color.decode("#580AAF")
+            width = 110
             onClick { deleteSerie()
                 close() }
         }
         Button(mainPanel)with{
             caption= "Cancel"
+            background = Color.decode("#580AAF")
+            width = 110
             onClick {close()}
         }
     }
