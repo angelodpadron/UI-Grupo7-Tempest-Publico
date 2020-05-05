@@ -24,10 +24,10 @@ class StateToStringTransformer : ValueTransformer<ContentState, String> {
     }
 
     override fun viewToModel(valueFromView: String): ContentState {
-        var stateObj: ContentState = Unavailable()
+        var stateObj: ContentState
         if (valueFromView == "Available") {
             stateObj = Available()
-        } else if (valueFromView == "Unavailable") {
+        } else {
             stateObj = Unavailable()
         }
         return stateObj

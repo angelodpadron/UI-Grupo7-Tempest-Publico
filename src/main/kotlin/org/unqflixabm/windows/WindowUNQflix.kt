@@ -2,6 +2,7 @@ package org.unqflixabm.windows
 
 import org.unqflixabm.appModels.SeriesAppModel
 import org.unqflixabm.appModels.UNQflixAppModel
+import org.unqflixabm.transformers.StateToStringTransformer
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
