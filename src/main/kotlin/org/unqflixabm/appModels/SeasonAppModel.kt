@@ -11,6 +11,7 @@ import org.uqbar.commons.model.exceptions.UserException
 @Observable
 
 class SeasonAppModel(private var model: Season) {
+
     var system: Season = model
     var id: String = ""
     var title: String = ""
@@ -36,46 +37,39 @@ class SeasonAppModel(private var model: Season) {
         this.numberOfChapters = this.chapters.count()
     }
 
+    //INITIATORS
+
     fun initChapters(): MutableList<ChapterAppModel> {
         return model.chapters.map { ChapterAppModel(it) }.toMutableList()
     }
 
-    //To Model
+    //TO MODEL
+
     fun model(): Season = model
 
-    private fun toChapter(chapterAppModel: ChapterAppModel): Chapter {
-        return Chapter(
-            chapterAppModel.id,
-            chapterAppModel.title,
-            chapterAppModel.description,
-            chapterAppModel.duration,
-            chapterAppModel.video,
-            chapterAppModel.thumbnail
-        )
-    }
     //ADDS
+
     fun newChapter():Chapter{
         return Chapter(getNextChapterId(),titleChapter,descriptionChapter,durationChapter,videoChapter,thumbNailChapter)
     }
     fun addChapter(){
-        //agregar al modelo
-        system.addChapter(newChapter())
-        //update viewmodel
-        chapters = initChapters()
+        try{
+            //agregar al modelo
+            system.addChapter(newChapter())
+            //update viewmodel
+            chapters = initChapters()
+            numberOfChapters = this.chapters.count()
+        }
+        catch( e : ExistsException){
+            throw UserException(e.message)
+        }
     }
 
     //EXCEPTIONS
 
-    fun catchExistChapterException(){
-        var season : SeasonAppModel = this
-        try{
-            season.addChapter()
-        }
-        catch( e : ExistsException){
-           throw UserException(e.message)
-        }
-    }
-
+    /*
+    @Function  control that a chapter is selected before interact with him
+     */
     fun catchNonSelectChapterException(selectChapter: ChapterAppModel?){
         try{
             this.nonSelectChapterException(selectChapter)
@@ -92,9 +86,15 @@ class SeasonAppModel(private var model: Season) {
 
     //QUERYS
 
-    fun getNextChapterId():String {
-        val lastChapterId :String = this.chapters.last().id
-
-        return "cha_${(lastChapterId.split("_").last()).toInt()+1}"
+    fun getNextChapterId(): String {
+        var lastChapterId: String
+        if (this.chapters.isEmpty()) {
+            lastChapterId = "cha_1"
+        }
+        else {
+            lastChapterId = this.chapters.last().id
+            lastChapterId = "ser_${(lastChapterId.split("_").last()).toInt() + 1}"
+        }
+        return lastChapterId
     }
 }

@@ -17,7 +17,9 @@ class UNQflixAppModel {
     var contents: MutableList<ContentAppModel> = initContents()
     var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
     var searchString: String = ""
+    val lastSeriesId: String = this.series.last().id
     //Required fields to add a New Serie
+    var idGenerator : IdGenerator = IdGenerator()
     var title = ""
     var description = ""
     var poster = ""
@@ -27,6 +29,7 @@ class UNQflixAppModel {
     var relatedContentSerie: MutableList<Content> = mutableListOf()
     var selectContent: ContentAppModel? = null
     var selectCategory: CategoryAppModel? = null
+    //
 
     //INITIATORS
 
@@ -58,6 +61,7 @@ class UNQflixAppModel {
             throw NonSelectException("Please select a show before continue")
         }
     }
+
     /*
     @Function  control that the newSerie To add wasn't added before
      */
@@ -70,6 +74,7 @@ class UNQflixAppModel {
             throw UserException(e.message)
         }
     }
+
     /*
     @Function  verify that searched series are added in the system if not throw mssg exception
      */
@@ -95,9 +100,16 @@ class UNQflixAppModel {
         }
     }
     fun getNextSerieId():String {
-        val lastSerieId :String = this.series.last().id
 
-        return "ser_${(lastSerieId.split("_").last()).toInt()+1}"
+        var lastSerieId: String
+        if (this.series.isEmpty()) {
+            lastSerieId = "ser_1"
+        }
+        else {
+            lastSerieId = this.series.last().id
+            lastSerieId = "ser_${(lastSerieId.split("_").last()).toInt() + 1}"
+        }
+        return lastSerieId
     }
 
     //ADDS
@@ -106,14 +118,18 @@ class UNQflixAppModel {
         return Serie(getNextSerieId(),title,description,poster,stateSerie,categoriesSerie,seasonsSerie,relatedContentSerie)
     }
     fun addSerie(){
-        //agregar al modelo
-        system.addSerie(newSerie())
-        //update viewmodel
-        series = initSeries()
+        try {
+            //agregar al modelo
+            system.addSerie(newSerie())
+            //update viewmodel
+            series = initSeries()
+        }
+        catch (e: ExistsException) {
+            throw UserException(e.message)
+        }
     }
     fun addSerieCategory(selectCategory: CategoryAppModel?) {
         SeriesAppModel(newSerie()).addCategory(selectCategory)
-
     }
     fun addSerieContent(selectContent: ContentAppModel?){
         SeriesAppModel(newSerie()).addContent(selectContent)

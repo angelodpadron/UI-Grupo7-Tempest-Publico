@@ -114,10 +114,10 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             asHorizontal()
             Button(it) with {
                 caption = "Accept"
-                onClick({tryCatchExistsSerieException()
-                         close()
-                         addNewSerie() })
-            }
+                onClick({addNewSerie()
+                                close()})
+                }
+
             Button(it) with {
                 caption = "Cancel"
                 onClick({ close() })
@@ -126,7 +126,6 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
     }
 
     private fun addCategory() = modelObject.addSerieCategory(modelObject.selectCategory)
-    private fun tryCatchExistsSerieException() = modelObject.catchExistSerieException()
     private fun addNewSerie() = modelObject.addSerie()
     private fun addContent() = modelObject.addSerieContent(modelObject.selectContent)
 }

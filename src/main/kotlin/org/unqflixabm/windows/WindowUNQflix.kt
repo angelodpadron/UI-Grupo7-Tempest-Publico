@@ -25,6 +25,7 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
 
             Label(it) with { text = "Search" }
             KeyWordTextArea(it) with {
+                height = 20
                 width = 400
 
                 bindTo("searchString")
@@ -80,7 +81,7 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
                 bgColor = Color.decode("#580AAF")
                 width = 200
                 onClick({tryNonSelectException()
-                         WindowModifieSerie(owner,modelo.selectSerie).open() })
+                         WindowModifieSerie(owner,modelo.selectSerie).open()})
             }
             Button(it) with {
                 caption = "Delete Serie"
@@ -102,5 +103,4 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
     private fun tryNonSelectException()=modelObject.catchNonSelectSerieException(modelObject.selectSerie)
     private fun confirmDelete()= ConfirmDeleteSerieDialog(owner,modelObject)
     private fun tryCatchNotFoundSerieException() = modelObject.catchNotFoundSerieException()
-    //TODO: armar funciones para botones
 }

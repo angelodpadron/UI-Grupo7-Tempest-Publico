@@ -75,11 +75,8 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
                 caption = "Accept"
                 background = Color.decode("#580AAF")
                 width = 110
-                onClick({
-                    tryCatchExistsChapterException()
-                    close()
-                    addChapter()
-                })
+                onClick({addChapter()
+                         close() })
             }
             Button(it) with {
                 caption = "Cancel"
@@ -89,9 +86,6 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
             }
         }
     }
-
-
-    private fun tryCatchExistsChapterException() = modelObject.catchExistChapterException()
     private fun addChapter() = modelObject.addChapter()
 }
 
