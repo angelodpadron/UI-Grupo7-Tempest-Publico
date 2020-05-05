@@ -31,7 +31,8 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
             }
             Button(it) with {
                 caption = "Go"
-                onClick { modelo.searchSerie() }
+                onClick { tryCatchNotFoundSerieException()
+                          modelo.searchSerie() }
             }
         }
 
@@ -98,8 +99,8 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
             }
         }
     }
-    private fun imagen(): String = modelObject.poster
     private fun tryNonSelectException()=modelObject.catchNonSelectSerieException(modelObject.selectSerie)
     private fun confirmDelete()= ConfirmDeleteSerieDialog(owner,modelObject)
+    private fun tryCatchNotFoundSerieException() = modelObject.catchNotFoundSerieException()
     //TODO: armar funciones para botones
 }

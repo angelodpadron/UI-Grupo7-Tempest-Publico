@@ -5,6 +5,7 @@ import domain.*
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
 import org.uqbar.commons.model.exceptions.UserException
+import support.itemFromList as dasdasdasdasdasdasd
 
 @Observable
 
@@ -13,11 +14,10 @@ class UNQflixAppModel {
     private var system: UNQFlix = getUNQFlix()
     var series: MutableList<SeriesAppModel> = initSeries()
     var categories: MutableList<CategoryAppModel> = initCategories()
-    var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
     var contents: MutableList<ContentAppModel> = initContents()
+    var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
     var searchString: String = ""
     //Required fields to add a New Serie
-    var id = ""
     var title = ""
     var description = ""
     var poster = ""
@@ -27,7 +27,8 @@ class UNQflixAppModel {
     var relatedContentSerie: MutableList<Content> = mutableListOf()
     var selectContent: ContentAppModel? = null
     var selectCategory: CategoryAppModel? = null
-    //
+
+    //INITIATORS
 
     fun initSeries(): MutableList<SeriesAppModel> {
         return system.series.map { SeriesAppModel(it) }.toMutableList()
@@ -39,6 +40,11 @@ class UNQflixAppModel {
         return system.banners.map { ContentAppModel(it) }.toMutableList()
     }
 
+    //EXCEPTIONS
+
+    /*
+    @Function  control that a series is selected before interact with him
+     */
     fun catchNonSelectSerieException(selectSerie: SeriesAppModel?){
         try{
             this.nonSelectSerieException(selectSerie)
@@ -52,6 +58,9 @@ class UNQflixAppModel {
             throw NonSelectException("Please select a show before continue")
         }
     }
+    /*
+    @Function  control that the newSerie To add wasn't added before
+     */
     fun catchExistSerieException() {
         var unqflix: UNQflixAppModel = this
         try {
@@ -61,12 +70,29 @@ class UNQflixAppModel {
             throw UserException(e.message)
         }
     }
+    /*
+    @Function  verify that searched series are added in the system if not throw mssg exception
+     */
+    fun catchNotFoundSerieException(){
+        var unqflix: UNQflixAppModel = this
+        try {
+            unqflix.searchSerie()
+        }
+        catch (e: NotFoundException) {
+            throw UserException(e.message)
+        }
+    }
 
     //QUERYS
 
     fun searchSerie(){
-        //TODO: excepciones!
-        series = system.searchSeries(searchString).map { SeriesAppModel(it) }.toMutableList()
+        if(series.any { it.title.contains(searchString,true)}){
+            series = system.searchSeries(searchString).map { SeriesAppModel(it) }.toMutableList()
+        }
+        else
+        {
+            throw NotFoundException("Serie","Title",searchString)
+        }
     }
     fun getNextSerieId():String {
         val lastSerieId :String = this.series.last().id
@@ -85,7 +111,7 @@ class UNQflixAppModel {
         //update viewmodel
         series = initSeries()
     }
-    fun addSerieCategory(selectCategory: CategoryAppModel?){
+    fun addSerieCategory(selectCategory: CategoryAppModel?) {
         SeriesAppModel(newSerie()).addCategory(selectCategory)
 
     }
@@ -96,7 +122,6 @@ class UNQflixAppModel {
     //DELETES
 
     fun deleteSerie(selectSerie:SeriesAppModel?){
-        //TODO: excepciones!
         if (selectSerie != null) {
             system.deleteSerie(selectSerie.id)
         }

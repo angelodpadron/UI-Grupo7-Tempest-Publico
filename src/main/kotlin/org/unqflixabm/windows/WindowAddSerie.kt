@@ -58,6 +58,7 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
                 height = 200
                 bindItemsTo("categoriesSerie").
                 adaptWithProp<CategoryAppModel>("categoryName")
+                bindSelectedTo("selectCategory")
             }
             Panel(it) with {
                 asVertical()

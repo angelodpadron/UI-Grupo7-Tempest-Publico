@@ -67,17 +67,18 @@ class SeriesAppModel (private var model: Serie) {
         if (selectContent != null) {
             //addContentToModel
             model.relatedContent.add(selectContent.toModel())
+            //update viewModel
+            relatedContent = initContents()
         }
-        //update viewModel
-        relatedContent = initContents()
     }
     fun addCategory(selectCategory: CategoryAppModel?) {
         if (selectCategory != null) {
             //addCategoryToModel
             model.categories.add(selectCategory.toModel())
+            //update viewmodel
+            categories = initCategories()
+
         }
-        //update viewmodel
-        categories = initCategories()
     }
 
     //QUERYS
