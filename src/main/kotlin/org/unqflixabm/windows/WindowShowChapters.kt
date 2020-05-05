@@ -28,11 +28,6 @@ class WindowShowChapters(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
                 bindItemsTo("chapters")
                 bindSelectionTo("selectChapter")
                 column {
-                    title = "#"
-                    fixedSize = 75
-                    bindContentsTo("id") //TODO: probablemente haya que sacarlo
-                }
-                column {
                     title = "Title"
                     fixedSize = 300
                     bindContentsTo("title")
@@ -43,6 +38,11 @@ class WindowShowChapters(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
                     background = Color.decode("#3A383B")
                     color = Color.WHITE
                     bindContentsTo("duration")
+                }
+                column {
+                    title = "#"
+                    fixedSize = 75
+                    bindContentsTo("id") //TODO: probablemente haya que sacarlo
                 }
             }
 

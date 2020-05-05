@@ -31,11 +31,6 @@ class WindowShowSerie(owner: WindowOwner, seriesAppModel: SeriesAppModel?):
                 bindItemsTo("seasons")
                 bindSelectionTo("selectSeason")
                 column {
-                    title = "#"
-                    fixedSize = 150
-                    bindContentsTo("id")
-                }
-                column {
                     title = "Title"
                     fixedSize = 300
                     bindContentsTo("title")
@@ -46,6 +41,11 @@ class WindowShowSerie(owner: WindowOwner, seriesAppModel: SeriesAppModel?):
                     background = Color.decode("#3A383B")
                     color = Color.WHITE
                     bindContentsTo("numberOfChapters")
+                }
+                column {
+                    title = "#"
+                    fixedSize = 150
+                    bindContentsTo("id")
                 }
             }
 
