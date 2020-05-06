@@ -92,7 +92,7 @@ class SeasonAppModel(private var model: Season) {
             lastChapterId = "cha_1"
         }
         else {
-            lastChapterId = this.chapters.last().id
+            lastChapterId = this.chapters .last().id
             lastChapterId = "ser_${(lastChapterId.split("_").last()).toInt() + 1}"
         }
         return lastChapterId

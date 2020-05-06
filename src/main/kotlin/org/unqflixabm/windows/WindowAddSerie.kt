@@ -86,9 +86,9 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             List<ContentAppModel>(it) with {
                 width = 150
                 height = 200
+                bindSelectedTo("selectContent")
                 bindItemsTo("relatedContentSerie").
                 adaptWithProp<ContentAppModel>("contentDescription")
-                bindSelectedTo("selectContent")
             }
             Panel(it) with {
                 asVertical()
