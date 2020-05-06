@@ -5,7 +5,7 @@ import domain.ContentState
 import domain.Unavailable
 import org.uqbar.arena.bindings.ValueTransformer
 
-// Made for WindowUNQflix, for the State column
+/*/ Made for WindowUNQflix, for the State column
 class StateToStringTransformer : ValueTransformer<ContentState, String> {
     //TODO: private val pattern = ...
     //TODO: private val formatter = ...
@@ -58,3 +58,4 @@ class StateToStringTransformer : ValueTransformer<ContentState, String> {
         return statesObj
     }
 }
+*/

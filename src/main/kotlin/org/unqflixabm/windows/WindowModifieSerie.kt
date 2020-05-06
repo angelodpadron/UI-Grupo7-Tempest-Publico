@@ -52,22 +52,24 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                     width = 150
                     height = 200
                     bindItemsTo("categories").adaptWithProp<CategoryAppModel>("categoryName")
+                    bindSelectedTo("selectCategorySerie")
                 }
                 Panel(it) with {
                     asVertical()
                     Button(it) with {
                         caption = "<"
-                        //TODO: bindTo
+                        onClick({modifyCategoriesSerie()})
                     }
                     Button(it) with {
                         caption = ">"
-                        //TODO: bindTo
+                        onClick({modifyDeleteCategories()})
                     }
                 }
                 List<CategoryAppModel>(it) with {
                     var unqflix: UNQflixAppModel
                     width = 150
                     height = 200
+                    bindSelectedTo("selectCategorySerie")
                     bindItemsTo("categoriesSyst").adaptWithProp<CategoryAppModel>("categoryName")
                 }
             }
@@ -83,11 +85,11 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                     asVertical()
                     Button(it1) with {
                         caption = "<"
-                        //TODO: onClick
+
                     }
                     Button(it1) with {
                         caption = ">"
-                        //TODO: onClick
+
                     }
                 }
                 List<ContentAppModel>(it) with {
@@ -108,4 +110,6 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                 }
             }
         }
+    private fun modifyCategoriesSerie()=modelObject.modifyCategories(modelObject.selectCategorySerie )
+    private fun modifyDeleteCategories() = modelObject.modifydeleteCategories(modelObject.selectCategorySerie)
 }

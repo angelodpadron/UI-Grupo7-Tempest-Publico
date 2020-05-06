@@ -20,5 +20,6 @@ class CategoryAppModel(var category: Category){
 
     //ADAPTERS
 
-    fun categoryName() = "{$name}"
+    fun categoryName() = "$name"
+
 }
