@@ -86,9 +86,15 @@ class SeasonAppModel(private var model: Season) {
 
     //QUERYS
 
-    fun getNextChapterId():String {
-        val lastChapterId :String = this.chapters.last().id
-
-        return "cha_${(lastChapterId.split("_").last()).toInt()+1}"
+    fun getNextChapterId(): String {
+        var lastChapterId: String
+        if (this.chapters.isEmpty()) {
+            lastChapterId = "cha_1"
+        }
+        else {
+            lastChapterId = this.chapters .last().id
+            lastChapterId = "ser_${(lastChapterId.split("_").last()).toInt() + 1}"
+        }
+        return lastChapterId
     }
 }

@@ -18,9 +18,11 @@ class StateToBooleanTransformer : ValueTransformer<ContentState, Boolean> {
     }
 
     override fun viewToModel(valueFromView: Boolean): ContentState {
-        var stateObj : ContentState = Unavailable()
+        var stateObj: ContentState
         if (valueFromView) {
-            stateObj == Available()
+            stateObj = Available()
+        } else {
+            stateObj = Unavailable()
         }
         return stateObj
     }

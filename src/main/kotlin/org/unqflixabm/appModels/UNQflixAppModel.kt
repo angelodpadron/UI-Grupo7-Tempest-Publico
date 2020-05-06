@@ -1,6 +1,7 @@
 package org.unqflixabm.appModels
 
 import data.getUNQFlix
+import data.idGenerator
 import domain.*
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
@@ -17,9 +18,7 @@ class UNQflixAppModel {
     var contents: MutableList<ContentAppModel> = initContents()
     var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
     var searchString: String = ""
-    val lastSeriesId: String = this.series.last().id
     //Required fields to add a New Serie
-    var idGenerator : IdGenerator = IdGenerator()
     var title = ""
     var description = ""
     var poster = ""
@@ -27,8 +26,11 @@ class UNQflixAppModel {
     var categoriesSerie: MutableList<Category> = mutableListOf()
     var seasonsSerie: MutableList<Season> = mutableListOf()
     var relatedContentSerie: MutableList<Content> = mutableListOf()
-    var selectContent: ContentAppModel? = null
-    var selectCategory: CategoryAppModel? = null
+    //Selectors For Add Or Delete Categories From a New Serie
+    var selectContentVm: ContentAppModel? = null
+    var selectContentDom: Content? = null
+    var selectCategoryVm: CategoryAppModel? = null
+    var selectCategoryDom: Category? = null
     //
 
     //INITIATORS
@@ -61,20 +63,6 @@ class UNQflixAppModel {
             throw NonSelectException("Please select a show before continue")
         }
     }
-
-    /*
-    @Function  control that the newSerie To add wasn't added before
-     */
-    fun catchExistSerieException() {
-        var unqflix: UNQflixAppModel = this
-        try {
-            unqflix.addSerie()
-        }
-        catch (e: ExistsException) {
-            throw UserException(e.message)
-        }
-    }
-
     /*
     @Function  verify that searched series are added in the system if not throw mssg exception
      */
@@ -100,9 +88,16 @@ class UNQflixAppModel {
         }
     }
     fun getNextSerieId():String {
-        val lastSerieId :String = this.series.last().id
 
-        return "ser_${(lastSerieId.split("_").last()).toInt()+1}"
+        var lastSerieId: String
+        if (this.series.isEmpty()) {
+            lastSerieId = "ser_1"
+        }
+        else {
+            lastSerieId = this.series.last().id
+            lastSerieId = "ser_${(lastSerieId.split("_").last()).toInt() + 1}"
+        }
+        return lastSerieId
     }
 
     //ADDS
@@ -121,11 +116,11 @@ class UNQflixAppModel {
             throw UserException(e.message)
         }
     }
-    fun addSerieCategory(selectCategory: CategoryAppModel?) {
-        SeriesAppModel(newSerie()).addCategory(selectCategory)
+    fun addSerieCategory(selectCategoryVm : CategoryAppModel?) {
+        SeriesAppModel(newSerie()).addCategory(selectCategoryVm)
     }
-    fun addSerieContent(selectContent: ContentAppModel?){
-        SeriesAppModel(newSerie()).addContent(selectContent)
+    fun addSerieContent(selectContentVm: ContentAppModel?){
+        SeriesAppModel(newSerie()).addContent(selectContentVm)
     }
 
     //DELETES
@@ -136,4 +131,11 @@ class UNQflixAppModel {
         }
         series = initSeries()
         }
+
+    fun removeCategory(selectCategoryDom: Category?) {
+        SeriesAppModel(newSerie()).deleteCategory(selectCategoryDom)
     }
+    fun removeContent(selectContentDom: Content?) {
+        SeriesAppModel (newSerie()).deleteContent(selectContentDom)
+    }
+}
