@@ -79,14 +79,15 @@ class UNQflixAppModel {
     //QUERYS
 
     fun searchSerie(){
-        if(series.any { it.title.contains(searchString,true)}){
+
+        if(system.series.any { it.title.contains(searchString,true)}){
             series = system.searchSeries(searchString).map { SeriesAppModel(it) }.toMutableList()
         }
-        else
-        {
+        else{
             throw NotFoundException("Serie","Title",searchString)
         }
     }
+
     fun getNextSerieId():String {
 
         var lastSerieId: String
