@@ -41,14 +41,22 @@ class WindowModifieSeason(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
                     caption = "Accept"
                     bgColor = Color.decode("#580AAF")
                     width = 200
-                    onClick{(close())}
+                    onClick{
+                        updateModel()
+                        close()
+                    }
                 }
                 Button(it) with {
                     caption = "Cancel"
                     bgColor = Color.decode("#580AAF")
                     width = 200
-                    onClick({close()})
+                    onClick{
+                        resetModify()
+                        close()
+                    }
                 }
             }
         }
-    }
+    fun updateModel() = modelObject.updateModel()
+    fun resetModify() = modelObject.resetModify()
+}

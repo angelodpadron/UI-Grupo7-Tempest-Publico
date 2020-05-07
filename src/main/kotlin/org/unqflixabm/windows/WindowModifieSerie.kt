@@ -23,13 +23,24 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
         title = "Modify a serie"
         Panel(p0) with {
             asHorizontal()
+            Label(it) with {text = "Title"}
             TextBox(it) with {
-                width = 300
+                title = "Title"
+                width = 200
                 bindTo("title")
             }
+            Label(it) with {text = "Poster"}
             TextBox(it) with {
-                width = 200
+                title = "Poster"
+                width = 150
                 bindTo("poster")
+            }
+        }
+
+        Panel(p0) with {
+            Label(it) with {
+                text = "Description"
+                align = "left"
             }
         }
 
@@ -39,77 +50,103 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                 width = 400
                 height = 100
                 bindTo("description")
+
             }
+        }
+
+        Panel(p0) with {
+            asHorizontal()
+            Label(it) with {text = "Availability"}
             CheckBox(it) with {
                 bindTo("state").setTransformer(StateToBooleanTransformer())
             }
-
         }
 
-            Panel(p0) with {
-                asHorizontal()
-                List<CategoryAppModel>(it) with {
-                    width = 150
-                    height = 200
-                    bindItemsTo("categories").adaptWithProp<CategoryAppModel>("categoryName")
-                    bindSelectedTo("selectCategorySerie")
-                }
-                Panel(it) with {
-                    asVertical()
-                    Button(it) with {
-                        caption = "<"
-                        onClick({modifyCategoriesSerie()})
-                    }
-                    Button(it) with {
-                        caption = ">"
-                        onClick({modifyDeleteCategories()})
-                    }
-                }
-                List<CategoryAppModel>(it) with {
-                    var unqflix: UNQflixAppModel
-                    width = 150
-                    height = 200
-                    bindSelectedTo("selectCategorySerie")
-                    bindItemsTo("categoriesSyst").adaptWithProp<CategoryAppModel>("categoryName")
-                }
+        Panel(p0) with{
+            Label(it) with {
+                text = "Categories"
+                align = "left"
             }
+        }
 
-            Panel(p0) with {
-                asHorizontal()
-                KeyWordTextArea(it) with {
-                    width = 150
-                    height = 200
-                    //TODO: habría que printear el contenido existentes, eso es posible?
-                }
-                Panel(it) with { it1 ->
-                    asVertical()
-                    Button(it1) with {
-                        caption = "<"
+        Panel(p0) with {
+            asHorizontal()
+            List<CategoryAppModel>(it) with {
+                width = 150
+                height = 100
+                bindItemsTo("categories").adaptWithProp<CategoryAppModel>("categoryName")
 
-                    }
-                    Button(it1) with {
-                        caption = ">"
-
-                    }
-                }
-                List<ContentAppModel>(it) with {
-                    width = 150
-                    height = 200
-                    //TODO: tienen que aparecer todas las opciones de contenidos
-                }
+                bindSelectedTo("selectCategorySerie")
             }
-            Panel(p0) with {
-                asHorizontal()
+            Panel(it) with {
+                asVertical()
                 Button(it) with {
-                    caption = "Accept"
-                    //TODO: onClick
+                    caption = "<"
+                    onClick {modifyCategoriesSerie()}
                 }
                 Button(it) with {
-                    caption = "Cancel"
-                    //TODO: onClick
+                    caption = ">"
+                    onClick {modifyDeleteCategories()}
+                }
+            }
+            List<CategoryAppModel>(it) with {
+                var unqflix: UNQflixAppModel
+                width = 150
+                height = 100
+                bindSelectedTo("selectCategorySerie")
+                bindItemsTo("categoriesSyst").adaptWithProp<CategoryAppModel>("categoryName")
+            }
+        }
+
+        Panel(p0) with{
+            Label(it) with {
+                text = "Related content"
+                align = "left"
+            }
+        }
+
+        Panel(p0) with {
+            asHorizontal()
+            KeyWordTextArea(it) with {
+                width = 150
+                height = 100
+                //TODO: habría que printear el contenido existentes, eso es posible?
+            }
+            Panel(it) with { it1 ->
+                asVertical()
+                Button(it1) with {
+                    caption = "<"
+                }
+                Button(it1) with {
+                    caption = ">"
+                }
+            }
+            List<ContentAppModel>(it) with {
+                width = 150
+                height = 100
+                //TODO: tienen que aparecer todas las opciones de contenidos
+                }
+            }
+        Panel(p0) with {
+            asHorizontal()
+            Button(it) with {
+                caption = "Accept"
+                onClick {
+                    updateModel()
+                    close()
+                }
+            }
+            Button(it) with {
+                caption = "Cancel"
+                onClick {
+                    resetModify()
+                    close()
                 }
             }
         }
-    private fun modifyCategoriesSerie()=modelObject.modifyCategories(modelObject.selectCategorySerie )
+    }
+    private fun resetModify() = modelObject.resetModify()
+    private fun updateModel() = modelObject.updateModel()
+    private fun modifyCategoriesSerie()=modelObject.addCategory(modelObject.selectCategorySerie )
     private fun modifyDeleteCategories() = modelObject.modifydeleteCategories(modelObject.selectCategorySerie)
 }

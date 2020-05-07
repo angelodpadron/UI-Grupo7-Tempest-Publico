@@ -21,44 +21,61 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
 
     override fun createFormPanel(p0: Panel) {
         title ="Add a new Serie"
-
         Panel(p0) with {
             asHorizontal()
+            Label(it) with {text = "Title"}
             TextBox(it) with {
                 title = "Title"
-                width = 300
+                width = 200
                 bindTo("title")
             }
+            Label(it) with {text = "Poster"}
             TextBox(it) with {
                 title = "Poster"
-                width = 200
+                width = 150
                 bindTo("poster")
             }
         }
 
         Panel(p0) with {
-            asHorizontal()
+            Label(it) with {
+                text = "Description"
+                align = "left"
+            }
+        }
+
+
+        Panel(p0) with {
+            asVertical()
             KeyWordTextArea(it) with {
                 title = "Description:"
                 width = 400
                 height = 100
                 bindTo("description")
             }
-
-            CheckBox(it) with {
-                title = "State"
-                bindTo("stateSerie").setTransformer(StateToBooleanTransformer())
-            }
-
-
         }
 
         Panel(p0) with {
             asHorizontal()
-            title = "Categories:"
+            Label(it) with {text = "Availability"}
+            CheckBox(it) with {
+                title = "State"
+                bindTo("stateSerie").setTransformer(StateToBooleanTransformer())
+            }
+        }
+
+        Panel(p0) with{
+            Label(it) with {
+                text = "Categories"
+                align = "left"
+            }
+        }
+
+        Panel(p0) with {
+            asHorizontal()
             List<CategoryAppModel>(it) with {
                 width = 150
-                height = 200
+                height = 100
                 bindItemsTo("categoriesSerie")
                 bindSelectedTo("selectCategoryDom")
             }
@@ -66,16 +83,16 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
                 asVertical()
                 Button(it) with {
                     caption = "<"
-                    onClick({ addCategory() })
+                    onClick { addCategory() }
                 }
                 Button(it) with {
                     caption = ">"
-                    onClick({ deleteCategory()})
+                    onClick { deleteCategory()}
                 }
             }
             List<CategoryAppModel>(it) with {
                 width = 150
-                height = 200
+                height = 100
                 bindItemsTo("categories").
                 adaptWithProp<CategoryAppModel>("categoryName")
 
@@ -83,12 +100,18 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             }
         }
 
+        Panel(p0) with{
+            Label(it) with {
+                text = "Related content"
+                align = "left"
+            }
+        }
+
         Panel(p0) with {
             asHorizontal()
-            title = "Related Content:"
             List<Content>(it) with {
                 width = 150
-                height = 200
+                height = 100
                 bindItemsTo("relatedContentSerie")
                 bindSelectedTo("selectContentDom")
             }
@@ -96,17 +119,17 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
                 asVertical()
                 Button(it) with {
                     caption = "<"
-                    onClick({ addContent() })
+                    onClick { addContent() }
                 }
                 Button(it) with {
                     caption = ">"
-                    onClick({deleteContent()})
+                    onClick {deleteContent()}
                 }
             }
             List<ContentAppModel>(it) with {
                 var unqflix: UNQflixAppModel
                 width = 150
-                height = 200
+                height = 100
                 bindItemsTo("contents")
                 bindSelectedTo("selectContentVm")
             }
@@ -116,13 +139,13 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             asHorizontal()
             Button(it) with {
                 caption = "Accept"
-                onClick({addNewSerie()
-                                close()})
-                }
+                onClick {addNewSerie()
+                    close()}
+            }
 
             Button(it) with {
                 caption = "Cancel"
-                onClick({ close() })
+                onClick { close() }
             }
         }
     }

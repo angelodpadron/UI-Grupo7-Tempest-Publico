@@ -14,40 +14,59 @@ class WindowModifiedChapter(owner: WindowOwner, chapterAppModel: ChapterAppModel
         }
 
         override fun createFormPanel(p0: Panel) {
-            TextBox(p0) with {
-                title = "Title:"
-                bindTo("title")
-            }
 
-            KeyWordTextArea(p0) with {
-                title = "Description:"
-                bindTo("description")
-            }
-
-            NumericField(p0) with {
-                title = "Duration:"
-                bindTo("duration")
-            }
-
-            TextBox(p0) with {
-                title = "Thumbnail:"
-                bindTo("thumbnail")
-            }
-
-            TextBox(p0) with {
-                title = "Video:"
-                bindTo("video")
+            Panel(p0) with {
+                asVertical()
+                Label(p0) with { text = "Title" }
+                TextBox(p0) with {
+                    title = "Title:"
+                    width = 200
+                    bindTo("title")
+                }
+                Label(p0) with { text = "Description" }
+                KeyWordTextArea(p0) with {
+                    title = "Description:"
+                    width = 200
+                    height = 200
+                    bindTo("description")
+                }
+                Label(p0) with { text = "Duration" }
+                NumericField(p0) with {
+                    title = "Duration:"
+                    width = 200
+                    bindTo("duration")
+                }
+                Label(p0) with { text = "Thumbnail" }
+                TextBox(p0) with {
+                    title = "Thumbnail:"
+                    width = 200
+                    bindTo("thumbnail")
+                }
+                Label(p0) with { text = "Video" }
+                TextBox(p0) with {
+                    title = "Video:"
+                    width = 200
+                    bindTo("video")
+                }
             }
 
             Panel(p0) with {
+                asHorizontal()
                 Button(it) with {
                     caption = "Accept"
-                    //TODO: onClick
+                    onClick {
+                        updateModel()
+                        close()
+                    }
                 }
                 Button(it) with {
                     caption = "Cancel"
-                    onClick({close()})
+                    onClick {
+                        resetModify()
+                        close()}
                 }
             }
         }
-    }
+    fun updateModel() = modelObject.updateModel()
+    fun resetModify() = modelObject.resetModify()
+}
