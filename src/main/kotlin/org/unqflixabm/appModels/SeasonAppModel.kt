@@ -1,9 +1,7 @@
 package org.unqflixabm.appModels
 
-import domain.Chapter
-import domain.ExistsException
-import domain.Season
-import domain.Serie
+import data.idGenerator
+import domain.*
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
 import org.uqbar.commons.model.exceptions.UserException
@@ -12,6 +10,7 @@ import org.uqbar.commons.model.exceptions.UserException
 
 class SeasonAppModel(var model: Season) {
 
+    val idSystem: IdGenerator = idGenerator
     var id: String = ""
     var title: String = ""
     var description: String = ""
@@ -62,7 +61,7 @@ class SeasonAppModel(var model: Season) {
     //----------Adds
 
     fun newChapter():Chapter{
-        return Chapter(getNextChapterId(),titleChapter,descriptionChapter,durationChapter,videoChapter,thumbNailChapter)
+        return Chapter(idSystem.nextChapterId(), titleChapter,descriptionChapter,durationChapter,videoChapter,thumbNailChapter)
     }
     fun addChapter(){
         try{
@@ -94,17 +93,4 @@ class SeasonAppModel(var model: Season) {
         }
     }
 
-    //QUERYS
-
-    fun getNextChapterId(): String {
-        var lastChapterId: String
-        if (this.chapters.isEmpty()) {
-            lastChapterId = "cha_1"
-        }
-        else {
-            lastChapterId = this.chapters .last().id
-            lastChapterId = "ser_${(lastChapterId.split("_").last()).toInt() + 1}"
-        }
-        return lastChapterId
-    }
 }

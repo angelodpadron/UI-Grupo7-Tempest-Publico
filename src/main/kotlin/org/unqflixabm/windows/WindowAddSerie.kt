@@ -12,6 +12,7 @@ import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 import org.uqbar.arena.widgets.List
+import java.awt.Color
 
 class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
     SimpleWindow<UNQflixAppModel>(owner, unqflixAppModel) {
@@ -76,7 +77,7 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             List<CategoryAppModel>(it) with {
                 width = 150
                 height = 100
-                bindItemsTo("categoriesSerie")
+                bindItemsTo("categoriesSerie").adaptWithProp<CategoryAppModel>("categoryName")
                 bindSelectedTo("selectCategoryDom")
             }
             Panel(it) with {
@@ -93,9 +94,7 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             List<CategoryAppModel>(it) with {
                 width = 150
                 height = 100
-                bindItemsTo("categories").
-                adaptWithProp<CategoryAppModel>("categoryName")
-
+                bindItemsTo("categories").adaptWithProp<CategoryAppModel>("categoryName")
                 bindSelectedTo("selectCategoryVm")
             }
         }
@@ -112,7 +111,7 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             List<Content>(it) with {
                 width = 150
                 height = 100
-                bindItemsTo("relatedContentSerie")
+                bindItemsTo("relatedContentSerie").adaptWithProp<ContentAppModel>("contentDescription")
                 bindSelectedTo("selectContentDom")
             }
             Panel(it) with {
@@ -130,7 +129,7 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
                 var unqflix: UNQflixAppModel
                 width = 150
                 height = 100
-                bindItemsTo("contents")
+                bindItemsTo("contents").adaptWithProp<ContentAppModel>("contentDescription")
                 bindSelectedTo("selectContentVm")
             }
         }

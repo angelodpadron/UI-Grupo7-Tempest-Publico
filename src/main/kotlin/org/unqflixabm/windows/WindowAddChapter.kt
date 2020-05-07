@@ -21,7 +21,7 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
 
         TextBox(p0) with {
             color = Color.WHITE
-            bgColor = Color.decode("#D50ACF")
+            bgColor = Color.decode("#3A383B")
             width = 220
             height =20
 
@@ -32,7 +32,7 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
 
         KeyWordTextArea(p0) with {
             color = Color.WHITE
-            bgColor = Color.decode("#B40AAF")
+            bgColor = Color.decode("#3A383B")
             width = 220
             height =80
             bindTo("descriptionChapter")
@@ -42,7 +42,7 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
 
         NumericField(p0) with {
             color = Color.WHITE
-            bgColor = Color.decode("#A300D3")
+            bgColor = Color.decode("#3A383B")
             width = 220
             height = 20
             bindTo("durationChapter")
@@ -52,7 +52,7 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
 
         TextBox(p0) with {
             color = Color.WHITE
-            bgColor = Color.decode("#870AAE")
+            bgColor = Color.decode("#3A383B")
             width = 220
             height= 20
             bindTo("thumbNailChapter")
@@ -62,8 +62,8 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
 
         TextBox(p0) with {
             color = Color.WHITE
-            bgColor = Color.decode("#580AAF")
-            background = Color.decode("#6801CD")
+            bgColor = Color.decode("#3A383B")
+            background = Color.decode("#3A383B")
             width = 220
             height = 20
             bindTo("videoChapter")
@@ -73,14 +73,14 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
             asHorizontal()
             Button(it) with {
                 caption = "Accept"
-                background = Color.decode("#580AAF")
+                background = Color.decode("#3A383B")
                 width = 110
                 onClick({addChapter()
                          close() })
             }
             Button(it) with {
                 caption = "Cancel"
-                bgColor = Color.decode("#580AAF")
+                bgColor = Color.decode("#3A383B")
                 width = 110
                 onClick({ close() })
             }

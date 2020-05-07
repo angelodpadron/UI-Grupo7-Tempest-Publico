@@ -1,6 +1,7 @@
 package org.unqflixabm.appModels
 
 import data.getUNQFlix
+import data.idGenerator
 import domain.*
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
@@ -9,6 +10,8 @@ import org.uqbar.commons.model.exceptions.UserException
 @Observable
 
 class SeriesAppModel (private var model: Serie) {
+
+    val idSystem: IdGenerator = idGenerator
     var systemCategories: MutableList<Category> = getUNQFlix().categories
     var id = ""
     var title = ""
@@ -92,7 +95,7 @@ class SeriesAppModel (private var model: Serie) {
     //----------Adds
 
     fun newSeason(): Season {
-        return Season(getNextSeasonId(), titleSeason, descriptionSeason, posterSeason, chaptersSeason)
+        return Season(idSystem.nextSeasonId(), titleSeason, descriptionSeason, posterSeason, chaptersSeason)
     }
 
     fun addSeason() {
@@ -152,19 +155,6 @@ class SeriesAppModel (private var model: Serie) {
             categories = initCategories()
         }
     }
-
-    //----------Querys
-
-        fun getNextSeasonId(): String {
-            var lastSeasonId: String
-            if (this.seasons.isEmpty()) {
-                lastSeasonId = "sea_1"
-            } else {
-                lastSeasonId = this.seasons.last().id
-                lastSeasonId = "ser_${(lastSeasonId.split("_").last()).toInt() + 1}"
-            }
-            return lastSeasonId
-        }
 
     //EXCEPTIONS
 

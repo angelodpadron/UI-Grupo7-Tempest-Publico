@@ -1,10 +1,13 @@
 package org.unqflixabm.appModels
 
+import data.idGenerator
 import domain.Chapter
+import domain.IdGenerator
 import org.uqbar.commons.model.annotations.Observable
 
 @Observable
 class ChapterAppModel (private var model: Chapter) {
+    val idSystem: IdGenerator = idGenerator
     val id: String
     var title: String
     var description: String

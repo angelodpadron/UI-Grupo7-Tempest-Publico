@@ -12,6 +12,7 @@ import support.itemFromList as dasdasdasdasdasdasd
 
 class UNQflixAppModel {
 
+    val idSystem: IdGenerator = idGenerator
     private var system: UNQFlix = getUNQFlix()
     var series: MutableList<SeriesAppModel> = initSeries()
     var categories: MutableList<CategoryAppModel> = initCategories()
@@ -42,7 +43,16 @@ class UNQflixAppModel {
         return system.categories.map { CategoryAppModel(it) }.toMutableList()
     }
     fun initContents(): MutableList<ContentAppModel> {
-        return system.banners.map { ContentAppModel(it) }.toMutableList()
+        val allContent = mutableListOf<ContentAppModel>()
+        allContent.addAll(initContentMovies())
+        allContent.addAll(initContentSeries())
+        return allContent
+    }
+    fun initContentMovies(): MutableList<ContentAppModel> {
+        return system.movies.map { ContentAppModel(it) }.toMutableList()
+    }
+    fun initContentSeries(): MutableList<ContentAppModel>{
+        return system.series.map {ContentAppModel(it)} .toMutableList()
     }
 
     //EXCEPTIONS
@@ -88,23 +98,10 @@ class UNQflixAppModel {
         }
     }
 
-    fun getNextSerieId():String {
-
-        var lastSerieId: String
-        if (this.series.isEmpty()) {
-            lastSerieId = "ser_1"
-        }
-        else {
-            lastSerieId = this.series.last().id
-            lastSerieId = "ser_${(lastSerieId.split("_").last()).toInt() + 1}"
-        }
-        return lastSerieId
-    }
-
     //ADDS
 
     fun newSerie(): Serie{
-        return Serie(getNextSerieId(),title,description,poster,stateSerie,categoriesSerie,seasonsSerie,relatedContentSerie)
+        return Serie(idSystem.nextSerieId(),title,description,poster,stateSerie,categoriesSerie,seasonsSerie,relatedContentSerie)
     }
     fun addSerie(){
         try {

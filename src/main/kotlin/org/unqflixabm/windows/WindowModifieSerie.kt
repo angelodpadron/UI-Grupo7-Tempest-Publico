@@ -125,8 +125,8 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                 width = 150
                 height = 100
                 //TODO: tienen que aparecer todas las opciones de contenidos
-                }
             }
+        }
         Panel(p0) with {
             asHorizontal()
             Button(it) with {
