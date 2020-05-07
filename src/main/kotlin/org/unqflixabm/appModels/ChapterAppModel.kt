@@ -21,5 +21,25 @@ class ChapterAppModel (private var model: Chapter) {
         this.thumbnail = model.thumbnail
     }
 
+    //---------- Modify
+
+    fun updateModel(){
+        model.title = title
+        model.description = description
+        model.duration = duration
+        model.video = video
+        model.thumbnail = thumbnail
+    }
+
+    fun resetModify(){
+        this.title = model.title
+        this.description = model.description
+        this.duration = model.duration
+        this.video = model.video
+        this.thumbnail = model.thumbnail
+    }
+
+    //---------- ViewModel to Model
+
     fun model():Chapter = model
 }

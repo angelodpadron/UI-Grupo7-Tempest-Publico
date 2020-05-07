@@ -7,6 +7,7 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
+import java.awt.Color
 
 class WindowShowChapters(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
     SimpleWindow<SeasonAppModel>(owner, seasonAppModel) {
@@ -23,13 +24,9 @@ class WindowShowChapters(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
 
             table<ChapterAppModel>(p0) {
                 title = "Chapters:"
+                visibleRows = 10
                 bindItemsTo("chapters")
                 bindSelectionTo("selectChapter")
-                column {
-                    title = "#"
-                    fixedSize = 75
-                    bindContentsTo("id") //TODO: probablemente haya que sacarlo
-                }
                 column {
                     title = "Title"
                     fixedSize = 300
@@ -38,16 +35,29 @@ class WindowShowChapters(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
                 column {
                     title = "Duration"
                     fixedSize = 75
+                    background = Color.decode("#3A383B")
+                    color = Color.WHITE
                     bindContentsTo("duration")
+                }
+                column {
+                    title = "#"
+                    fixedSize = 75
+                    bindContentsTo("id") //TODO: probablemente haya que sacarlo
                 }
             }
 
             Panel(p0) with {
+                asHorizontal()
                 Button(it) with {
                     caption = "Add new chapter"
-                    //TODO: onClick
+                    bgColor = Color.decode("#580AAF")
+                    width = 200
+
+                    onClick({WindowAddChapter(owner,selectedSeason).open()})
                 }
                 Button(it) with {
+                    bgColor = Color.decode("#580AAF")
+                    width = 200
                     caption = "Modify chapter"
                     onClick({tryCatchNonSelectChapterException()
                              WindowModifiedChapter(owner,selectedSeason?.selectChapter).open()})

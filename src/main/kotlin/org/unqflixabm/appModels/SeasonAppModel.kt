@@ -10,8 +10,8 @@ import org.uqbar.commons.model.exceptions.UserException
 
 @Observable
 
-class SeasonAppModel(private var model: Season) {
-    var system: Season = model
+class SeasonAppModel(var model: Season) {
+
     var id: String = ""
     var title: String = ""
     var description: String = ""
@@ -20,52 +20,64 @@ class SeasonAppModel(private var model: Season) {
     var numberOfChapters: Int
     var selectChapter: ChapterAppModel? = null
 
+    //----------Required Fields To add a new Chapter
+    var titleChapter: String = ""
+    var descriptionChapter: String = ""
+    var durationChapter: Int = 0
+    var thumbNailChapter: String = ""
+    var videoChapter: String = ""
+    //
+
     init {
         this.id = model.id
         this.title = model.title
         this.description = model.description
         this.poster = model.poster
-        this.chapters = initChapters(model)
+        this.chapters = initChapters()
         this.numberOfChapters = this.chapters.count()
     }
 
-    fun initChapters(season: Season): MutableList<ChapterAppModel> {
-        return season.chapters.map { ChapterAppModel(it) }.toMutableList()
+    fun updateModel(){
+        model.title = title
+        model.description = description
+        model.poster = poster
     }
 
-    //To Model
+    fun resetModify(){
+        title = model.title
+        description = model.description
+        poster = model.poster
+    }
+
+    //----------SetUp
+
+    fun initChapters(): MutableList<ChapterAppModel> {
+        return model.chapters.map { ChapterAppModel(it) }.toMutableList()
+    }
+
+    //----------ViewModel to Model
+
     fun model(): Season = model
 
-    private fun toChapter(chapterAppModel: ChapterAppModel): Chapter {
-        return Chapter(
-            chapterAppModel.id,
-            chapterAppModel.title,
-            chapterAppModel.description,
-            chapterAppModel.duration,
-            chapterAppModel.video,
-            chapterAppModel.thumbnail
-        )
+    //----------Adds
+
+    fun newChapter():Chapter{
+        return Chapter(getNextChapterId(),titleChapter,descriptionChapter,durationChapter,videoChapter,thumbNailChapter)
     }
-    //Querys
-
-    fun addChapter(chapterAppModel: ChapterAppModel){
-        //agregar al modelo
-        system.addChapter(chapterAppModel.model())
-        //update viewmodel
-        this.initChapters(model)
-    }
-
-    //Exceptions
-
-    fun catchExistChapterException(chapter: ChapterAppModel){
-        var season : SeasonAppModel = this
+    fun addChapter(){
         try{
-            season.addChapter(chapter)
+            //agregar al modelo
+            model.addChapter(newChapter())
+            //update viewmodel
+            chapters = initChapters()
+            numberOfChapters = this.chapters.count()
         }
         catch( e : ExistsException){
-            UserException(e.message)
+            throw UserException(e.message)
         }
     }
+
+    //EXCEPTIONS
 
     fun catchNonSelectChapterException(selectChapter: ChapterAppModel?){
         try{
@@ -75,9 +87,24 @@ class SeasonAppModel(private var model: Season) {
             throw UserException(e.message)
         }
     }
+
     fun nonSelectChapterException(selectChapter: ChapterAppModel?){
         if (selectChapter == null) {
             throw NonSelectException("Please select a chapter before continue")
         }
+    }
+
+    //QUERYS
+
+    fun getNextChapterId(): String {
+        var lastChapterId: String
+        if (this.chapters.isEmpty()) {
+            lastChapterId = "cha_1"
+        }
+        else {
+            lastChapterId = this.chapters .last().id
+            lastChapterId = "ser_${(lastChapterId.split("_").last()).toInt() + 1}"
+        }
+        return lastChapterId
     }
 }

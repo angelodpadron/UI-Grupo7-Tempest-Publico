@@ -13,5 +13,13 @@ class CategoryAppModel(var category: Category){
         this.id = category.id
         this.name = category.name
     }
+
+    //TO MODEL
+
+    fun toModel(): Category = category
+
+    //ADAPTERS
+
     fun categoryName() = "$name"
+
 }
