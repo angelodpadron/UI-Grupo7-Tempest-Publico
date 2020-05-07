@@ -22,12 +22,13 @@ class SeriesAppModel (private var model: Serie) {
     var selectSeason: SeasonAppModel? = null
     var relatedContent: MutableList<ContentAppModel> = mutableListOf()
 
-    //Required fields to create a new Season
+    //----------Required fields to create a new Season
     var titleSeason: String = ""
     var descriptionSeason: String = ""
     var posterSeason: String = ""
     var chaptersSeason: MutableList<Chapter> = mutableListOf()
-    //Selector For modify serie's categories or relatedContens
+
+    //---------Selector For modify serie's categories or relatedContens
     var selectCategorySerie : CategoryAppModel? = null
     var selectContentSerie : ContentAppModel? = null
 
@@ -44,7 +45,7 @@ class SeriesAppModel (private var model: Serie) {
         this.categoriesSyst = initCategoriesSyst()
     }
 
-    //INITIATORS
+    //---------SetUp
 
     fun initSeasons(): MutableList<SeasonAppModel> {
         return model.seasons.map { SeasonAppModel(it) }.toMutableList()
@@ -62,11 +63,33 @@ class SeriesAppModel (private var model: Serie) {
         return systemCategories.map { CategoryAppModel(it) }.toMutableList()
     }
 
-    //TO MODEL
+    //---------Modify
+
+    fun updateModel(){
+        model.title = title
+        model.poster = poster
+        model.description = description
+        model.categories = categories.map { it.toModel() }.toMutableList()
+        model.relatedContent = relatedContent.map { it.toModel() }.toMutableList()
+        model.state = state
+
+
+    }
+
+    fun resetModify(){
+        this.title = model.title
+        this.description = model.description
+        this.poster = model.poster
+        this.state = model.state
+        this.categories = initCategories()
+        this.relatedContent = initContents()
+    }
+
+    //---------- ViewModel to Model
 
     fun toModel() = model
 
-    //ADDS
+    //----------Adds
 
     fun newSeason(): Season {
         return Season(getNextSeasonId(), titleSeason, descriptionSeason, posterSeason, chaptersSeason)
@@ -96,30 +119,22 @@ class SeriesAppModel (private var model: Serie) {
 
     fun addCategory(selectCategoryVm: CategoryAppModel?) {
         if (selectCategoryVm != null) {
-            //addCategoryToModel
-            model.categories.add(selectCategoryVm.toModel())
-            //update viewmodel
-            categories = initCategories()
+            categories.add(selectCategoryVm)
         }
     }
 
-    fun modifyCategories(selectCategorySerie: CategoryAppModel?){
-        if (selectCategorySerie != null){
-            model.categories.add(selectCategorySerie.toModel())
-
-            categories = initCategories()
-        }
-    }
 
     fun modifydeleteCategories(selectCategorySerie: CategoryAppModel?){
         if (selectCategorySerie!= null){
-            model.categories.remove(selectCategorySerie.toModel())
+            //model.categories.remove(selectCategorySerie.toModel())
+            categories.remove(selectCategorySerie)
 
-            categories = initCategories()
+            //categories = initCategories()
         }
+
     }
 
-    //DElETES
+    //----------Deletes
 
     fun deleteCategory(selectCategoryDom: Category?) {
         if (selectCategoryDom != null) {
@@ -138,7 +153,7 @@ class SeriesAppModel (private var model: Serie) {
         }
     }
 
-        //QUERYS
+    //----------Querys
 
         fun getNextSeasonId(): String {
             var lastSeasonId: String
@@ -151,40 +166,22 @@ class SeriesAppModel (private var model: Serie) {
             return lastSeasonId
         }
 
-        //EXCEPTIONS
+    //EXCEPTIONS
 
-        /*
-   @Function  control that a season is selected before interact with him
-   */
-        fun catchNonSelectSeasonException(selectSeason: SeasonAppModel?) {
-            try {
-                this.nonSelectSeasonException(selectSeason)
-            } catch (e: NonSelectException) {
-                throw UserException(e.message)
-            }
+    fun catchNonSelectSeasonException(selectSeason: SeasonAppModel?) {
+        try {
+            this.nonSelectSeasonException(selectSeason)
+        } catch (e: NonSelectException) {
+            throw UserException(e.message)
         }
+    }
 
-        fun nonSelectSeasonException(selectSeason: SeasonAppModel?) {
-            if (selectSeason == null) {
-                throw NonSelectException("Please select a season before continue")
-            }
+    fun nonSelectSeasonException(selectSeason: SeasonAppModel?) {
+        if (selectSeason == null) {
+            throw NonSelectException("Please select a season before continue")
         }
-
-
-
+    }
 }
-
-    //transform (temporal)
-    //private fun fromState(cs: ContentState): Boolean = cs.javaClass == Available().javaClass
-
-    //private fun fromBoolean(b: Boolean): ContentState{
-    //    return if (b){
-    //        Available()
-    //    }
-    //    else{
-    //        Unavailable()
-    //    }
-    //}
 
 
 

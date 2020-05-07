@@ -10,9 +10,8 @@ import org.uqbar.commons.model.exceptions.UserException
 
 @Observable
 
-class SeasonAppModel(private var model: Season) {
+class SeasonAppModel(var model: Season) {
 
-    var system: Season = model
     var id: String = ""
     var title: String = ""
     var description: String = ""
@@ -20,7 +19,8 @@ class SeasonAppModel(private var model: Season) {
     var chapters: MutableList<ChapterAppModel> = mutableListOf()
     var numberOfChapters: Int
     var selectChapter: ChapterAppModel? = null
-    //Required Fields To add a new Chapter
+
+    //----------Required Fields To add a new Chapter
     var titleChapter: String = ""
     var descriptionChapter: String = ""
     var durationChapter: Int = 0
@@ -37,17 +37,29 @@ class SeasonAppModel(private var model: Season) {
         this.numberOfChapters = this.chapters.count()
     }
 
-    //INITIATORS
+    fun updateModel(){
+        model.title = title
+        model.description = description
+        model.poster = poster
+    }
+
+    fun resetModify(){
+        title = model.title
+        description = model.description
+        poster = model.poster
+    }
+
+    //----------SetUp
 
     fun initChapters(): MutableList<ChapterAppModel> {
         return model.chapters.map { ChapterAppModel(it) }.toMutableList()
     }
 
-    //TO MODEL
+    //----------ViewModel to Model
 
     fun model(): Season = model
 
-    //ADDS
+    //----------Adds
 
     fun newChapter():Chapter{
         return Chapter(getNextChapterId(),titleChapter,descriptionChapter,durationChapter,videoChapter,thumbNailChapter)
@@ -55,7 +67,7 @@ class SeasonAppModel(private var model: Season) {
     fun addChapter(){
         try{
             //agregar al modelo
-            system.addChapter(newChapter())
+            model.addChapter(newChapter())
             //update viewmodel
             chapters = initChapters()
             numberOfChapters = this.chapters.count()
@@ -67,9 +79,6 @@ class SeasonAppModel(private var model: Season) {
 
     //EXCEPTIONS
 
-    /*
-    @Function  control that a chapter is selected before interact with him
-     */
     fun catchNonSelectChapterException(selectChapter: ChapterAppModel?){
         try{
             this.nonSelectChapterException(selectChapter)
@@ -78,6 +87,7 @@ class SeasonAppModel(private var model: Season) {
             throw UserException(e.message)
         }
     }
+
     fun nonSelectChapterException(selectChapter: ChapterAppModel?){
         if (selectChapter == null) {
             throw NonSelectException("Please select a chapter before continue")
