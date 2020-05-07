@@ -6,7 +6,6 @@ import domain.*
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
 import org.uqbar.commons.model.exceptions.UserException
-import support.itemFromList as dasdasdasdasdasdasd
 
 @Observable
 

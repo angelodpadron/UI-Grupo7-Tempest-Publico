@@ -6,7 +6,6 @@ import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
-import org.uqbar.arena.windows.Dialog
 import java.awt.Color
 
 class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):

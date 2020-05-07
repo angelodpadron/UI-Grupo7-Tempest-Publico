@@ -3,6 +3,7 @@ package org.unqflixabm.appModels
 import data.getUNQFlix
 import data.idGenerator
 import domain.*
+import org.unqflixabm.exceptions.ExistsCategory
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
 import org.uqbar.commons.model.exceptions.UserException
@@ -120,9 +121,23 @@ class SeriesAppModel (private var model: Serie) {
         }
     }
 
+    private fun existsCategoryException(serie:Serie,selectCategoryVm: CategoryAppModel?) {
+        if (SeriesAppModel (serie).categories.any {it.name == selectCategoryVm?.name}){
+            throw ExistsCategory("This category has already been added")
+        }
+    }
     fun addCategory(selectCategoryVm: CategoryAppModel?) {
-        if (selectCategoryVm != null) {
-            categories.add(selectCategoryVm)
+        try {
+            existsCategoryException(model,selectCategoryVm)
+            if (selectCategoryVm != null) {
+                //addCategoryToModel
+                model.categories.add(selectCategoryVm.toModel())
+                //update viewmodel
+                categories = initCategories()
+            }
+        }
+        catch(e: ExistsCategory){
+            throw UserException(e.message)
         }
     }
 
@@ -168,7 +183,7 @@ class SeriesAppModel (private var model: Serie) {
 
     fun nonSelectSeasonException(selectSeason: SeasonAppModel?) {
         if (selectSeason == null) {
-            throw NonSelectException("Please select a season before continue")
+            throw NonSelectException("Please select a season before proceeding")
         }
     }
 }

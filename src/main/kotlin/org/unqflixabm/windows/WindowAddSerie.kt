@@ -1,6 +1,5 @@
 package org.unqflixabm.windows
 
-import domain.Category
 import domain.Content
 import org.unqflixabm.appModels.CategoryAppModel
 import org.unqflixabm.appModels.ContentAppModel
@@ -12,7 +11,6 @@ import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 import org.uqbar.arena.widgets.List
-import java.awt.Color
 
 class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
     SimpleWindow<UNQflixAppModel>(owner, unqflixAppModel) {

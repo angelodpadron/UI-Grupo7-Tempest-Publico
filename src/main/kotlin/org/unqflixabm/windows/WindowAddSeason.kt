@@ -1,6 +1,5 @@
 package org.unqflixabm.windows
 
-import org.unqflixabm.appModels.SeasonAppModel
 import org.unqflixabm.appModels.SeriesAppModel
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
