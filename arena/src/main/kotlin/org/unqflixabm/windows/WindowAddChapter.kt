@@ -74,18 +74,21 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
                 caption = "Accept"
                 background = Color.decode("#3A383B")
                 width = 110
-                onClick({addChapter()
-                         close() })
+                onClick {addChapter()
+                    resetAddChapter()
+                    close() }
             }
             Button(it) with {
                 caption = "Cancel"
                 bgColor = Color.decode("#3A383B")
                 width = 110
-                onClick({ close() })
+                onClick { resetAddChapter()
+                    close() }
             }
         }
     }
     private fun addChapter() = modelObject.addChapter()
+    private fun resetAddChapter() = modelObject.resetAddChapter()
 }
 
 

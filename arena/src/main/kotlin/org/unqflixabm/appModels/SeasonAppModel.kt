@@ -48,6 +48,14 @@ class SeasonAppModel(var model: Season) {
         poster = model.poster
     }
 
+    fun resetAddChapter(){
+        titleChapter = ""
+        descriptionChapter = ""
+        durationChapter = 0
+        thumbNailChapter = ""
+        videoChapter = ""
+    }
+
     //----------SetUp
 
     fun initChapters(): MutableList<ChapterAppModel> {
