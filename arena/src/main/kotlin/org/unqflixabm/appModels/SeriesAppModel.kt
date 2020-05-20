@@ -89,6 +89,12 @@ class SeriesAppModel (private var model: Serie) {
         this.relatedContent = initContents()
     }
 
+    fun resetAddSeason(){
+        titleSeason = ""
+        descriptionSeason = ""
+        posterSeason = ""
+    }
+
     //---------- ViewModel to Model
 
     fun toModel() = model

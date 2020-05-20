@@ -45,17 +45,20 @@ class WindowAddSeason(owner: WindowOwner, seriesAppModel: SeriesAppModel):
                 width = 110
                 height = 30
                 bgColor = Color.decode("#870AAE")
-                onClick({addNewSeason()
-                         close()})
+                onClick {addNewSeason()
+                    resetAddSeason()
+                    close()}
             }
             Button(it) with {
                 width = 110
                 height = 30
                 caption = "Cancel"
                 bgColor = Color.decode("#870AAE")
-                onClick({close()})
+                onClick {resetAddSeason()
+                    close()}
             }
         }
     }
     private fun addNewSeason()= modelObject.addSeason()
+    private fun resetAddSeason() = modelObject.resetAddSeason()
 }
