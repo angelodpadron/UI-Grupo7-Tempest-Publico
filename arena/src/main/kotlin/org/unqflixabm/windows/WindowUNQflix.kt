@@ -2,11 +2,13 @@ package org.unqflixabm.windows
 
 import org.unqflixabm.appModels.SeriesAppModel
 import org.unqflixabm.appModels.UNQflixAppModel
+import org.uqbar.arena.kotlin.extensions.*
+import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.KeyWordTextArea
+import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
-import org.uqbar.arena.kotlin.extensions.*
-import org.uqbar.arena.widgets.*
 import java.awt.Color
 
 class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
@@ -59,17 +61,18 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
                 bindContentsTo("id")
             }
             column {
-                title = "State"
+                title = "Available?"
                 fixedSize = 200
+                align("center")
                 background = Color.decode("#3A383B")
                 color = Color.WHITE
-                bindContentsTo("state")
-                //TODO: extraer estado real
+                bindContentsTo("stateToView")
             }
         }
 
         Panel (p0) with {
             asHorizontal()
+
             Button(it) with {
                 caption = "Add new Serie"
                 bgColor = Color.decode("#580AAF")
@@ -80,22 +83,22 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
                 caption = "Modify Serie"
                 bgColor = Color.decode("#580AAF")
                 width = 200
-                onClick({tryNonSelectException()
-                         WindowModifieSerie(owner,modelo.selectSerie).open()})
+                onClick {tryNonSelectException()
+                    WindowModifieSerie(owner,modelo.selectSerie).open()}
             }
             Button(it) with {
                 caption = "Delete Serie"
                 bgColor = Color.decode("#580AAF")
                 width = 200
-                onClick({tryNonSelectException()
-                         confirmDelete().open()})
+                onClick {tryNonSelectException()
+                    confirmDelete().open()}
             }
             Button(it) with {
                 caption = "Show Serie"
                 bgColor = Color.decode("#580AAF")
                 width = 200
-                onClick({tryNonSelectException()
-                          WindowShowSerie(owner,modelo.selectSerie).open()})
+                onClick {tryNonSelectException()
+                    WindowShowSerie(owner,modelo.selectSerie).open()}
 
             }
         }

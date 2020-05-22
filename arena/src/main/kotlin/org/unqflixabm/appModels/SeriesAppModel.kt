@@ -99,6 +99,10 @@ class SeriesAppModel (private var model: Serie) {
 
     fun toModel() = model
 
+    //---------- ViewModel to View
+
+    fun stateToView(): String = if (this.state.toString().contains("Available")) "Yes" else "No"
+
     //----------Adds
 
     fun newSeason(): Season {
