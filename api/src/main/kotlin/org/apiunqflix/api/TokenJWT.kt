@@ -7,6 +7,8 @@ import domain.User
 import javalinjwt.JWTGenerator
 import java.lang.Exception
 
+class NotFoundToken: Exception()
+
 class UserGenerator : JWTGenerator<User> {
     override fun generate(user: User, algorithm: Algorithm): String {
         val token = JWT.create().withClaim("id", user.id)
@@ -27,7 +29,7 @@ class TokenJWT {
 
     fun validate(token: String): String {
         val token = provider.validateToken(token)
-        if (!token.isPresent) throw Exception() //token not found
+        if (!token.isPresent) throw NotFoundToken() //token not found
         return token.get().getClaim("id").asString()
     }
 }
