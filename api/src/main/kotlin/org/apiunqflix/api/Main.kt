@@ -9,52 +9,50 @@ import javalinjwt.JWTAccessManager
 import org.apiunqflix.controller.UNQFlixController
 import org.apiunqflix.controller.UserController
 
-enum class Roles : Role{
-    ANYONE,USER,ADMIN
+enum class Roles: Role {
+    ANYONE, USER
 }
 fun main() {
     val app = Javalin.create {
-        it.defaultContentType ="application/json"
+        it.defaultContentType = "application/json"
         it.registerPlugin(RouteOverviewPlugin("/routes"))
         it.enableCorsForAllOrigins()
     }
     app.start(7000)
-    val jwtAccessManager= JWTAccessManager()
-    val unqflix = getUNQFlix()
+    //resources
+    val jwtAccessManager = JWTAccessManager()
+    val backend = getUNQFlix()
     val tokenJWT = TokenJWT()
 
     //controllers
-    val userController = UserController(unqflix, tokenJWT)
-    val unqFlixController = UNQFlixController(unqflix,tokenJWT)
+    val userController = UserController(backend, tokenJWT)
+    val unqFlixController = UNQFlixController(backend, tokenJWT)
+    //
 
-
-    app.routes{
-        // usuarios
-        path("/register"){
-            post(userController::register, mutableSetOf<Role>(Roles.ANYONE))
-        }
-        path("/login"){
+    app.routes {
+        path("/login") {
             post(userController::login, mutableSetOf<Role>(Roles.ANYONE))
         }
-        path("/User"){
-            get (userController::getUserFeatures,mutableSetOf<Role>(Roles.USER,Roles.ADMIN))
-            path("/fav"){
-                path("/:idContent"){
-                    post(userController::addUserFavConent,mutableSetOf<Role>(Roles.USER))
+        path("/User") {
+            get(userController::getUserFeatures, mutableSetOf<Role>(Roles.USER))
+            path("/fav") {
+                path("/:idContent") {
+                    post(userController::addUserFavConent, mutableSetOf<Role>(Roles.USER))
                 }
             }
-            path("/lastSeen"){
-                post(userController::addUserLastSeen,mutableSetOf<Role>(Roles.USER,Roles.ADMIN))
+            path("/lastSeen") {
+                post(userController::addUserLastSeen, mutableSetOf<Role>(Roles.USER))
             }
         }
-        path("/content"){
-            get(unqFlixController::getAvailableContent,mutableSetOf<Role>(Roles.USER,Roles.ADMIN))
-            path("/:contentId"){
-                get(unqFlixController::getContent,mutableSetOf<Role>(Roles.USER,Roles.ADMIN))
+        path("/content") {
+            get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Roles.USER))
+            path("/:contentId") {
+                get(unqFlixController::getContent, mutableSetOf<Role>(Roles.USER))
             }
         }
-        path("/search?text={text}"){
-            get(unqFlixController::searchText,mutableSetOf<Role>(Roles.USER,Roles.ADMIN))
+        path("/search?text={text}") {
+            get(unqFlixController::searchText, mutableSetOf<Role>(Roles.USER))
         }
 
+    }
 }
