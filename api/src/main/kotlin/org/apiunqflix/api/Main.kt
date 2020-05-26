@@ -8,36 +8,37 @@ import io.javalin.core.util.RouteOverviewPlugin
 import org.apiunqflix.controller.UserController
 
 enum class Rol: Role {
-    ANYONE, USER, ADMIN
+    INVITED, ACTIVE_USER
 }
 
 fun main() {
-    val app = Javalin.create {
-        it.defaultContentType ="application/json"
-        it.registerPlugin(RouteOverviewPlugin("/routes"))
-        it.enableCorsForAllOrigins()
-    }
-    app.start(7000)
 
     val backend = getUNQFlix()
     val tokenJWT = TokenJWT()
+    val accessManager = JWTManager(tokenJWT, backend)
 
     //controllers
     val userController = UserController(backend, tokenJWT)
 
+    val app = Javalin.create {
+        it.defaultContentType ="application/json"
+        it.registerPlugin(RouteOverviewPlugin("/routes"))
+        it.enableCorsForAllOrigins()
+        it.accessManager(accessManager)
+    }
+
+    app.start(7000)
+
     app.routes{
         // usuarios
         path("/login"){
-            post(userController::login)
+            post(userController::login, mutableSetOf<Role>(Rol.INVITED, Rol.ACTIVE_USER))
         }
         path("/register"){
-            post(userController::register)
+            post(userController::register, mutableSetOf<Role>(Rol.INVITED))
         }
         path("/user"){
-            path("/:id"){
-                get(userController::getUser)
-            }
+            get(userController::getUser, mutableSetOf<Role>(Rol.ACTIVE_USER))
         }
     }
-
 }
