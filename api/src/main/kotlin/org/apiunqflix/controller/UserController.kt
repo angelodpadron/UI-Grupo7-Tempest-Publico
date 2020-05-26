@@ -23,7 +23,7 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
         val user = unqflix.users.find { it.email == loginUser.email && it.password == loginUser.password } ?: throw NotFoundResponse("Usuario o contraseña incorrectos")
 
         ctx.status(200)
-        ctx.header("Authentication", token.generateToken(user))
+        ctx.header("userAuthorization", token.generateToken(user))
         ctx.json(mapOf("result" to "ok"))
     }
 

@@ -20,9 +20,9 @@ fun main() {
     }
     app.start(7000)
     //resources
-    val jwtAccessManager = JWTAccessManager()
     val backend = getUNQFlix()
     val tokenJWT = TokenJWT()
+    val jwtAccessManager = JWTAccessManager(tokenJWT,backend)
 
     //controllers
     val userController = UserController(backend, tokenJWT)
@@ -37,22 +37,25 @@ fun main() {
             get(userController::getUserFeatures, mutableSetOf<Role>(Roles.USER))
             path("/fav") {
                 path("/:idContent") {
-                    post(userController::addUserFavConent, mutableSetOf<Role>(Roles.USER))
+                    post(userController::addUserFavContent, mutableSetOf<Role>(Roles.USER))
                 }
             }
             path("/lastSeen") {
                 post(userController::addUserLastSeen, mutableSetOf<Role>(Roles.USER))
             }
         }
-        path("/content") {
-            get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Roles.USER))
-            path("/:contentId") {
-                get(unqFlixController::getContent, mutableSetOf<Role>(Roles.USER))
-            }
-        }
-        path("/search?text={text}") {
-            get(unqFlixController::searchText, mutableSetOf<Role>(Roles.USER))
-        }
+        //path("/banners"){
+        //    get(unqFlixController::getBanners, mutableSetOf<Role>(Roles.USER))
+        //}
+        //path("/content") {
+        //    get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Roles.USER))
+        //    path("/:contentId") {
+        //        get(unqFlixController::getContentById, mutableSetOf<Role>(Roles.USER))
+        //    }
+        //}
+        //path("/search?text={text}") {
+        //    get(unqFlixController::searchText, mutableSetOf<Role>(Roles.USER))
+        //}
 
     }
 }
