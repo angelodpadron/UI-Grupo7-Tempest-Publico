@@ -17,22 +17,30 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
 
     fun login(ctx: Context){
 
-        val loginUser = ctx.bodyValidator<LoginUserMapper>()
-                .check({
-                    it.email != null && it.password != null
-                }, "Datos incompletos").
-                get()
+        val entryToken = ctx.header("Authorization")
 
-        val user = unqflix.users.find { it.email == loginUser.email && it.password == loginUser.password } ?: throw NotFoundResponse("Usuario o contraseña incorrectos")
+        if (entryToken == null) {
+            val loginUser = ctx.bodyValidator<LoginUserMapper>()
+                    .check({
+                        it.email != null && it.password != null
+                    }, "Datos incompletos").
+                    get()
 
-        ctx.status(200)
-        ctx.header("Authentication", token.generateToken(user))
-        ctx.json(mapOf("result" to "ok"))
+            val user = unqflix.users.find { it.email == loginUser.email && it.password == loginUser.password } ?: throw NotFoundResponse("Usuario o contraseña incorrectos")
+            ctx.header("Authentication", token.generateToken(user))
+            ctx.status(200)
+            ctx.json(mapOf("result" to "ok"))
+
+        }
+        else{
+            token.validate(entryToken)
+            ctx.status(200)
+            ctx.json(mapOf("result" to "ok"))
+        }
     }
 
     fun getUser(ctx: Context){
-        //jwt manager
-        val id = ctx.pathParam("id")
+        val id = ctx.header("Authorization")?.let { token.validate(it) }
         val user = unqflix.users.find { it.id == id } ?: throw NotFoundResponse("User not found")
 
         val viewUser = UserViewMapper(
