@@ -13,16 +13,18 @@ enum class Roles: Role {
     ANYONE, USER
 }
 fun main() {
-    val app = Javalin.create {
-        it.defaultContentType = "application/json"
-        it.registerPlugin(RouteOverviewPlugin("/routes"))
-        it.enableCorsForAllOrigins()
-    }
-    app.start(7000)
     //resources
     val backend = getUNQFlix()
     val tokenJWT = TokenJWT()
     val jwtAccessManager = JWTAccessManager(tokenJWT,backend)
+
+    val app = Javalin.create {
+        it.defaultContentType = "application/json"
+        it.registerPlugin(RouteOverviewPlugin("/routes"))
+        it.enableCorsForAllOrigins()
+        it.accessManager(jwtAccessManager)
+    }
+    app.start(7000)
 
     //controllers
     val userController = UserController(backend, tokenJWT)
@@ -45,10 +47,10 @@ fun main() {
             }
         }
         path("/banners"){
-            get(unqFlixController::getAllBanners, mutableSetOf<Role>(Roles.USER))
+            get(unqFlixController::getAllBanners, mutableSetOf<Role>(Roles.ANYONE))
         }
         path("/content") {
-            get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Roles.USER))
+            get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Roles.ANYONE ))
         //    path("/:contentId") {
         //        get(unqFlixController::getContentById, mutableSetOf<Role>(Roles.USER))
         //    }

@@ -29,8 +29,8 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
 
     fun getUserFeatures(ctx: Context){
         //jwt manager
-        val id = ctx.pathParam("id")
-        val user = unqflix.users.find { it.id == id } ?: throw NotFoundResponse("User not found")
+        val idUser = ctx.header("userAuthorization")
+        val user = unqflix.users.find { it.id == idUser } ?: throw NotFoundResponse("User not found")
 
         val viewUser = UserViewMapper(
                 user.name,
