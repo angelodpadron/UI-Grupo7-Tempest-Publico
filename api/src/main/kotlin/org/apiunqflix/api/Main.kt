@@ -5,6 +5,8 @@ import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.core.security.Role
 import io.javalin.core.util.RouteOverviewPlugin
+import javalinjwt.JWTAccessManager
+import org.apiunqflix.controller.UNQFlixController
 import org.apiunqflix.controller.UserController
 
 enum class Rol: Role {
@@ -13,12 +15,15 @@ enum class Rol: Role {
 
 fun main() {
 
+    //resources
     val backend = getUNQFlix()
     val tokenJWT = TokenJWT()
     val accessManager = JWTManager(tokenJWT, backend)
 
     //controllers
     val userController = UserController(backend, tokenJWT)
+    val unqFlixController = UNQFlixController(backend, tokenJWT)
+
 
     val app = Javalin.create {
         it.defaultContentType ="application/json"
@@ -29,16 +34,36 @@ fun main() {
 
     app.start(7000)
 
-    app.routes{
-        // usuarios
-        path("/login"){
+    app.routes {
+        path("/login") {
             post(userController::login, mutableSetOf<Role>(Rol.INVITED, Rol.ACTIVE_USER))
         }
         path("/register"){
             post(userController::register, mutableSetOf<Role>(Rol.INVITED))
         }
-        path("/user"){
-            get(userController::getUser, mutableSetOf<Role>(Rol.ACTIVE_USER))
+        path("/user") {
+            get(userController::getUserFeatures, mutableSetOf<Role>(Rol.ACTIVE_USER))
+            path("/fav") {
+                path("/:idContent") {
+                    post(userController::addUserFavContent, mutableSetOf<Role>(Rol.ACTIVE_USER))
+                }
+            }
+            path("/lastSeen") {
+                post(userController::addUserLastSeen, mutableSetOf<Role>(Rol.ACTIVE_USER))
+            }
         }
+        path("/banners"){
+            get(unqFlixController::getAllBanners, mutableSetOf<Role>(Rol.INVITED))
+        }
+        path("/content") {
+            get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Rol.INVITED ))
+        //    path("/:contentId") {
+        //        get(unqFlixController::getContentById, mutableSetOf<Role>(Roles.USER))
+        //    }
+        }
+        //path("/search?text={text}") {
+        //    get(unqFlixController::searchText, mutableSetOf<Role>(Roles.USER))
+        //}
+
     }
 }

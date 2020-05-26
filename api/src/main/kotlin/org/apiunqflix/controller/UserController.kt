@@ -8,10 +8,7 @@ import io.javalin.http.Context
 import io.javalin.http.ForbiddenResponse
 import io.javalin.http.NotFoundResponse
 import org.apiunqflix.api.TokenJWT
-import org.apiunqflix.mapper.ContentViewMapper
-import org.apiunqflix.mapper.LoginUserMapper
-import org.apiunqflix.mapper.UserRegisterMapper
-import org.apiunqflix.mapper.UserViewMapper
+import org.apiunqflix.mapper.*
 
 class UserController (val unqflix: UNQFlix, val token: TokenJWT){
 
@@ -39,7 +36,7 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
         }
     }
 
-    fun getUser(ctx: Context){
+    fun getUserFeatures(ctx: Context){
         val id = ctx.header("Authorization")?.let { token.validate(it) }
         val user = unqflix.users.find { it.id == id } ?: throw NotFoundResponse("User not found")
 
@@ -78,6 +75,32 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
             throw ForbiddenResponse("El email ya fue registrado por otro usuario")
         }
         return newUserModel
+    }
+
+    fun addUserFavContent(ctx: Context) {
+        val userId= ctx.header("userAuthorization")
+        val idContent = ctx.pathParam("idContent")
+        unqflix.addOrDeleteFav(userId!!,idContent)
+        val  userFavContent = ctx.bodyAsClass(FavContentMapper::class.java)
+        userFavContent.favContent.addAll(findUser(userId)!!.favorites.map{ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available"))})
+
+        ctx.status(200)
+        ctx.json(userFavContent)
+    }
+
+    fun addUserLastSeen(ctx: Context){
+        val userId = ctx.header("userAuthorization")
+        val newContent = ctx.bodyAsClass(CreateContentUser::class.java)
+        unqflix.addLastSeen(userId!!,newContent.id)//User id iria null o tengo que mandar excepcion?
+
+        ctx.status(200)
+        ctx.json("content added")
+
+    }
+
+    private fun  findUser (idUser:String): User? {
+        //agregar excepcion
+        return unqflix.users.find{it.id == idUser}
     }
 
 
