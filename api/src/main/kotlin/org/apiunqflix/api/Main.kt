@@ -44,15 +44,15 @@ fun main() {
                 post(userController::addUserLastSeen, mutableSetOf<Role>(Roles.USER))
             }
         }
-        //path("/banners"){
-        //    get(unqFlixController::getBanners, mutableSetOf<Role>(Roles.USER))
-        //}
-        //path("/content") {
-        //    get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Roles.USER))
+        path("/banners"){
+            get(unqFlixController::getAllBanners, mutableSetOf<Role>(Roles.USER))
+        }
+        path("/content") {
+            get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Roles.USER))
         //    path("/:contentId") {
         //        get(unqFlixController::getContentById, mutableSetOf<Role>(Roles.USER))
         //    }
-        //}
+        }
         //path("/search?text={text}") {
         //    get(unqFlixController::searchText, mutableSetOf<Role>(Roles.USER))
         //}
