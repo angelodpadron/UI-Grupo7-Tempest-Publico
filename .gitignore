@@ -25,6 +25,11 @@
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 
+# API FOLDER (CUSTOM)
+api/.idea/
+api/target/
+api/api.iml
+
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
