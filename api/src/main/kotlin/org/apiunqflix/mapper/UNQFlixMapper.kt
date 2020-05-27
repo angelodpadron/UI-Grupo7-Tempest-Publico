@@ -16,8 +16,7 @@ data class MovieMapper(var id:String, var title: String, var description: String
 data class FavContentMapper(var favContent: MutableList<ContentViewMapper>)
 data class CreateContentUser (val id: String, val name: String)
 
-data class AvailableContentsMapper(val content: MutableList<ContentMapper>)
-data class ContentMapper (val id: String?, val description: String?, val title:String?, val state: Boolean?)
+data class AvailableContentsMapper(val content: MutableList<ContentViewMapper>)
 
-data class BannerMapper (val id: String?, val title: String?, val poster: String?)
+data class BannerMapper (val id: String, val title: String, val poster: String)
 data class AllBannersMapper(val banners: MutableList<BannerMapper>)
