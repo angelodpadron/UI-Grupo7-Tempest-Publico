@@ -6,6 +6,10 @@ import io.javalin.http.Context
 import org.apiunqflix.api.TokenJWT
 import org.apiunqflix.mapper.*
 
+//excepciones a agregar a carpeta de excepciones
+
+class NotFoundContents (message : String) : Exception (message)
+
 class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
 
     fun getAvailableContent(ctx: Context) {
@@ -49,84 +53,69 @@ class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
 
 
     fun getContentById(ctx: Context) {
-        val contentID : String = ctx.bodyAsClass(String::class.java)
 
-        var selectedContent : Content? = null
-        var isSerie = false
-        var isMovie = false
-
-        for (serie in unqFlix.series) {
-            if (serie.id == contentID) {
-                selectedContent = serie
-                isSerie = true
+        val idContent = ctx.pathParam("contentId")
+        try {
+            if (idContent.contains("ser")) {
+                val content = getSerie(idContent)
+                ctx.status(200)
+                ctx.json(SerieMapper(
+                    content.id,
+                    content.title,
+                    content.description,
+                    content.poster,
+                    content.categories.map { CategoryMapper(it.name) } as MutableList<CategoryMapper>,
+                    content.relatedContent.map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available")) } as MutableList<ContentViewMapper>,
+                    content.seasons.map { SeasonMapper(it.id, it.title, it.description, it.poster, it.chapters.map { ChapterMapper(it.id, it.title, it.description, it.duration, it.video, it.thumbnail) } as MutableList<ChapterMapper>) } as MutableList<SeasonMapper>
+                )
+                )
+            } else {
+                val content = getMovie(idContent)
+                ctx.status(200)
+                ctx.json(MovieMapper(
+                    content.id,
+                    content.title,
+                    content.description,
+                    content.poster,
+                    content.video,
+                    content.duration,
+                    content.actors,
+                    content.directors,
+                    content.categories.map { CategoryMapper(it.name) } as MutableList<CategoryMapper>,
+                    content.relatedContent.map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available")) } as MutableList<ContentViewMapper>
+                )
+                )
             }
         }
-        if (selectedContent == null) {
-            for (movie in unqFlix.movies) {
-                if (movie.id == contentID) {
-                    selectedContent = movie
-                    isMovie = true
-                }
-            }
-        }
-
-        if (selectedContent != null) {
-            if (isMovie) {
-                //TODO: armar .json usando movieToMovieMapper
-            }
-            if (isSerie) {
-                //TODO: armar .json usando serieToSerieMapper
-            }
-        } else {
-            //TODO: mensaje de error, "no se encontró contenido con ese id"
+        catch (e : NotFoundException){
+            throw NotFoundException("Unknown", "id", idContent)
         }
     }
 
-
-    // Funciones auxiliares
-
-    private fun serieToSerieMapper (serie: Serie): SerieMapper {
-        var mappedCategories : MutableList<CategoryMapper> = mutableListOf()
-        var mappedSeasons : MutableList<SeasonMapper> = mutableListOf()
-        var mappedRelatedContent : MutableList<ContentViewMapper> = mutableListOf()
-
-        for (category in serie.categories) {
-            mappedCategories.add(CategoryMapper(category.name))
+    fun searchText (ctx: Context){
+        val text= ctx.queryParam("text")
+        val foundContents= mutableListOf<ContentViewMapper>()
+        try{
+            foundContents.addAll( unqFlix.searchMovies(text!!).map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available"))})
+            foundContents.addAll( unqFlix.searchSeries(text!!).map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available"))})
+            if (foundContents.isEmpty()){
+                throw NotFoundContents("No one content matched with your search")
+            }
         }
-        for (season in serie.seasons) {
-            mappedSeasons.add(seasonToSeasonMapper(season))
-        }
-        for (content in serie.relatedContent) {
-            mappedRelatedContent.add(ContentViewMapper(content.id, content.description, content.title, content.state.toString().contains("Available")))
+        catch (e: NotFoundContents){
+            throw  NotFoundContents("No one content matched with your search")
         }
 
-        return (SerieMapper(serie.id, serie.title, serie.description, serie.poster, mappedCategories, mappedRelatedContent, mappedSeasons))
+        ctx.status(200)
+        ctx.json(AvailableContentsMapper(foundContents))
     }
 
 
-    private fun seasonToSeasonMapper (season: Season): SeasonMapper {
-        var mappedChapters : MutableList<ChapterMapper> = mutableListOf()
-
-        for (chapter in season.chapters) {
-            mappedChapters.add(ChapterMapper(chapter.id, chapter.title, chapter.description, chapter.duration, chapter.video, chapter.thumbnail))
-        }
-
-        return (SeasonMapper(season.id, season.title, season.description, season.poster, mappedChapters))
+    private fun getMovie(idContent: String): Movie {
+        return unqFlix.movies.find { it.id == idContent } ?: throw NotFoundException("Unknown", "id", idContent)
     }
-
-    
-    private fun movieToMovieMapper (movie: Movie): MovieMapper {
-        var mappedCategories : MutableList<CategoryMapper> = mutableListOf()
-        var mappedRelatedContent : MutableList<ContentViewMapper> = mutableListOf()
-
-        for (category in movie.categories) {
-            mappedCategories.add(CategoryMapper(category.name))
-        }
-        for (content in movie.relatedContent) {
-            mappedRelatedContent.add(ContentViewMapper(content.id, content.description, content.title, content.state.toString().contains("Available")))
-        }
-
-        return MovieMapper(movie.id, movie.title, movie.description, movie.poster, movie.video, movie.duration, movie.actors, movie.directors, mappedCategories, mappedRelatedContent)
+    private fun getSerie(idContent:String):Serie{
+        return unqFlix.series.find { it.id == idContent } ?: throw NotFoundException("Unknown", "id", idContent)
     }
 
 }

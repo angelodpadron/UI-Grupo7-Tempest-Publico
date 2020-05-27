@@ -56,13 +56,13 @@ fun main() {
             get(unqFlixController::getAllBanners, mutableSetOf<Role>(Rol.INVITED))
         }
         path("/content") {
-            get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Rol.INVITED ))
-        //    path("/:contentId") {
-        //        get(unqFlixController::getContentById, mutableSetOf<Role>(Roles.USER))
-        //    }
+            get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Rol.INVITED))
+            path("/:contentId") {
+                get(unqFlixController::getContentById, mutableSetOf<Role>(Rol.INVITED))
+            }
         }
-        //path("/search?text={text}") {
-        //    get(unqFlixController::searchText, mutableSetOf<Role>(Roles.USER))
+        //path("/search?text=:text") {
+        //    get(unqFlixController::searchText, mutableSetOf<Role>(Rol.INVITED))
         //}
 
     }
