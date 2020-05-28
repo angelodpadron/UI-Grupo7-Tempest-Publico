@@ -2,6 +2,7 @@ package org.apiunqflix.controller
 
 import data.getUNQFlix
 import domain.*
+import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
 import org.apiunqflix.api.TokenJWT
 import org.apiunqflix.mapper.*
@@ -93,8 +94,14 @@ class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
     }
 
     fun searchText (ctx: Context){
+        ctx.queryParam("text")?: throw BadRequestResponse("Parametro de busqueda vacio")
+
         val text= ctx.queryParam("text")
+
+        if (text.equals("")) { throw BadRequestResponse("Parametro de busqueda vacio") }
+
         val foundContents= mutableListOf<ContentViewMapper>()
+
         try{
             foundContents.addAll( unqFlix.searchMovies(text!!).map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available"))})
             foundContents.addAll( unqFlix.searchSeries(text!!).map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available"))})
@@ -112,10 +119,10 @@ class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
 
 
     private fun getMovie(idContent: String): Movie {
-        return unqFlix.movies.find { it.id == idContent } ?: throw NotFoundException("Unknown", "id", idContent)
+        return unqFlix.movies.find { it.id == idContent } ?: throw BadRequestResponse("ID desconcido")
     }
     private fun getSerie(idContent:String):Serie{
-        return unqFlix.series.find { it.id == idContent } ?: throw NotFoundException("Unknown", "id", idContent)
+        return unqFlix.series.find { it.id == idContent } ?: throw BadRequestResponse("ID desconocido")
     }
 
 }
