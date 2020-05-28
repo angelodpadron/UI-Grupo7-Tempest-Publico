@@ -6,6 +6,7 @@ import io.javalin.core.security.Role
 import io.javalin.http.Context
 import io.javalin.http.Handler
 import io.javalin.http.UnauthorizedResponse
+import org.apiunqflix.exceptions.NotFoundToken
 
 class JWTManager(val tokenJWT: TokenJWT, val backend: UNQFlix):AccessManager{
 
