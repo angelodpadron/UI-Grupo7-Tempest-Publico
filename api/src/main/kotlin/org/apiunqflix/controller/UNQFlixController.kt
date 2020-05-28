@@ -107,7 +107,7 @@ class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
             }
         }
         catch (e: NotFoundContents){
-            throw  NotFoundContents("No one content matched with your search")
+            throw  BadRequestResponse("No one content matched with your search")
         }
 
         ctx.status(200)
