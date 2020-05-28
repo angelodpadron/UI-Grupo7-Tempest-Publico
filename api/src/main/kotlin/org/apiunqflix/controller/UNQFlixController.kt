@@ -1,12 +1,12 @@
 package org.apiunqflix.controller
 
-import data.getUNQFlix
 import domain.*
 import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
 import org.apiunqflix.api.TokenJWT
 import org.apiunqflix.mapper.*
 import org.apiunqflix.exceptions.NotFoundContents
+import org.apiunqflix.exceptions.EmptyContent
 
 class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
 
@@ -14,15 +14,23 @@ class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
 
         var contents : MutableList<ContentViewMapper> = mutableListOf()
 
-        for (serie in unqFlix.series) {
-            if (serie.state.toString().contains("Available")) {
-                contents.add(ContentViewMapper(serie.id, serie.description, serie.title, true))
+        try {
+            for (serie in unqFlix.series) {
+                if (serie.state.toString().contains("Available")) {
+                    contents.add(ContentViewMapper(serie.id, serie.description, serie.title, true))
+                }
+            }
+            for (movie in unqFlix.movies) {
+                if (movie.state.toString().contains("Available")) {
+                    contents.add(ContentViewMapper(movie.id, movie.description, movie.title, true))
+                }
+            }
+            if (contents.isEmpty()) {
+                throw EmptyContent ("There is no content available")
             }
         }
-        for (movie in unqFlix.movies) {
-            if (movie.state.toString().contains("Available")) {
-                contents.add(ContentViewMapper(movie.id, movie.description, movie.title, true))
-            }
+        catch (e: EmptyContent){
+            throw BadRequestResponse ("There is no content available")
         }
 
         contents.sortBy { it.title }
@@ -36,11 +44,19 @@ class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
 
         var banners : MutableList<BannerMapper> = mutableListOf()
 
-        for (serie in unqFlix.series) {
-            banners.add(BannerMapper(serie.id, serie.title, serie.poster))
+        try {
+            for (serie in unqFlix.series) {
+                banners.add(BannerMapper(serie.id, serie.title, serie.poster))
+            }
+            for (movie in unqFlix.movies) {
+                banners.add(BannerMapper(movie.id, movie.title, movie.poster))
+            }
+            if (banners.isEmpty()) {
+                throw EmptyContent ("There are no banners to show")
+            }
         }
-        for (movie in unqFlix.movies) {
-            banners.add(BannerMapper(movie.id, movie.title, movie.poster))
+        catch (e: EmptyContent){
+            throw BadRequestResponse ("There are no banners to show")
         }
 
         banners.sortBy { it.title }
