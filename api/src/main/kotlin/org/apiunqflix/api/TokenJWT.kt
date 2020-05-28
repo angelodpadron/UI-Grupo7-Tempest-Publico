@@ -5,9 +5,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import domain.User
 import javalinjwt.JWTGenerator
-import java.lang.Exception
-
-class NotFoundToken: Exception()
+import org.apiunqflix.exceptions.NotFoundToken
 
 class UserGenerator : JWTGenerator<User> {
     override fun generate(user: User, algorithm: Algorithm): String {

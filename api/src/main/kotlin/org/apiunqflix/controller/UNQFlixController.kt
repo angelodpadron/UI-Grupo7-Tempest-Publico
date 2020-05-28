@@ -5,10 +5,7 @@ import domain.*
 import io.javalin.http.Context
 import org.apiunqflix.api.TokenJWT
 import org.apiunqflix.mapper.*
-
-//excepciones a agregar a carpeta de excepciones
-
-class NotFoundContents (message : String) : Exception (message)
+import org.apiunqflix.exceptions.NotFoundContents
 
 class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
 
