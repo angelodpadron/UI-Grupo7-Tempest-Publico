@@ -81,9 +81,10 @@ class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
                     content.categories.map { CategoryMapper(it.name) } as MutableList<CategoryMapper>,
                     content.relatedContent.map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available")) } as MutableList<ContentViewMapper>,
                     content.seasons.map { SeasonMapper(it.id, it.title, it.description, it.poster, it.chapters.map { ChapterMapper(it.id, it.title, it.description, it.duration, it.video, it.thumbnail) } as MutableList<ChapterMapper>) } as MutableList<SeasonMapper>
+                    )
                 )
-                )
-            } else {
+            }
+            else {
                 val content = getMovie(idContent)
                 ctx.status(200)
                 ctx.json(MovieMapper(
@@ -97,7 +98,7 @@ class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
                     content.directors,
                     content.categories.map { CategoryMapper(it.name) } as MutableList<CategoryMapper>,
                     content.relatedContent.map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available")) } as MutableList<ContentViewMapper>
-                )
+                    )
                 )
             }
         }
@@ -108,32 +109,39 @@ class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
 
     fun searchText (ctx: Context){
         ctx.queryParam("text")?: throw BadRequestResponse("Parametro de busqueda vacio")
+        if (ctx.queryParam("text").equals("")) {throw BadRequestResponse("Parametro de busqueda vacio") }
 
         val text= ctx.queryParam("text")
-
-        if (text.equals("")) { throw BadRequestResponse("Parametro de busqueda vacio") }
-
-        val foundContents= mutableListOf<ContentViewMapper>()
+        val foundContent: MutableList<ContentViewMapper>
 
         try{
-            foundContents.addAll( unqFlix.searchMovies(text!!).map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available"))})
-            foundContents.addAll( unqFlix.searchSeries(text!!).map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available"))})
-            if (foundContents.isEmpty()){
-                throw NotFoundContents("No one content matched with your search")
-            }
+            foundContent = collectContent(text!!)
         }
         catch (e: NotFoundContents){
-            throw  BadRequestResponse("No one content matched with your search")
+            throw  BadRequestResponse("No existe contxcxcenido para la busqueda")
         }
 
         ctx.status(200)
-        ctx.json(AvailableContentsMapper(foundContents))
+        ctx.json(AvailableContentsMapper(foundContent))
     }
 
+    private fun collectContent(key: String): MutableList<ContentViewMapper>{
+        val foundContent = mutableListOf<ContentViewMapper>()
+
+        foundContent.addAll( unqFlix.searchMovies(key).map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available"))})
+        foundContent.addAll( unqFlix.searchSeries(key).map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available"))})
+
+        if (foundContent.isEmpty()){
+            throw NotFoundContents("No existe contenido para la busqueda")
+        }
+
+        return foundContent
+    }
 
     private fun getMovie(idContent: String): Movie {
         return unqFlix.movies.find { it.id == idContent } ?: throw BadRequestResponse("ID desconcido")
     }
+
     private fun getSerie(idContent:String):Serie{
         return unqFlix.series.find { it.id == idContent } ?: throw BadRequestResponse("ID desconocido")
     }

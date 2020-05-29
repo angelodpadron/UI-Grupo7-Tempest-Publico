@@ -13,7 +13,7 @@ class JWTManager(val tokenJWT: TokenJWT, val backend: UNQFlix):AccessManager{
     fun verifyUserId(hash: String) {
         try {
             val id = tokenJWT.validate(hash)
-            backend.users.find { it.id == id }?: throw UnauthorizedResponse("Token Invalido")   //muy optimo? /s
+            backend.users.find { it.id == id }?: throw UnauthorizedResponse("Token invalido")
         }catch (e: NotFoundToken){
             throw UnauthorizedResponse("Token inexistente")
         }

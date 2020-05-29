@@ -62,7 +62,6 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
 
         val newUserModel = registerIntoModel(newUser)
 
-
         ctx.status(201)
         ctx.header("Registration", token.generateToken(newUserModel))
         ctx.json(mapOf("message" to "ok"))
@@ -104,7 +103,7 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
             unqflix.addLastSeen(id!!, newContent.id!!)
         }
         catch (e: NotFoundException){
-            throw ForbiddenResponse("El id no es valido") //temp
+            throw ForbiddenResponse("El id no es valido")
         }
         ctx.status(200)
         ctx.json(mapOf("message" to "ok"))
