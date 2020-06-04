@@ -16,26 +16,15 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
 
     fun login(ctx: Context){
 
-        val entryToken = ctx.header("Authorization")
+        val loginUser = ctx.bodyValidator<LoginUserMapper>()
+                .check({it.email != null && it.password != null}, "Datos incompletos")
+                .get()
 
-        if (entryToken == null) {
-            val loginUser = ctx.bodyValidator<LoginUserMapper>()
-                    .check({
-                        it.email != null && it.password != null
-                    }, "Datos incompletos").
-                    get()
+        val user = unqflix.users.find { it.email == loginUser.email && it.password == loginUser.password } ?: throw NotFoundResponse("Usuario o contraseña incorrectos")
+        ctx.header("Authentication", token.generateToken(user))
+        ctx.status(200)
+        ctx.json(mapOf("result" to "ok"))
 
-            val user = unqflix.users.find { it.email == loginUser.email && it.password == loginUser.password } ?: throw NotFoundResponse("Usuario o contraseña incorrectos")
-            ctx.header("Authentication", token.generateToken(user))
-            ctx.status(200)
-            ctx.json(mapOf("result" to "ok"))
-
-        }
-        else{
-            token.validate(entryToken)
-            ctx.status(200)
-            ctx.json(mapOf("result" to "ok"))
-        }
     }
 
     fun getUserFeatures(ctx: Context){

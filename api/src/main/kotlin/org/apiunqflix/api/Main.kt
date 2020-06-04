@@ -36,7 +36,7 @@ fun main() {
 
     app.routes {
         path("/login") {
-            post(userController::login, mutableSetOf<Role>(Rol.INVITED, Rol.ACTIVE_USER))
+            post(userController::login, mutableSetOf<Role>(Rol.INVITED))
         }
         path("/register"){
             post(userController::register, mutableSetOf<Role>(Rol.INVITED))
