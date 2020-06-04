@@ -80,12 +80,14 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
 
     fun addUserFavContent(ctx: Context) {
         val userId = ctx.header("Authorization")?.let { token.validate(it) }
-        val idContent = ctx.pathParam("idContent")
+        val idContent = ctx.bodyValidator<EntryIDMapper>()
+                .check({it.id != null}, "Campo invalido. Verificar contenido")
+                .get()
 
         unqflix.users.find { it.id == userId }?: throw NotFoundResponse("Usuario no encontrado")
 
         try {
-            unqflix.addOrDeleteFav(userId!!,idContent)
+            unqflix.addOrDeleteFav(userId!!,idContent.id!!)
         }
         catch (e: NotFoundException){
             throw BadRequestResponse("No existe contenido con el id dado")

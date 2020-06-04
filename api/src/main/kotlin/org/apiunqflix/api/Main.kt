@@ -44,9 +44,7 @@ fun main() {
         path("/user") {
             get(userController::getUserFeatures, mutableSetOf<Role>(Rol.ACTIVE_USER))
             path("/fav") {
-                path("/:idContent") {
                     post(userController::addUserFavContent, mutableSetOf<Role>(Rol.ACTIVE_USER))
-                }
             }
             path("/lastSeen") {
                 post(userController::addUserLastSeen, mutableSetOf<Role>(Rol.ACTIVE_USER))
