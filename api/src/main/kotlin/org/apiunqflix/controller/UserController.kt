@@ -28,7 +28,7 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
     }
 
     fun getUserFeatures(ctx: Context){
-        val id = ctx.header("Authorization")?.let { token.validate(it) }
+        val id = ctx.header("Authentication")?.let { token.validate(it) }
         val user = unqflix.users.find { it.id == id } ?: throw NotFoundResponse("User not found")
 
         val viewUser = UserViewMapper(
@@ -52,7 +52,7 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
         val newUserModel = registerIntoModel(newUser)
 
         ctx.status(201)
-        ctx.header("Registration", token.generateToken(newUserModel))
+        ctx.header("Authentication", token.generateToken(newUserModel))
         ctx.json(mapOf("message" to "ok"))
     }
 
@@ -68,7 +68,7 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
     }
 
     fun addUserFavContent(ctx: Context) {
-        val userId = ctx.header("Authorization")?.let { token.validate(it) }
+        val userId = ctx.header("Authentication")?.let { token.validate(it) }
         val idContent = ctx.bodyValidator<EntryIDMapper>()
                 .check({it.id != null}, "Campo invalido. Verificar contenido")
                 .get()
@@ -87,7 +87,7 @@ class UserController (val unqflix: UNQFlix, val token: TokenJWT){
     }
 
     fun addUserLastSeen(ctx: Context){
-        val id = ctx.header("Authorization")?.let { token.validate(it) }
+        val id = ctx.header("Authentication")?.let { token.validate(it) }
         unqflix.users.find { it.id == id } ?: throw NotFoundResponse("Usuario no encontrado")
         val newContent = ctx.bodyValidator<CreateContentUser>().check({it.id != null}, "Campo incompleto").get()
         try {

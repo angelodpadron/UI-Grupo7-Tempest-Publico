@@ -118,7 +118,7 @@ class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
             foundContent = collectContent(text!!)
         }
         catch (e: NotFoundContents){
-            throw  BadRequestResponse("No existe contxcxcenido para la busqueda")
+            throw  BadRequestResponse("No existe contenido para la busqueda")
         }
 
         ctx.status(200)
