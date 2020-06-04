@@ -51,16 +51,16 @@ fun main() {
             }
         }
         path("/banners"){
-            get(unqFlixController::getAllBanners, mutableSetOf<Role>(Rol.INVITED,Rol.ACTIVE_USER))
+            get(unqFlixController::getAllBanners, mutableSetOf<Role>(Rol.ACTIVE_USER))
         }
         path("/content") {
-            get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Rol.INVITED,Rol.ACTIVE_USER))
+            get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Rol.ACTIVE_USER))
             path("/:contentId") {
-                get(unqFlixController::getContentById, mutableSetOf<Role>(Rol.INVITED,Rol.ACTIVE_USER))
+                get(unqFlixController::getContentById, mutableSetOf<Role>(Rol.ACTIVE_USER))
             }
         }
         path("/search") {
-            get(unqFlixController::searchText, mutableSetOf<Role>(Rol.INVITED))
+            get(unqFlixController::searchText, mutableSetOf<Role>(Rol.ACTIVE_USER))
         }
     }
 }
