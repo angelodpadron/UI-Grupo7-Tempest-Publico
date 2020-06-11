@@ -14,8 +14,7 @@ class WindowModifieSeason(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
         }
 
         override fun createFormPanel(p0: Panel) {
-            Label(p0) with {text="Title:"}
-
+        /*
             TextBox(p0) with {
                 bindTo("title")
             }
@@ -56,7 +55,13 @@ class WindowModifieSeason(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
                     }
                 }
             }
+
+         */
         }
-    fun updateModel() = modelObject.updateModel()
-    fun resetModify() = modelObject.resetModify()
+
+
+    //fun updateModel() = modelObject.updateModel()
+    // fun resetModify() = modelObject.resetModify()
+
+
 }

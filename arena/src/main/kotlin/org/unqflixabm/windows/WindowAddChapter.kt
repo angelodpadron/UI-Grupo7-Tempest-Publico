@@ -1,5 +1,6 @@
 package org.unqflixabm.windows
 
+import org.unqflixabm.appModels.ChapterAppModel
 import org.unqflixabm.appModels.SeasonAppModel
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
@@ -8,8 +9,11 @@ import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 import java.awt.Color
 
-class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
-    SimpleWindow<SeasonAppModel>(owner, seasonAppModel) {
+class WindowAddChapter(owner: WindowOwner,chapterAppModel: ChapterAppModel, var seasonAppModel: SeasonAppModel?):
+    SimpleWindow<ChapterAppModel>(owner, chapterAppModel) {
+
+    var modelo: ChapterAppModel = modelObject
+
     override fun addActions(p0: Panel?) {
     }
 
@@ -24,7 +28,7 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
             width = 220
             height =20
 
-            bindTo("titleChapter")
+            bindTo("title")
         }
 
         Label(p0) with {text="Description:"}
@@ -34,7 +38,7 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
             bgColor = Color.decode("#3A383B")
             width = 220
             height =80
-            bindTo("descriptionChapter")
+            bindTo("description")
         }
 
         Label(p0) with {text="Duration:"}
@@ -44,7 +48,7 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
             bgColor = Color.decode("#3A383B")
             width = 220
             height = 20
-            bindTo("durationChapter")
+            bindTo("duration")
         }
 
         Label(p0) with {text="Thumbnail:"}
@@ -54,7 +58,7 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
             bgColor = Color.decode("#3A383B")
             width = 220
             height= 20
-            bindTo("thumbNailChapter")
+            bindTo("thumbnail")
         }
 
         Label(p0) with {text="Video:"}
@@ -65,7 +69,7 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
             background = Color.decode("#3A383B")
             width = 220
             height = 20
-            bindTo("videoChapter")
+            bindTo("video")
         }
 
         Panel(p0) with {
@@ -74,10 +78,13 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
                 caption = "Accept"
                 background = Color.decode("#3A383B")
                 width = 110
-                onClick {addChapter()
-                    resetAddChapter()
-                    close() }
+                onClick{
+                        seasonAppModel!!.addChapter(modelo.newChapterFormat())
+                         //resetAddChapter()
+                        close()
+                       }
             }
+            /*
             Button(it) with {
                 caption = "Cancel"
                 bgColor = Color.decode("#3A383B")
@@ -85,10 +92,12 @@ class WindowAddChapter(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
                 onClick { resetAddChapter()
                     close() }
             }
+            */
         }
+
+
     }
-    private fun addChapter() = modelObject.addChapter()
-    private fun resetAddChapter() = modelObject.resetAddChapter()
+    //private fun resetAddChapter() = modelObject.resetAddChapter()
 }
 
 

@@ -1,184 +1,111 @@
 package org.unqflixabm.appModels
 
-import data.getUNQFlix
 import data.idGenerator
 import domain.*
-import org.unqflixabm.exceptions.ExistsCategory
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
 import org.uqbar.commons.model.exceptions.UserException
 
 @Observable
 
-class SeriesAppModel (private var model: Serie) {
+class SeriesAppModel (var serie : Serie){
+    var id = serie.id
+    var title = serie.title
+    var description = serie.description
+    var poster = serie .poster
+    var state = serie.state
+    var categories: MutableList<CategoryAppModel> = initCategories()
+    var seasons: MutableList<SeasonAppModel> = initSeasons()
+    var numberOfSeasons = seasons.count()
+    var relatedContent :MutableList<ContentAppModel> = initContents()
 
-    val idSystem: IdGenerator = idGenerator
-    var systemCategories: MutableList<Category> = getUNQFlix().categories
-    var id = ""
-    var title = ""
-    var description = ""
-    var poster = ""
-    var state: ContentState
-    var categoriesSyst: MutableList<CategoryAppModel> = mutableListOf()
-    var categories: MutableList<CategoryAppModel> = mutableListOf()
-    var seasons: MutableList<SeasonAppModel> = mutableListOf()
-    var numberOfSeasons: Int
+    //SELECTIONS
+
     var selectSeason: SeasonAppModel? = null
-    var relatedContent: MutableList<ContentAppModel> = mutableListOf()
-
-    //----------Required fields to create a new Season
-    var titleSeason: String = ""
-    var descriptionSeason: String = ""
-    var posterSeason: String = ""
-    var chaptersSeason: MutableList<Chapter> = mutableListOf()
-
-    //---------Selector For modify serie's categories or relatedContens
     var selectCategorySerie : CategoryAppModel? = null
-    var selectContentSerie : ContentAppModel? = null
+    var selectContentSerie: ContentAppModel? = null
 
     init {
-        this.id = model.id
-        this.title = model.title
-        this.description = model.description
-        this.poster = model.poster
-        this.state = model.state
-        this.categories = initCategories()
-        this.seasons = initSeasons()
-        this.numberOfSeasons = this.seasons.count()
-        this.relatedContent = initContents()
-        this.categoriesSyst = initCategoriesSyst()
+        id
+        title
+        description
+        poster
+        state
+        categories
+        seasons
+        numberOfSeasons
+        relatedContent
     }
 
-    //---------SetUp
+    constructor(): this(Serie("","","","",Unavailable(),categories = mutableListOf(),seasons = mutableListOf(),relatedContent = mutableListOf()))
 
-    fun initSeasons(): MutableList<SeasonAppModel> {
-        return model.seasons.map { SeasonAppModel(it) }.toMutableList()
+    //INITIATORS mapper appModel
+
+    private fun initSeasons(): MutableList<SeasonAppModel>{
+        return serie.seasons.map { SeasonAppModel(it) }.toMutableList()
     }
 
-    fun initCategories(): MutableList<CategoryAppModel> {
-        return model.categories.map { CategoryAppModel(it) }.toMutableList()
+    private fun initCategories(): MutableList<CategoryAppModel> {
+        return serie.categories.map { CategoryAppModel(it) }.toMutableList()
     }
 
-    fun initContents(): MutableList<ContentAppModel> {
-        return model.relatedContent.map { ContentAppModel(it) }.toMutableList()
+    private fun initContents(): MutableList<ContentAppModel>{
+        return serie.relatedContent.map { ContentAppModel(it) }.toMutableList()
     }
 
-    fun initCategoriesSyst(): MutableList<CategoryAppModel> {
-        return systemCategories.map { CategoryAppModel(it) }.toMutableList()
-    }
+    //ADDITIONS
 
-    //---------Modify
+    fun addSeason (season: Season){
 
-    fun updateModel(){
-        model.title = title
-        model.poster = poster
-        model.description = description
-        model.categories = categories.map { it.toModel() }.toMutableList()
-        model.relatedContent = relatedContent.map { it.toModel() }.toMutableList()
-        model.state = state
-
-
-    }
-
-    fun resetModify(){
-        this.title = model.title
-        this.description = model.description
-        this.poster = model.poster
-        this.state = model.state
-        this.categories = initCategories()
-        this.relatedContent = initContents()
-    }
-
-    fun resetAddSeason(){
-        titleSeason = ""
-        descriptionSeason = ""
-        posterSeason = ""
-    }
-
-    //---------- ViewModel to Model
-
-    fun toModel() = model
-
-    //---------- ViewModel to View
-
-    fun stateToView(): String = if (this.state.toString().contains("Available")) "Yes" else "No"
-
-    //----------Adds
-
-    fun newSeason(): Season {
-        return Season(idSystem.nextSeasonId(), titleSeason, descriptionSeason, posterSeason, chaptersSeason)
-    }
-
-    fun addSeason() {
-        try {
-            //addSeasonToModel
-            model.addSeason(newSeason())
-            //update viewmodel
+        try{
+            serie.addSeason(season)
             seasons = initSeasons()
-            numberOfSeasons = this.seasons.count()
-        } catch (e: ExistsException) {
+            numberOfSeasons = seasons.count()
+        }
+        catch(e: ExistsException) {
             throw UserException(e.message)
         }
     }
 
-    fun addContent(selectContentVm: ContentAppModel?) {
-        if (selectContentVm != null) {
-            //addContentToModel
-            model.relatedContent.add(selectContentVm.toModel())
-            //update viewModel
-            this.relatedContent.add(ContentAppModel(selectContentVm.toModel()))
+    fun addCategory(categoryAppModel: CategoryAppModel){
+        try {
+            if(serie.categories.any { it.id == categoryAppModel.id})throw ExistsException(categoryAppModel.toModel())
+            serie.categories.add(categoryAppModel.toModel())
+            categories = initCategories()
+        }
+        catch (e : ExistsException){
+            throw UserException(e.message)
+        }
+    }
+
+    fun addContent(contentAppModel: ContentAppModel){
+        try {
+            if(serie.relatedContent.any { it.id == contentAppModel.id})throw ExistsException(contentAppModel.toModel())
+            serie.relatedContent.add(contentAppModel.toModel())
             relatedContent = initContents()
         }
-    }
-
-    private fun existsCategoryException(serie:Serie,selectCategoryVm: CategoryAppModel?) {
-        if (SeriesAppModel (serie).categories.any {it.name == selectCategoryVm?.name}){
-            throw ExistsCategory("This category has already been added")
-        }
-    }
-    fun addCategory(selectCategoryVm: CategoryAppModel?) {
-        try {
-            existsCategoryException(model,selectCategoryVm)
-            if (selectCategoryVm != null) {
-                //addCategoryToModel
-                model.categories.add(selectCategoryVm.toModel())
-                //update viewmodel
-                categories = initCategories()
-            }
-        }
-        catch(e: ExistsCategory){
+        catch (e : ExistsException){
             throw UserException(e.message)
         }
     }
 
+    //DELETIONS
 
-    fun modifydeleteCategories(selectCategorySerie: CategoryAppModel?){
-        if (selectCategorySerie!= null){
-            //model.categories.remove(selectCategorySerie.toModel())
-            categories.remove(selectCategorySerie)
-
-            //categories = initCategories()
-        }
-
+    fun removeCategory(categoryAppModel: CategoryAppModel){
+        serie.categories.remove(categoryAppModel.toModel())
+        categories = initCategories()
     }
 
-    //----------Deletes
-
-    fun deleteCategory(selectCategoryDom: Category?) {
-        if (selectCategoryDom != null) {
-            //RemoveCategoryFromModel
-            model.categories.remove(selectCategoryDom)
-            //update viewmodel
-            categories = initCategories()
-        }
+    fun removeContent(contentAppModel: ContentAppModel){
+        serie.relatedContent.remove(contentAppModel.toModel())
+        relatedContent = initContents()
     }
-    fun deleteContent(selectContentDom: Content?) {
-        if (selectContentDom != null) {
-            //RemoveContentFromModel
-            model.relatedContent.remove(selectContentDom)
-            //update viewmodel
-            categories = initCategories()
-        }
+
+    //QUERYS
+
+    fun newSerieFormat(): Serie{
+
+        return Serie(idGenerator.nextSerieId(),title,description, poster, state, mutableListOf() /*categories.map {it.toModel()} as MutableList<Category>*/, mutableListOf(), mutableListOf())
     }
 
     //EXCEPTIONS

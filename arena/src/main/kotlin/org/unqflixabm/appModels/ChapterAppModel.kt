@@ -1,27 +1,37 @@
 package org.unqflixabm.appModels
 
+import data.idGenerator
 import domain.Chapter
+import domain.IdGenerator
 import org.uqbar.commons.model.annotations.Observable
 
 @Observable
-class ChapterAppModel (private var model: Chapter) {
-    val id: String
-    var title: String
-    var description: String
-    var duration: Int
-    var video: String
-    var thumbnail: String
+class ChapterAppModel (var chapter: Chapter){
+
+    var id = chapter.id
+    var title = chapter.title
+    var description = chapter.description
+    var duration = chapter.duration
+    var video = chapter.video
+    var thumbnail = chapter.thumbnail
 
     init {
-        this.id = model.id
-        this.title = model.title
-        this.description = model.description
-        this.duration = model.duration
-        this.video = model.video
-        this.thumbnail = model.thumbnail
+        id
+        title
+        description
+        duration
+        video
+        thumbnail
     }
 
-    //---------- Modify
+    constructor() : this (Chapter("","","",0,"",""))
+
+    //QUERYS
+
+    fun newChapterFormat(): Chapter{
+        return Chapter(idGenerator.nextChapterId(),title,description,duration,video,thumbnail)
+    }
+    /*---------- Modify
 
     fun updateModel(){
         model.title = title
@@ -39,7 +49,7 @@ class ChapterAppModel (private var model: Chapter) {
         this.thumbnail = model.thumbnail
     }
 
-    //---------- ViewModel to Model
+     */
 
-    fun model():Chapter = model
+    //---------- ViewModel to Model
 }

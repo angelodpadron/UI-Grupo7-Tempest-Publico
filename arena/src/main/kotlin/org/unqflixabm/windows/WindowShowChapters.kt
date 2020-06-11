@@ -53,7 +53,7 @@ class WindowShowChapters(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
                     bgColor = Color.decode("#580AAF")
                     width = 200
 
-                    onClick({WindowAddChapter(owner,selectedSeason).open()})
+                    onClick({WindowAddChapter(owner,ChapterAppModel(),selectedSeason).open()})
                 }
                 Button(it) with {
                     bgColor = Color.decode("#580AAF")

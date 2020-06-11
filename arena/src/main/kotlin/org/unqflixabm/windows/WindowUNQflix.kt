@@ -66,7 +66,7 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
                 align("center")
                 background = Color.decode("#3A383B")
                 color = Color.WHITE
-                bindContentsTo("stateToView")
+                bindContentsTo("state")
             }
         }
 
@@ -77,7 +77,7 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
                 caption = "Add new Serie"
                 bgColor = Color.decode("#580AAF")
                 width = 200
-                onClick({WindowAddSerie(owner,modelo).open()})
+                onClick({WindowAddSerie(owner,SeriesAppModel(),modelo).open()})
             }
             Button(it) with {
                 caption = "Modify Serie"

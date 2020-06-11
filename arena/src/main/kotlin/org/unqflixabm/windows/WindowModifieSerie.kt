@@ -20,7 +20,7 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
     }
 
     override fun createFormPanel(p0: Panel) {
-        title = "Modify a serie"
+        /*   title = "Modify a serie"
         Panel(p0) with {
             asHorizontal()
             Label(it) with {text = "Title"}
@@ -149,4 +149,6 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
     private fun updateModel() = modelObject.updateModel()
     private fun modifyCategoriesSerie()=modelObject.addCategory(modelObject.selectCategorySerie )
     private fun modifyDeleteCategories() = modelObject.modifydeleteCategories(modelObject.selectCategorySerie)
+    */
+    }
 }

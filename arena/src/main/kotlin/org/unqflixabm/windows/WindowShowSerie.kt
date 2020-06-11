@@ -55,7 +55,7 @@ class WindowShowSerie(owner: WindowOwner, seriesAppModel: SeriesAppModel?):
                     caption = "Add new season"
                     bgColor = Color.decode("#580AAF")
                     width = 200
-                    onClick({WindowAddSeason(owner,modelo).open()})
+                    onClick({WindowAddSeason(owner,SeasonAppModel(),modelo).open()})
                 }
                 Button(it) with {
                     caption = "Modify season"

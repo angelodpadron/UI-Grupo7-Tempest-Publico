@@ -1,5 +1,6 @@
 package org.unqflixabm.windows
 
+import org.unqflixabm.appModels.SeasonAppModel
 import org.unqflixabm.appModels.SeriesAppModel
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
@@ -8,18 +9,24 @@ import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 import java.awt.Color
 
-class WindowAddSeason(owner: WindowOwner, seriesAppModel: SeriesAppModel):
-    SimpleWindow<SeriesAppModel>(owner, seriesAppModel) {
+class WindowAddSeason(owner: WindowOwner, seasonAppModel: SeasonAppModel,var seriesAppModel: SeriesAppModel):
+    SimpleWindow<SeasonAppModel>(owner, seasonAppModel) {
+
+    var modelo : SeasonAppModel = modelObject
+    var sistema : SeriesAppModel = seriesAppModel
+
     override fun addActions(p0: Panel?) {
     }
 
     override fun createFormPanel(p0: Panel) {
+        title = "Add a new season"
+
         Label(p0) with {text="Title :"}
 
         TextBox(p0) with {
             width = 220
             height = 20
-            bindTo("titleSeason")
+            bindTo("title")
         }
 
         Label(p0) with {text="Description:"}
@@ -27,7 +34,7 @@ class WindowAddSeason(owner: WindowOwner, seriesAppModel: SeriesAppModel):
         KeyWordTextArea(p0) with {
             width = 220
             height = 20
-            bindTo("descriptionSeason")
+            bindTo("description")
         }
 
         Label(p0) with {text="Poster:"}
@@ -35,7 +42,7 @@ class WindowAddSeason(owner: WindowOwner, seriesAppModel: SeriesAppModel):
         TextBox(p0) with {
             width = 220
             height = 20
-            bindTo("posterSeason")
+            bindTo("poster")
         }
 
         Panel(p0) with {
@@ -45,20 +52,24 @@ class WindowAddSeason(owner: WindowOwner, seriesAppModel: SeriesAppModel):
                 width = 110
                 height = 30
                 bgColor = Color.decode("#870AAE")
-                onClick {addNewSeason()
-                    resetAddSeason()
-                    close()}
+                onClick {
+                         sistema.addSeason(modelo.newSeasonFormat())
+                         //resetAddSeason()
+                         close()
+                         }
             }
-            Button(it) with {
+            /*Button(it) with {
                 width = 110
                 height = 30
                 caption = "Cancel"
                 bgColor = Color.decode("#870AAE")
-                onClick {resetAddSeason()
-                    close()}
+                onClick {
+                         resetAddSeason()
+                         close()
+                        }
             }
+             */
         }
     }
-    private fun addNewSeason()= modelObject.addSeason()
-    private fun resetAddSeason() = modelObject.resetAddSeason()
+    //private fun resetAddSeason() = modelObject.resetAddSeason()
 }

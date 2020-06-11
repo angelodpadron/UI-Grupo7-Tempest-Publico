@@ -16,22 +16,11 @@ class UNQflixAppModel {
     var series: MutableList<SeriesAppModel> = initSeries()
     var categories: MutableList<CategoryAppModel> = initCategories()
     var contents: MutableList<ContentAppModel> = initContents()
-    var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
     var searchString: String = ""
-    //Required fields to add a New Serie
-    var title = ""
-    var description = ""
-    var poster = ""
-    var stateSerie:ContentState = Unavailable()
-    var categoriesSerie: MutableList<Category> = mutableListOf()
-    var seasonsSerie: MutableList<Season> = mutableListOf()
-    var relatedContentSerie: MutableList<Content> = mutableListOf()
-    //Selectors For Add Or Delete Categories From a New Serie
-    var selectContentVm: ContentAppModel? = null
-    var selectContentDom: Content? = null
-    var selectCategoryVm: CategoryAppModel? = null
-    var selectCategoryDom: Category? = null
-    //
+
+    //SELECCTIONS
+
+    var selectSerie: SeriesAppModel? = null // selecciona serie aunque parezca que seleccione el id
 
     //INITIATORS
 
@@ -72,6 +61,7 @@ class UNQflixAppModel {
             throw NonSelectException("Please select a show before continue")
         }
     }
+
     /*
     @Function  verify that searched series are added in the system if not throw mssg exception
      */
@@ -97,15 +87,12 @@ class UNQflixAppModel {
         }
     }
 
-    //ADDS
+    //ADDITIONS
 
-    fun newSerie(): Serie{
-        return Serie(idSystem.nextSerieId(),title,description,poster,stateSerie,categoriesSerie,seasonsSerie,relatedContentSerie)
-    }
-    fun addSerie(){
+    fun addSerie(serie : Serie){
         try {
             //agregar al modelo
-            system.addSerie(newSerie())
+            system.addSerie(serie)
             //update viewmodel
             series = initSeries()
         }
@@ -113,26 +100,14 @@ class UNQflixAppModel {
             throw UserException(e.message)
         }
     }
-    fun addSerieCategory(selectCategoryVm : CategoryAppModel?) {
-        SeriesAppModel(newSerie()).addCategory(selectCategoryVm)
-    }
-    fun addSerieContent(selectContentVm: ContentAppModel?){
-        SeriesAppModel(newSerie()).addContent(selectContentVm)
-    }
 
-    //DELETES
+    //DELETIONS
 
     fun deleteSerie(selectSerie:SeriesAppModel?){
         if (selectSerie != null) {
             system.deleteSerie(selectSerie.id)
         }
         series = initSeries()
-        }
+    }
 
-    fun removeCategory(selectCategoryDom: Category?) {
-        SeriesAppModel(newSerie()).deleteCategory(selectCategoryDom)
-    }
-    fun removeContent(selectContentDom: Content?) {
-        SeriesAppModel (newSerie()).deleteContent(selectContentDom)
-    }
 }

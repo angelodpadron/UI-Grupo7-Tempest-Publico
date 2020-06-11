@@ -1,25 +1,31 @@
 package org.unqflixabm.windows
 
-import domain.Content
 import org.unqflixabm.appModels.CategoryAppModel
 import org.unqflixabm.appModels.ContentAppModel
+import org.unqflixabm.appModels.SeriesAppModel
 import org.unqflixabm.appModels.UNQflixAppModel
 import org.unqflixabm.transformers.StateToBooleanTransformer
+import org.uqbar.arena.bindings.ObservableProperty
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
-import org.uqbar.arena.widgets.List
+import org.uqbar.arena.windows.Dialog
 
-class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
-    SimpleWindow<UNQflixAppModel>(owner, unqflixAppModel) {
+class WindowAddSerie(owner: WindowOwner, seriesAppModel: SeriesAppModel,system: UNQflixAppModel):
+    Dialog<SeriesAppModel>(owner, seriesAppModel) {
+
+    var modelo : SeriesAppModel = modelObject
+
+    var sistema : UNQflixAppModel = system
 
     override fun addActions(p0: Panel?) {
     }
 
     override fun createFormPanel(p0: Panel) {
         title ="Add a new Serie"
+
         Panel(p0) with {
             asHorizontal()
             Label(it) with {text = "Title"}
@@ -59,7 +65,7 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             Label(it) with {text = "Availability"}
             CheckBox(it) with {
                 title = "State"
-                bindTo("stateSerie").setTransformer(StateToBooleanTransformer())
+                bindTo("state").setTransformer(StateToBooleanTransformer())
             }
         }
 
@@ -70,13 +76,15 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             }
         }
 
+        //CATEGORY PANEL
+
         Panel(p0) with {
             asHorizontal()
             List<CategoryAppModel>(it) with {
                 width = 150
                 height = 100
-                bindItemsTo("categoriesSerie").adaptWithProp<CategoryAppModel>("categoryName")
-                bindSelectedTo("selectCategoryDom")
+                bindItemsTo("categories").adaptWithProp<CategoryAppModel>("categoryName")
+                bindSelectedTo("selectCategorySerie")
             }
             Panel(it) with {
                 asVertical()
@@ -92,11 +100,10 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             List<CategoryAppModel>(it) with {
                 width = 150
                 height = 100
-                bindItemsTo("categories").adaptWithProp<CategoryAppModel>("categoryName")
-                bindSelectedTo("selectCategoryVm")
-            }
+                bindItems(ObservableProperty<UNQflixAppModel>(sistema,"categories")).adaptWithProp<CategoryAppModel>("categoryName")
+                bindSelectedTo("selectCategorySerie")
+             }
         }
-
         Panel(p0) with{
             Label(it) with {
                 text = "Related content"
@@ -104,13 +111,15 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             }
         }
 
+        //CONTENT PANEL
+
         Panel(p0) with {
             asHorizontal()
-            List<Content>(it) with {
+            List<ContentAppModel>(it) with {
                 width = 150
                 height = 100
-                bindItemsTo("relatedContentSerie").adaptWithProp<ContentAppModel>("contentDescription")
-                bindSelectedTo("selectContentDom")
+                bindItemsTo("relatedContent").adaptWithProp<ContentAppModel>("contentDescription")
+                bindSelectedTo("selectContentSerie")
             }
             Panel(it) with {
                 asVertical()
@@ -124,11 +133,10 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
                 }
             }
             List<ContentAppModel>(it) with {
-                var unqflix: UNQflixAppModel
                 width = 150
                 height = 100
-                bindItemsTo("contents").adaptWithProp<ContentAppModel>("contentDescription")
-                bindSelectedTo("selectContentVm")
+                bindItems(ObservableProperty<UNQflixAppModel>(sistema,"contents")).adaptWithProp<ContentAppModel>("contentDescription")
+                bindSelectedTo("selectContentSerie")
             }
         }
 
@@ -136,19 +144,21 @@ class WindowAddSerie(owner: WindowOwner, unqflixAppModel: UNQflixAppModel):
             asHorizontal()
             Button(it) with {
                 caption = "Accept"
-                onClick {addNewSerie()
-                    close()}
+                onClick {
+                        sistema.addSerie(modelo.newSerieFormat())
+                    accept()}
             }
 
             Button(it) with {
                 caption = "Cancel"
                 onClick { close() }
             }
+
         }
     }
-    private fun deleteCategory() = modelObject .removeCategory (modelObject.selectCategoryDom)
-    private fun addCategory() = modelObject.addSerieCategory(modelObject.selectCategoryVm)
-    private fun addNewSerie() = modelObject.addSerie()
-    private fun deleteContent() = modelObject.removeContent(modelObject.selectContentDom)
-    private fun addContent() = modelObject.addSerieContent(modelObject.selectContentVm)
+    private fun addCategory() = modelo.addCategory(modelo.selectCategorySerie!!)
+    private fun deleteCategory() = modelo.removeCategory (modelo.selectCategorySerie!!)
+    private fun addContent() = modelo.addContent(modelo.selectContentSerie!!)
+    private fun deleteContent() = modelo.removeContent(modelo.selectContentSerie!!)
+
 }

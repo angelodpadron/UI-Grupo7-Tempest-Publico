@@ -14,7 +14,7 @@ class WindowModifiedChapter(owner: WindowOwner, chapterAppModel: ChapterAppModel
 
         override fun createFormPanel(p0: Panel) {
 
-            Panel(p0) with {
+          /*  Panel(p0) with {
                 asVertical()
                 Label(p0) with { text = "Title" }
                 TextBox(p0) with {
@@ -65,7 +65,9 @@ class WindowModifiedChapter(owner: WindowOwner, chapterAppModel: ChapterAppModel
                         close()}
                 }
             }
+
+           */
         }
-    fun updateModel() = modelObject.updateModel()
-    fun resetModify() = modelObject.resetModify()
+    //fun updateModel() = modelObject.updateModel()
+    //fun resetModify() = modelObject.resetModify()
 }
