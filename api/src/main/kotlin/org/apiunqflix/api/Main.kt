@@ -53,7 +53,7 @@ fun main() {
             }
         }
         path("/banners"){
-            get(unqFlixController::getAllBanners, mutableSetOf<Role>(Rol.INVITED,Rol.ACTIVE_USER))
+            get(unqFlixController::getAllBanners, mutableSetOf<Role>(Rol.ACTIVE_USER))
         }
         path("/content") {
             get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Rol.INVITED,Rol.ACTIVE_USER))
