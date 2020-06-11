@@ -36,7 +36,7 @@ fun main() {
 
     app.routes {
         path("/login") {
-            post(userController::login, mutableSetOf<Role>(Rol.INVITED, Rol.ACTIVE_USER))
+            post(userController::login, mutableSetOf<Role>(Rol.INVITED))
         }
         path("/register"){
             post(userController::register, mutableSetOf<Role>(Rol.INVITED))
@@ -44,9 +44,7 @@ fun main() {
         path("/user") {
             get(userController::getUserFeatures, mutableSetOf<Role>(Rol.ACTIVE_USER))
             path("/fav") {
-                path("/:idContent") {
                     post(userController::addUserFavContent, mutableSetOf<Role>(Rol.ACTIVE_USER))
-                }
             }
             path("/lastSeen") {
                 post(userController::addUserLastSeen, mutableSetOf<Role>(Rol.ACTIVE_USER))
@@ -56,13 +54,13 @@ fun main() {
             get(unqFlixController::getAllBanners, mutableSetOf<Role>(Rol.ACTIVE_USER))
         }
         path("/content") {
-            get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Rol.INVITED,Rol.ACTIVE_USER))
+            get(unqFlixController::getAvailableContent, mutableSetOf<Role>(Rol.ACTIVE_USER))
             path("/:contentId") {
-                get(unqFlixController::getContentById, mutableSetOf<Role>(Rol.INVITED,Rol.ACTIVE_USER))
+                get(unqFlixController::getContentById, mutableSetOf<Role>(Rol.ACTIVE_USER))
             }
         }
         path("/search") {
-            get(unqFlixController::searchText, mutableSetOf<Role>(Rol.INVITED))
+            get(unqFlixController::searchText, mutableSetOf<Role>(Rol.ACTIVE_USER))
         }
     }
 }

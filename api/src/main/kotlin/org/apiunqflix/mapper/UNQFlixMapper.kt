@@ -7,6 +7,7 @@ data class LoginUserMapper (val email: String? = null, val password: String? = n
 data class UserRegisterMapper (val name: String?, val email: String?, val password: String?, val creditCard: String?, val image: String?)
 
 //CONTENTS mappers
+data class EntryIDMapper(var id: String? = null)
 data class ChapterMapper(val id: String, val title: String, val description: String, val duration: Int, val video: String, val thumbnail: String)
 data class SeasonMapper(val id: String,val title: String,val description: String,val poster: String,val chapters: MutableList<ChapterMapper>)
 data class CategoryMapper(val name: String)

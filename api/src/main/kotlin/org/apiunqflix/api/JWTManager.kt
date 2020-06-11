@@ -20,7 +20,7 @@ class JWTManager(val tokenJWT: TokenJWT, val backend: UNQFlix):AccessManager{
     }
 
     override fun manage(handler: Handler, ctx: Context, roles: MutableSet<Role>) {
-        val tokenJWT =ctx.header("Authorization")
+        val tokenJWT =ctx.header("Authentication")
         when{
 
             // LOGIN; GET USER
