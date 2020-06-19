@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+
+const enConstruccion =  
+  (<div className = "placeHolder">
+    <p>En construccion...</p>
+    <img src= "https://i.pinimg.com/474x/de/77/2d/de772d3bfb6620692c83edcf2561eb41.jpg" />
+  </div>);  
+
+
+ReactDOM.render(enConstruccion, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
