@@ -1,5 +1,6 @@
 import React from 'react'
-import './Login.css'
+import './LoginSignUp.css'
+
 
 class Login extends React.Component{
     constructor(props){
@@ -11,9 +12,7 @@ class Login extends React.Component{
     }
 
     handleChange = (event) => {
-        this.setState({[event.target.name]: event.target.value});
-        console.log(this.state.username);
-        console.log(this.state.password);        
+        this.setState({[event.target.name]: event.target.value});              
     }
   
     atemptLogin = () => {
@@ -31,7 +30,8 @@ class Login extends React.Component{
 
     render() {
         return(
-        <div className= "loginForm">
+        <div className= "container">
+            <h1>Login</h1>
             <form onSubmit={this.atemptLogin}>
                 <input 
                     type='text'
@@ -45,11 +45,14 @@ class Login extends React.Component{
                     placeholder= 'password...'                
                     onChange={this.handleChange}
                 />
-                <input type='submit' name='submit' value='Login'/>    
+                <hr></hr>           
+                <div className= "loginButtons">
+                    <button type='submit' name='submit'>Login</button>
+                    <button type="button">Register</button>
+                </div>                
             </form>
-            <div className= "registerRedirect">
-                <button type="button">Register</button>
-            </div>
+            <p>If you're new 'round here, hit the Register button to sign up!</p>
+            
         </div>
     );
     }

@@ -3,6 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
+//BOOTSTRAP
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+//LOGIN
+import Login from './Login.js';
+//REGISTER
+import Register from './Register.js'
 
 const enConstruccion =  
   (<div className = "placeHolder">
@@ -11,7 +18,9 @@ const enConstruccion =
   </div>);  
 
 
-ReactDOM.render(enConstruccion, document.getElementById('root'));
+ReactDOM.render(<React.StrictMode>
+  <Register />
+</React.StrictMode>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
