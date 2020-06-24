@@ -10,6 +10,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Login.js';
 //REGISTER
 import Register from './Register.js'
+//HOME (linux build)
+import Home from './Home.js'
 
 const enConstruccion =  
   (<div className = "placeHolder">
@@ -19,7 +21,7 @@ const enConstruccion =
 
 
 ReactDOM.render(<React.StrictMode>
-  <Register />
+  <Home />
 </React.StrictMode>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
