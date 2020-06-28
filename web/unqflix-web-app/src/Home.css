@@ -1,0 +1,100 @@
+.bottomvar{
+    background-color: #333;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    
+}
+
+.bottomvar a{
+    float: center;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.bottomvar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav {
+    background-color: #C1022C;
+    overflow: hidden;
+    top: 0;
+    position: fixed;
+    width: 100%;
+}
+
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav input[type=text] {
+    float: right;
+    padding: 6px;
+    border: none;
+    background: gray;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+    border-radius: 10px;
+
+}
+
+.topnav input[type=text]:focus{
+    background-color: rgb(255, 255, 255);
+    outline: none; 
+}
+
+.topnav button{
+    float: right;
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+    opacity: 0.8;
+    border-radius: 10px;
+}
+
+.topnav button:hover{
+    opacity: 1;
+}
+
+.content{
+    margin-top: 75px;
+}
+
+.banners{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 21rem);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+    
+    text-align: center;
+
+}
+
+.banners img{
+    height: 500px;
+    width: auto;
+    border-radius: 10px;
+    border-color: black;
+    border: 1px solid #ddd;
+}
+
