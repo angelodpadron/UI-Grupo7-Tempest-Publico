@@ -6,12 +6,9 @@ import * as serviceWorker from './serviceWorker';
 //BOOTSTRAP
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-//LOGIN
-import Login from './Login.js';
-//REGISTER
-import Register from './Register.js'
-//HOME (linux build)
-import Home from './Home.js'
+//APP
+import App from './App.js'
+import { BrowserRouter } from 'react-router-dom';
 
 const enConstruccion =  
   (<div className = "placeHolder">
@@ -20,9 +17,9 @@ const enConstruccion =
   </div>);  
 
 
-ReactDOM.render(<React.StrictMode>
-  <Home />
-</React.StrictMode>, document.getElementById('root'));
+ReactDOM.render(<BrowserRouter>
+  <App />
+</BrowserRouter>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

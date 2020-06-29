@@ -59,14 +59,13 @@ class Register extends React.Component{
                         type='text'
                         name='cardNumber'
                         placeholder='credit card number...'
-                        pattern={0 - 9}
                         onChange={this.handleChange}
                         required
                     />
                     <hr></hr>
                     <div className="registerButtons">
-                        <button type='submit' className='submitBtn'>Register</button>
-                        <button type="reset" className='clearBtn'>Clear</button>
+                        <button type='submit' className='btn btn-light'>Register</button>
+                        <button type="reset" className='btn btn-light'>Clear</button>
                     </div>
                 </form>   
                 <p>By creating an account you agree to our Terms and Privacy.</p>             

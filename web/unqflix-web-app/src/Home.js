@@ -1,39 +1,29 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
-
+import api from './Api'
 import './Home.css'
 
 const Home = () => {
 	const [banners, setBanners] = useState([]);
-	const [unnautorized, setUnnautorized] = useState(false);
-
-	//localhost
-	const host = 'http://localhost:7000'		
+	const [unnautorized, setUnnautorized] = useState(false);		
 
 	useEffect(() => {
-		axios.get(host.concat('/banners'))
+		api.getBanners()
 		.then(response => setBanners(response.data.banners))
-		.catch(() => setUnnautorized(true))		
-		
-
-	}, []);
-	
-	console.log(banners)
+		.catch(() => setUnnautorized(true))
+	}, []);	
 
 	if (unnautorized) {
-		return (
-			<div>
-				Error al acceder a la API
-			</div>
-		);
+		return (<div>Error al acceder a la API</div>);
 	}
 
+
+	// TODO: mover estos constructores en otras clases
 	const poster = (contentData) => {
-		return (
-			<img src={contentData.poster} alt={contentData.title}/>
-		)
+		return (<img src={contentData.poster} alt={contentData.title}/>);
 	}
 
+
+	//render
 	return(
 		<>
 			<div className="topnav">
@@ -43,10 +33,10 @@ const Home = () => {
 						<button type="submit">Go</button>
 						<input type="text" placeholder="Search..."/>
 					</form>
-				</div>
+				</div>				
 			</div>
 			<div className="content">
-				<div className="banners-carousel">Carousel placeholder</div>
+				<div className="banners-carousel"></div>
 				<div className="viewed">Recently watched</div>
 				<div className="favourites">Favourites</div>
 				<div className="banners">
