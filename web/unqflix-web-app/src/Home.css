@@ -1,32 +1,11 @@
-.bottomvar{
-    background-color: #333;
-    bottom: 0;
-    position: fixed;
-    width: 100%;
-    
-}
-
-.bottomvar a{
-    float: center;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-}
-
-.bottomvar a:hover {
-    background-color: #ddd;
-    color: black;
-}
-
 .topnav {
     background-color: #C1022C;
     overflow: hidden;
     top: 0;
     position: fixed;
     width: 100%;
+    opacity: 0.9;
+    z-index:1;
 }
 
 .topnav a {
@@ -76,17 +55,51 @@
     opacity: 1;
 }
 
+.bottomvar{
+    background-color: #333;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    opacity: 0.5;
+    
+}
+
+.bottomvar:hover{
+    opacity: 1;
+
+}
+
+.bottomvar a{
+    float: center;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    
+}
+
+.bottomvar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
 .content{
     margin-top: 75px;
+    margin-bottom: 75px;
+    background-image: url(https://cdn.cnn.com/cnnnext/dam/assets/141007105341-cnn-films-background-full-169.jpg);
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 .banners{
     display: grid;
     grid-template-columns: repeat(auto-fit, 21rem);
     grid-gap: 10px;
-    grid-auto-rows: minmax(100px, auto);
-    
+    grid-auto-rows: minmax(100px, auto);    
     text-align: center;
+    justify-content: center;
 
 }
 
@@ -96,5 +109,13 @@
     border-radius: 10px;
     border-color: black;
     border: 1px solid #ddd;
+    background-color: gray;
+    transition: all .3s;    
 }
+
+.banners img:hover{
+    transform: scale(1.02);
+    box-shadow: 10px 15px 15px 0px rgba(0, 0, 0, 0.5);
+}  
+
 
