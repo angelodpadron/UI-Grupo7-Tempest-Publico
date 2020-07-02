@@ -79,7 +79,7 @@ class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
                     content.description,
                     content.poster,
                     content.categories.map { CategoryMapper(it.name) } as MutableList<CategoryMapper>,
-                    content.relatedContent.map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available")) } as MutableList<ContentViewMapper>,
+                    content.relatedContent.map {RelatedContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available"),it.poster) } as MutableList<RelatedContentViewMapper>,
                     content.seasons.map { SeasonMapper(it.id, it.title, it.description, it.poster, it.chapters.map { ChapterMapper(it.id, it.title, it.description, it.duration, it.video, it.thumbnail) } as MutableList<ChapterMapper>) } as MutableList<SeasonMapper>
                     )
                 )
@@ -97,7 +97,7 @@ class UNQFlixController(val unqFlix: UNQFlix,val token: TokenJWT) {
                     content.actors,
                     content.directors,
                     content.categories.map { CategoryMapper(it.name) } as MutableList<CategoryMapper>,
-                    content.relatedContent.map { ContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available")) } as MutableList<ContentViewMapper>
+                    content.relatedContent.map { RelatedContentViewMapper(it.id, it.description, it.title, it.state.toString().contains("Available"),it.poster) } as MutableList<RelatedContentViewMapper>
                     )
                 )
             }
