@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './LoginSignUp.css'
+import api from './Api';
 
 class Register extends React.Component{
     constructor (props){
@@ -9,23 +10,38 @@ class Register extends React.Component{
             name: '',
             password: '',
             imageURL: '',
-            cardNumber: ''
+            cardNumber: '',
         }
     }
 
     handleChange = (event) => {
         this.setState({[event.target.name]: event.target.value});              
     }
-
+    
     atemptRegister = () => {
-        //alguna logica rara aca...
+        let payload = {
+            name: this.state.name,
+            email: this.state.email,
+            password: this.state.password,
+            creditCard: this.state.cardNumber,
+            image: this.state.imageURL
+
+        }
+
+        api.register(payload)
+        .then((response) => {console.log(response)})
+        .catch((error) => {console.log(error.response)});
     }
+
+    canAtemptRegister = () => {
+        return !(Object.values(this.state).every((value) => value !== ''));
+    }    
 
     render() {
         return(                            
             <div className="container">
                 <h1>Sign up on UNQFlix</h1>
-                <form onSubmit={this.atemptRegister}>
+                
                     <input
                         type='email'
                         name='email'
@@ -49,7 +65,7 @@ class Register extends React.Component{
                         required
                     />
                     <input
-                        type='url'
+                        type='text'
                         name='imageURL'
                         placeholder='image link...'
                         onChange={this.handleChange}
@@ -64,11 +80,11 @@ class Register extends React.Component{
                     />
                     <hr></hr>
                     <div className="registerButtons">
-                        <button type='submit' className='btn btn-light'>Register</button>
+                        <button className='btn btn-light' disabled={this.canAtemptRegister()} onClick={this.atemptRegister}>Register</button>
                         <button type="reset" className='btn btn-light'>Clear</button>
                     </div>
-                </form>   
-                <p>By creating an account you agree to our Terms and Privacy.</p>             
+                  
+                <p>By creating an account you agree to our Terms and Privacy.</p>                                        
             </div>
             
     );
