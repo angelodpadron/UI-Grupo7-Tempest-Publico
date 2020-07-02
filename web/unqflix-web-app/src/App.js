@@ -6,6 +6,7 @@ import Home from './Home';
 import Login from './Login';
 import Register from './Register';
 import Search from './Search'
+import Movie from './Movie.js'
 
 import NotFoundPage from './NotFoundPage'
 
@@ -21,6 +22,7 @@ export default class App extends React.Component{
                     <Route exact path= '/signup' component={Register}/>
                     <Route exact path= '/home' component={Home}/>
                     <Route exact path= '/search' component={Search}/>
+                    <Route exact path= '/content/:id' component= {Movie}/>
                     <Route path='*'  component={NotFoundPage}/>
                 </Switch>
             </Router>
