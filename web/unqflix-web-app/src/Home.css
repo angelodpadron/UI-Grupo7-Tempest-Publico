@@ -1,3 +1,9 @@
+/* .wrapper {
+    background-image: url(https://cdn.cnn.com/cnnnext/dam/assets/141007105341-cnn-films-background-full-169.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+} */
+
 .topnav {
     background-color: #C1022C;
     overflow: hidden;
@@ -87,10 +93,7 @@
 
 .content{
     margin-top: 75px;
-    margin-bottom: 75px;
-    background-image: url(https://cdn.cnn.com/cnnnext/dam/assets/141007105341-cnn-films-background-full-169.jpg);
-    background-size: cover;
-    background-attachment: fixed;
+    margin-bottom: 75px;    
 }
 
 .banners{
