@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './LoginSignUp.css'
 import api from './Api';
+import { Redirect } from 'react-router-dom';
 
 class Register extends React.Component{
     constructor (props){
@@ -11,6 +12,7 @@ class Register extends React.Component{
             password: '',
             imageURL: '',
             cardNumber: '',
+            successLogin: false
         }
     }
 
@@ -29,7 +31,10 @@ class Register extends React.Component{
         }
 
         api.register(payload)
-        .then((response) => {console.log(response)})
+        .then(response => {
+            console.log(response)
+            this.setState({successLogin: true})
+        })
         .catch((error) => {console.log(error.response)});
     }
 
@@ -37,7 +42,14 @@ class Register extends React.Component{
         return !(Object.values(this.state).every((value) => value !== ''));
     }    
 
-    render() {
+    render() {   
+        
+        if (this.state.successLogin){
+            return(
+                <Redirect to='/login'/>
+            )
+        }
+
         return(                            
             <div className="container">
                 <h1>Sign up on UNQFlix</h1>

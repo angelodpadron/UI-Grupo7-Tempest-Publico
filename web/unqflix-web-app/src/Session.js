@@ -1,6 +1,4 @@
 import axios from 'axios'
-import { useHistory, Redirect } from 'react-router-dom';
-
 
 const host = 'http://localhost:7000';
 const loginURL = host.concat('/login');

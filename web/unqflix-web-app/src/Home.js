@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import api from './Api'
 import './Home.css'
 import { useHistory, Link } from 'react-router-dom';
+import session from './Session';
 
 //temporal
 import axios from 'axios'
@@ -14,30 +15,40 @@ const Home = () => {
 	const [loading, setLoading] = useState(true);
 	const history = useHistory()
 	
-	useEffect(() => {
+	useEffect( async () => {
 		if (!sessionStorage.length > 0){
 			history.push('/login')
 		}
-				
-		//banners init
-		api.getBanners()
-		.then(response => {setBanners(response.data.banners);
-		})		
+		
+		const currentToken = {headers: {'Authentication': sessionStorage.getItem("currentUser")}}
 		
 		//users init
-		axios.get('http://localhost:7000/user', 
-		{headers: {'Authentication': sessionStorage.getItem("currentUser")}})
+		await axios.get('http://localhost:7000/user', 
+		currentToken)
 		.then(response => {
 			setCurrentUser(response.data);
-			setLoading(false)})
+			})
 		.catch(error => console.log(error))		
+		
+		//banners init
+		api.getBanners(currentToken)
+		.then(response => {setBanners(response.data.banners);
+			setLoading(false)})		
+		
+			
 	}, []);	
 
 	// 
 
 	const handleChange = (e) => {
 		setSearchQuery(e.target.value)
-	} 
+	}
+	
+	const performSignOut = () =>{
+		session.logoff()
+		setCurrentUser(undefined)
+		history.push('/login')
+	}
 
 	const toSearchPage = () =>{
 		let query = '?text='.concat(searchQuery);
@@ -63,10 +74,6 @@ const Home = () => {
 		return (poster(foundBanner, foundBanner.id))
 	}
 
-
-
-
-
 	const canSearch = () => {
 		return !(searchQuery.length > 0);
 	}
@@ -88,15 +95,7 @@ const Home = () => {
 				<div className="topnav">
 					<Link to='/home'>UNQFlix</Link>					
 					<div className="user-dropdown">
-						<button class="dropbtn">
-							{currentUser.name}
-							<i class="fa fa-caret-down"></i>
-						</button>
-						{/* <div class="dropdown-content">
-							<a href="#">Link 1</a>
-							<a href="#">Link 2</a>
-							<a href="#">Link 3</a>
-    					</div> */}
+						<button class="dropbtn" onClick={performSignOut}> Sign out</button>						
 					</div>						
 					<div className="search-container">
 						<form onSubmit={toSearchPage}>
