@@ -18,8 +18,8 @@ function register(payload){
     return post('/register', payload)
 }
 
-function searchAPI(payload, token){
-    return axios.get(host.concat('/search'), payload, token)
+function searchAPI(text, token){
+    return axios.get(host.concat('/search?text=').concat(text), token)
 }
 
 function getContentId(id){

@@ -11,27 +11,20 @@ const SearchPage = () => {
     const[searchContent, setSearchContent] = useState([]);
     const[banners, setBanners] = useState([]);
     const[loading, setLoading] = useState(true);
-    const history = useHistory()
-    
-    
+    const history = useHistory()  
 
-    const payload = {
-        params: {
-            text: keyWord
-        }
-    }
+    
 
     useEffect( async () => {
         
         if (!sessionStorage.length > 0){
 			history.push('/login')
-		}
+        }        
         
         const currentToken = {headers: {'Authentication': sessionStorage.getItem("currentUser")}}
-
         
         //search init
-        await api.searchAPI(payload, currentToken)
+        await api.searchAPI(keyWord, currentToken)
         .then(response => {
                 console.log("response data de search", response.data.content)
                 setSearchContent(response.data.content)        
