@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import api from './Api';
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useHistory } from "react-router-dom";
 
 function useQuery(){
     return new URLSearchParams(useLocation().search)
@@ -11,6 +11,7 @@ const SearchPage = () => {
     const[searchContent, setSearchContent] = useState([]);
     const[banners, setBanners] = useState([]);
     const[loading, setLoading] = useState(true);
+    const history = useHistory()
     
     
 
@@ -20,9 +21,17 @@ const SearchPage = () => {
         }
     }
 
-    useEffect( () => {   
+    useEffect( async () => {
+        
+        if (!sessionStorage.length > 0){
+			history.push('/login')
+		}
+        
+        const currentToken = {headers: {'Authentication': sessionStorage.getItem("currentUser")}}
+
+        
         //search init
-        api.searchAPI(payload)
+        await api.searchAPI(payload, currentToken)
         .then(response => {
                 console.log("response data de search", response.data.content)
                 setSearchContent(response.data.content)        
@@ -30,7 +39,7 @@ const SearchPage = () => {
         .catch(e => console.log("error en get search", e))
 
         //banners init
-        api.getBanners().
+        api.getBanners(currentToken).
         then(response => {
             setBanners(response.data.banners)
             setLoading(false)})             
