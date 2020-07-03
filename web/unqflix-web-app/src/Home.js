@@ -31,11 +31,10 @@ const Home = () => {
 		.catch(error => console.log(error))		
 		
 		//banners init
-		api.getBanners(currentToken)
+		await api.getBanners(currentToken)
 		.then(response => {setBanners(response.data.banners);
-			setLoading(false)})		
+			setLoading(false)})				
 		
-			
 	}, []);	
 
 	// 

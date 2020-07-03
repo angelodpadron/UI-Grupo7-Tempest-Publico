@@ -12,7 +12,7 @@ class Register extends React.Component{
             password: '',
             imageURL: '',
             cardNumber: '',
-            successLogin: false
+            redirectToLogin: false
         }
     }
 
@@ -33,18 +33,21 @@ class Register extends React.Component{
         api.register(payload)
         .then(response => {
             console.log(response)
-            this.setState({successLogin: true})
+            this.setState({redirectToLogin: true})
         })
-        .catch((error) => {console.log(error.response)});
+        .catch((error) => {
+            console.log(error.response)
+            });
     }
 
     canAtemptRegister = () => {
         return !(Object.values(this.state).every((value) => value !== ''));
-    }    
-
+    }   
+    
+    
     render() {   
         
-        if (this.state.successLogin){
+        if (this.state.redirectToLogin){
             return(
                 <Redirect to='/login'/>
             )
@@ -96,7 +99,7 @@ class Register extends React.Component{
                         <button type="reset" className='btn btn-light'>Clear</button>
                     </div>
                   
-                <p>By creating an account you agree to our Terms and Privacy.</p>                                        
+                <p>By creating an account you agree to our Terms and Privacy.</p>                                                     
             </div>
             
     );

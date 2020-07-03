@@ -22,8 +22,8 @@ function searchAPI(text, token){
     return axios.get(host.concat('/search?text=').concat(text), token)
 }
 
-function getContentId(id){
-    return axios.get(host.concat('/content/'.concat(id)))
+function getContentId(id, token){
+    return axios.get(host.concat('/content/'.concat(id)), token)
 }
 
 export default {
