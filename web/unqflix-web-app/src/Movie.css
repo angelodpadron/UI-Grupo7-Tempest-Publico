@@ -1,0 +1,83 @@
+.containerMovie{
+    background-image: url(https://i.pinimg.com/originals/35/eb/7d/35eb7d5bce221d9392feb1e426ba48af.jpg);
+    font-family:sans-serif
+}
+
+.featuresMovie{
+    display: grid;
+    grid-template-columns: repeat(12,1fr);
+    grid-gap: 5px;
+    grid-auto-rows: minmax(100px,auto);
+    background-image: url(https://image.freepik.com/vetores-gratis/padrao-de-cinema-sem-emenda_71374-181.jpg);
+}
+
+.poster{
+    grid-column:1 ;
+    grid-row:2;
+    box-shadow:0 0 20px 2px rgba(0, 0,0, .1);
+    width: 230px; 
+    height:350px ;
+    border-radius: 5px;
+    justify-self:end;
+}
+
+.description{
+    border-radius: 5px;
+    background-image: url(https://i.pinimg.com/originals/bd/40/40/bd404061ec80f8c7df6c608d0a14e400.jpg);
+    grid-column:2/14;
+    grid-row:2 ;
+    width:90%;
+    padding:20px;
+    justify-self: left;
+    color:white
+}
+
+.title{
+    background-image: url(https://i.pinimg.com/originals/bd/40/40/bd404061ec80f8c7df6c608d0a14e400.jpg);
+    border-radius:5px;
+    grid-column:2/14 ;
+    grid-row:1;
+    width:60% ;
+    justify-self: left;
+    align-self:end ;
+    color :white
+}
+.reproduceButn{
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.relatedContentTitle{
+    grid-column: 1;
+    padding:40px ;
+    text-align: start;
+    color: white;
+}
+
+.relatedContent{
+    width:80%;
+    padding:10px;
+    
+    margin-bottom: 0px;
+    margin-top: 0px;
+    display: flex;
+    flex-flow: wrap;
+    color : white;
+   
+}
+.contentIcon{
+    width: 200px; 
+    height: 250px ;
+    box-shadow:0 0 20px 2px rgba(0, 0,0, .1);
+    padding:10px;
+}
+
+.relcontent :hover{
+    cursor:pointer;
+    transform:scale(1.1);
+    width: 200px; 
+    height: 250px ;
+    box-shadow:0 0 20px 2px rgba(0, 0,0, .1);
+    padding:10px;
+}
+
