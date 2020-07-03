@@ -27,7 +27,15 @@ const Movie = (props) => {
   }
 
   const poster = (contentData, id) => {
-		let url = '/content/'.concat(id);
+		let url;		
+		if (id.includes("mov")){
+			url = '/movie/'.concat(id);
+		}
+
+		if (id.includes("ser")){
+			url = '/serie/'.concat(id)
+    }
+    
 		return (
       <a href={url}>
         <div className ="relcontent"> 		

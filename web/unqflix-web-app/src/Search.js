@@ -50,7 +50,15 @@ const SearchPage = () => {
 
     const poster = (id) => {   
         let filtredBanners = banners.find(elem => elem.id === id)
-        let url = ('/content/'.concat(id))
+        let url;
+		if (id.includes("mov")){
+			url = '/movie/'.concat(id);
+		}
+
+		if (id.includes("ser")){
+			url = '/serie/'.concat(id)
+		}
+
         return (
         <div>
             <Link to={url}>
