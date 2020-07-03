@@ -9,9 +9,11 @@ const Movie = (props) => {
   const [loading, setLoading] = useState(true)
   
 
-  useEffect(() => {      
+  useEffect(() => {
+    
+      const currentToken = {headers: {"Authentication": sessionStorage.getItem("currentUser")}}
 
-      Api.getContentId(id)
+      Api.getContentId(id, currentToken)
       .then(response => {
         setMovie(response.data)
         setLoading(false)})      
