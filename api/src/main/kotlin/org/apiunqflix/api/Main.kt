@@ -32,6 +32,10 @@ fun main() {
         it.accessManager(accessManager)
     }
 
+    app.before{
+        it.header("Access-Control-Expose-Headers", "*")
+    }
+
     app.start(7000)
 
     app.routes {
