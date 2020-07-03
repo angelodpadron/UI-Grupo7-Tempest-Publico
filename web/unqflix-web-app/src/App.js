@@ -22,7 +22,8 @@ export default class App extends React.Component{
                     <Route exact path= '/signup' component={Register}/>
                     <Route exact path= '/home' component={Home}/>
                     <Route exact path= '/search' component={Search}/>
-                    <Route exact path= '/content/:id' component= {Movie}/>
+                    <Route exact path= '/movie/:id' component= {Movie}/>
+                    <Route exact path= '/serie/:id' component= {NotFoundPage}/>
                     <Route path='*'  component={NotFoundPage}/>
                 </Switch>
             </Router>

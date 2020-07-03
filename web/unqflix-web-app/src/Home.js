@@ -57,7 +57,15 @@ const Home = () => {
 
 	// TODO: mover estos constructores en otras clases
 	const poster = (contentData, id) => {
-		let url = '/content/'.concat(id);
+		let url;		
+		if (id.includes("mov")){
+			url = '/movie/'.concat(id);
+		}
+
+		if (id.includes("ser")){
+			url = '/serie/'.concat(id)
+		}
+
 		return (		
 		<Link to={url}>
 			<img src={contentData.poster} alt={contentData.title}/>
