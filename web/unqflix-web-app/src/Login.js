@@ -64,7 +64,7 @@ export default function Login(){
 
     return(
     <div className= "container">
-        <h1>Login</h1>                
+        {/* <h1>Login</h1>                
             
                 <input type="email" 
                     className="" 
@@ -93,7 +93,31 @@ export default function Login(){
             <div class="alert alert-danger" role="alert">
             incorrect email or password! 
             </div>
-        }       
+        } */}
+        
+        
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" onChange={handleChange}/>
+                <small id="emailHelp" class="form-text text-muted">Don't forget the @</small>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" onChange={handleChange}/>
+            </div>
+            {/* <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> */}
+            <button onClick={atemptLogin} disabled={canLogin()} className='btn btn-primary'>Login</button>
+            <Link to="/signup" className="btn btn-light">Sign up</Link>
+            <p>If you're new 'round here, hit the Register button to sign up!</p>
+            {errorLogin &&
+                <div class="alert alert-danger" role="alert">
+                incorrect email or password! 
+                </div>
+            }
+               
                    
     </div>
     );
