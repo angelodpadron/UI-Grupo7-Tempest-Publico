@@ -15,7 +15,7 @@ const Home = () => {
 	const [loading, setLoading] = useState(true);
 	const history = useHistory()
 	
-	useEffect( async () => {
+	useEffect( () => {
 		if (!sessionStorage.length > 0){
 			history.push('/login')
 		}
@@ -23,7 +23,7 @@ const Home = () => {
 		const currentToken = {headers: {'Authentication': sessionStorage.getItem("currentUser")}}
 		
 		//users init
-		await axios.get('http://localhost:7000/user', 
+		axios.get('http://localhost:7000/user', 
 		currentToken)
 		.then(response => {
 			setCurrentUser(response.data);
@@ -31,7 +31,7 @@ const Home = () => {
 		.catch(error => console.log(error))		
 		
 		//banners init
-		await api.getBanners(currentToken)
+		api.getBanners(currentToken)
 		.then(response => {setBanners(response.data.banners);
 			setLoading(false)})				
 		
@@ -90,8 +90,8 @@ const Home = () => {
 		return(
 			<div class="d-flex justify-content-center">
   				<div className="spinner-border" role="status">
-    				<span className="sr-only">Loading...</span>
-  				</div>
+					<span class="spinner-border spinner-border-sm"></span>
+  				</div>				
 			</div>
 		)
 	}else{
