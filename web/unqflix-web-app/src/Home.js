@@ -6,6 +6,7 @@ import session from './Session';
 
 //temporal
 import axios from 'axios'
+import Nabvar from './Navbar';
 
 
 const Home = () => {
@@ -98,22 +99,20 @@ const Home = () => {
 		console.log("userData", currentUser)
 		return(			
 			<div className="wrapper">
+				<Nabvar/>
+				{/* <nav class="navbar navbar-light bg-light">
+  					<Link to='/home' class="navbar-brand">
+						<img src={process.env.PUBLIC_URL + '/logo_transparent.png'} width="30" height="30"/>
+					</Link>
+						<form class="form-inline my-2 my-lg-0" onSubmit={toSearchPage}>
+      						<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="text" onChange={handleChange}/>
+      						<button class="btn btn-outline-primary my-2 my-sm-0" type="submit" disabled={canSearch()}>Search</button>
+    					</form>
+						<button class="btn btn-danger my-2 my-sm-0" type="submit" onClick={performSignOut}>Sign out</button>						
+				</nav> */}
+							
 				
-				<div className="topnav">
-					<Link to='/home'>UNQFlix</Link>					
-					<div className="user-dropdown">
-						<button class="dropbtn" onClick={performSignOut}> Sign out</button>						
-					</div>						
-					<div className="search-container">
-						<form onSubmit={toSearchPage}>
-							<button type="submit" disabled={canSearch()}>Go</button>
-							<input type="text" name="text" onChange={handleChange} placeholder="Search..."/>
-						</form>
-					</div>
-																	
-				</div>
-				<hr></hr>
-				<div className="content">
+				<div className="container">
 					<h1>VIEWED</h1>
 					<div className="banners">						
 						{currentUser.lastSeen.map(content => favPoster(content.id))}
@@ -130,9 +129,9 @@ const Home = () => {
 					</div>				
 				</div>
 					
-				<div className="bottomvar">
+				{/* <div className="bottomvar">
 					<a href="#">Climb up</a>	
-				</div>		
+				</div>		 */}
 			</div>
 			
 		);	

@@ -2,8 +2,8 @@ import axios from 'axios'
 
 const host = 'http://localhost:7000';
 
-function get(location){
-    return axios.get(host.concat(location))
+function get(location, token){
+    return axios.get(host.concat(location), token)
 }
 
 function post(location, payload){
@@ -26,11 +26,21 @@ function getContentId(id, token){
     return axios.get(host.concat('/content/'.concat(id)), token)
 }
 
+function addToUserFavorites(payload, token){
+    return axios.post(host.concat('/user/fav/'), payload, token)
+}
+
+function addToUserViewed(payload, token){
+    return axios.post(host.concat('/user/lastSeen/'), payload, token)
+}
+
 export default {
     get,
     post,
     getBanners,
     register,
     searchAPI,
-    getContentId
+    getContentId,
+    addToUserFavorites,
+    addToUserViewed
     }

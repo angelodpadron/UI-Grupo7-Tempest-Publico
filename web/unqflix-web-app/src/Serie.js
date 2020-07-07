@@ -1,280 +1,179 @@
-import React, {useState, useEffect} from 'react';
-import api from './Api'
+import React, { useState, useEffect } from 'react';
+import api from './Api';
+import { Link } from 'react-router-dom';
 
-const seriePrueba = {
-    "id": "ser_1",
-    "title": "I Am Not an Animal",
-    "description": "I Am Not An Animal is an animated comedy series about the only six talking animals in the world, whose cosseted existence in a vivisection unit is turned upside down when they are liberated by animal rights activists.",
-    "poster": "https://image.tmdb.org/t/p/w500/nMhv6jG5dtLdW7rgguYWvpbk0YN.jpg",
-    "categories": [
-        {
-            "name": "Animation"
-        },
-        {
-            "name": "Comedy"
-        }
-    ],
-    "relatedContent": [
-        {
-            "id": "mov_22",
-            "description": "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.",
-            "title": "Fight Club",
-            "state": false
-        },
-        {
-            "id": "mov_20",
-            "description": "When larcenous real estate clerk Marion Crane goes on the lam with a wad of cash and hopes of starting a new life, she ends up at the notorious Bates Motel, where manager Norman Bates cares for his housebound mother. The place seems quirky, but fine… until Marion decides to take a shower.",
-            "title": "Psycho",
-            "state": true
-        },
-        {
-            "id": "mov_18",
-            "description": "A samurai answers a village's request for protection after he falls on hard times. The town needs protection from bandits, so the samurai gathers six others to help him teach the people how to defend themselves, and the villagers provide the soldiers with food. A giant battle occurs when 40 bandits attack the village.",
-            "title": "Seven Samurai",
-            "state": true
-        },
-        {
-            "id": "mov_56",
-            "description": "On an isolated island in Brittany at the end of the eighteenth century, a female painter is obliged to paint a wedding portrait of a young woman.",
-            "title": "Portrait of a Lady on Fire",
-            "state": true
-        },
-        {
-            "id": "mov_52",
-            "description": "Spanning four decades, from the chaotic 1960s to the present, director Marco Tullio Giordana's passionate epic 'La Meglio Gioventu' follows two Italian brothers through some of the most tumultuous events of recent Italian history.",
-            "title": "The Best of Youth",
-            "state": false
-        }
-    ],
-    "seasons": [
-        {
-            "id": "sea_1",
-            "title": "Specials",
-            "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution",
-            "poster": "https://ih1.redbubble.net/image.349118470.6262/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg",
-            "chapters": [
-                {
-                    "id": "cha_1",
-                    "title": "I am an Animation",
-                    "description": "DVD Making of Documentary",
-                    "duration": 50,
-                    "video": "https://www.youtube.com/watch?v=Kxms-OtUXS0",
-                    "thumbnail": "https://ih1.redbubble.net/image.349118470.6262/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg"
-                }
-            ]
-        },
-        {
-            "id": "sea_2",
-            "title": "Season 1",
-            "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution",
-            "poster": "https://ih1.redbubble.net/image.349118470.6262/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg",
-            "chapters": [
-                {
-                    "id": "cha_2",
-                    "title": "London Calling",
-                    "description": "Julian Lovely and his group of Animal Activists breaks into Vivi-sec and sets a batch of talking animals free, led by Philip the horse, the group hijack a van, but end up crashing.",
-                    "duration": 60,
-                    "video": "https://www.youtube.com/watch?v=Kxms-OtUXS0",
-                    "thumbnail": "https://ih1.redbubble.net/image.349118470.6262/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg"
-                },
-                {
-                    "id": "cha_3",
-                    "title": "Planet of the Men and Women",
-                    "description": "The six liberated talking animals enter the 'planet of the men and women' where they encounter wild animals & have a close shave at an army firing range.",
-                    "duration": 50,
-                    "video": "https://www.youtube.com/watch?v=Kxms-OtUXS0",
-                    "thumbnail": "https://ih1.redbubble.net/image.349118470.6262/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg"
-                },
-                {
-                    "id": "cha_4",
-                    "title": "Money",
-                    "description": "The animals begin to have problems with money.",
-                    "duration": 90,
-                    "video": "https://www.youtube.com/watch?v=Kxms-OtUXS0",
-                    "thumbnail": "https://ih1.redbubble.net/image.349118470.6262/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg"
-                },
-                {
-                    "id": "cha_5",
-                    "title": "My Fair Mare",
-                    "description": "Love is in the air, but the consequences aren't pretty.",
-                    "duration": 30,
-                    "video": "https://www.youtube.com/watch?v=Kxms-OtUXS0",
-                    "thumbnail": "https://ih1.redbubble.net/image.349118470.6262/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg"
-                },
-                {
-                    "id": "cha_6",
-                    "title": "A Star is Hatched",
-                    "description": "Stardom hails for one of the animals but how will the others react?",
-                    "duration": 60,
-                    "video": "https://www.youtube.com/watch?v=Kxms-OtUXS0",
-                    "thumbnail": "https://ih1.redbubble.net/image.349118470.6262/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg"
-                },
-                {
-                    "id": "cha_7",
-                    "title": "Home",
-                    "description": "As the reality show comes to an end, the animals are set free.",
-                    "duration": 60,
-                    "video": "https://www.youtube.com/watch?v=Kxms-OtUXS0",
-                    "thumbnail": "https://ih1.redbubble.net/image.349118470.6262/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg"
-                }
-            ]
-        }
-    ]
-}
+import './Serie.css'
+import Nabvar from './Navbar';
 
-const Serie = (props) => {
-    //const [serie, setSerie] = useState(seriePrueba);
-    const [serie, setSerie] = useState(undefined);
-    //const [serieID] = useState(seriePrueba.id);
-    const [id] = "ser_1";
-    const [seasonID, setSeason] = useState(undefined);
-    const [chapters, setChapters] = useState([]);
-    const [loading, setLoading] = useState(true);
 
-    function Temporadas({serie}){
-        let {seasons} = serie
-        return (bloque)
-    }
+export default function Serie(props){
 
-    useEffect( () => {
-        //serieInit
-        api.getContentId(id)
+    //consts
+    const seasonID = props.match.params.id
+    const [currentSerie, setCurrentSerie] = useState(undefined)
+    const [currentSeason, setCurrentSeason] = useState(undefined)
+    const [loadingPage, setLoadingPage] = useState(true)
+
+    //user
+    const [currentUser, setCurrentUser] = useState(undefined)
+
+    //button
+    const [buttonText, setButtonText] = useState('Add to Favorites')
+    
+    
+    
+    
+
+    //on render
+    useEffect (() => {
+
+        //token header
+        let token = {headers: {"Authentication": sessionStorage.getItem('currentUser')}}
+
+        api.get('/user', {headers: {"Authentication": sessionStorage.getItem('currentUser')}})
+        .then(response => setCurrentUser(response.data))
+        
+
+        //find serie
+        api.getContentId(seasonID, token)
         .then(response => {
-            setSerie(response.data)
-            setLoading(false)
+            setCurrentSerie(response.data)
+            setCurrentSeason(response.data.seasons[0])
+            setLoadingPage(false)
+            console.log("serie init response", response.data)
+            console.log("default season initialize", response.data.seasons[0])
+                                
         })
-    })
+        .catch(e => console.log("series init fail", e.response))
 
-    if (loading){
+    }, [setCurrentSerie])
+    
+
+    
+
+    if (loadingPage){
         return(
-          <h1>Loading...</h1>
+            <div>Loading...</div>
         )
     }
 
-    const renderTableSeasons = () => {
-        return serie.seasons.map((season) => {
-            //const { id, title } = season //destructuring
-            return (
-                <th key={season.id} className=''>
-                    <td><button type="button" className='seasonSelection' onClick={this.setSeason(season.id)}>{season.title}</button></td>
-                </th>
-            )
-        })
-    }
+    currentUser.favorites.map(favorite => (favorite) => {
+        if (favorite === setCurrentSerie.id){
+            setButtonText('Remove from Favorites');
+            
+        }        
+    })
 
-    const TableSeasons = renderTableSeasons
+    function prueba(){
+        for (var i in currentUser.favorites){
+            if (currentUser.favorites[i].id === setCurrentSerie.id){
+                setButtonText("remove")
+            }
+        }
 
-    const renderTableChapters = () => {
-        if (this.seasonID === void(0)) {
         
-        } else {
-            return serie.seasons.map((season) => {
-                if (season.id == this.seasonID) {
-                    season.chapters.map((chapter) => {
-                        return (
-                            <tr key={season.id}>
-                                <td>{chapter.title}</td>
-                            </tr>
-                        )
-                    })
-                }
-            })
-        }
     }
 
-    const TableChapters = renderTableChapters
-
-    return(
-        <div>
-            <div className="content">
-                <p className="title">{serie.title}</p>
-                <p className="description">{serie.description}</p>
-            </div>
-            <div className="banner">
-                <img src={serie.poster} alt="edit" className="poster"></img>
-            </div>
-            <div className="seasons">
-                <table>
-                    <TableSeasons ></TableSeasons>
-                    <TableChapters></TableChapters>
-                </table>
-            </div>
-            <div className="relatedContent">
-    
-            </div> 
-        </div> // TODO: armar contenido relacionado
-    );
-}
-
-
-
-/*class SerieDetail extends React.Component{
-    constructor (props){
-        super(props);
-        this.state = {
-            selectedContent:undefined
-        }
-        this.active_season_id = ""
-    }
-
-
-
-    renderTableSeasons() {
-        return serie.seasons.map((season) => {
-            const { id, title } = season //destructuring
-            return (
-                <th key={id} className=''>
-                    <td><button type="button" className='seasonSelection' onClick={this.updateSelectedSeason(id)}>{title}</button></td>
-                </th>
-            )
-        })
-    }
-
-    updateSelectedSeason(id_of_season) {
-        this.active_season_id = id_of_season
-        this.render() //TODO: encontrar cómo disparar un re render
-    }
-
-    renderTableChapters() {
-        if (this.active_season_id == "") {
-            return ""
-        } else {
-            return serie.seasons.map((season) => {
-                if (season.id == this.active_season_id) {
-                    season.chapters.map((chapter) => {
-                        return (
-                            <tr key={season.id}>
-                                <td>{chapter.title}</td>
-                            </tr>
-                        )
-                    })
-                }
-            })
-        }
-    }
-
-    render() {
+    function buildTab(season){
         return(
-            <>
-                <div className="content">
-                    <p className="title">{serie.title}</p>
-                    <p className="description">{serie.description}</p>
-                </div>
-                <div className="banner">
-                    <img src={serie.poster} alt="edit" className="poster"></img>
-                </div>
-                <div className="seasons">
-                    <table>
-                        {this.renderTableSeasons()}
-                        {this.renderTableChapters()}
-                    </table>
-                </div>
-                <div className="relatedContent">
+            <li class="nav-item">
+                <button class="btn btn-link" name={season.title} onClick={updateCurrentSeason}>{season.title}</button>                
+            </li>
+        )
+    }   
+    
+    function buildChapterList(chapter){
+        let url = "/player/".concat(chapter.id)
+        return( <>                          
+                <li class="media">
+                    <img class="mr-3" src={chapter.thumbnail} width="300px"/>
+                    <div class="media-body">
+                        <h5 class="mt-0 mb-1">{chapter.title}</h5>
+                        <p>{chapter.description}</p>
+                        <p>Duration: {chapter.duration} minutes</p>
+                        <p>
+                            <Link to={url} className="btn btn-success">Play</Link>    
+                        </p>                        
+                    </div>
+                </li>
+                <hr></hr>
+                </>              
 
-                </div>
-            </> // TODO: armar contenido relacionado
-        );
+        )
     }
-}*/
 
-export default Serie;
+    function buildRelatedContentGrid(content){
+        return(
+            <div className="col banners">
+                <img src={content.poster} alt={content.title}/>
+            </div>
+        )
+        
+    }
+
+    function addToUserFavorites(){
+        //temporal
+        let token = {headers: {'Authentication': sessionStorage.getItem("currentUser")}}
+        let payload = {'id': currentSerie.id}
+        api.addToUserFavorites(payload, token)
+        .then(response => console.log(response.data))
+    }
+
+    function addToUserViewed(){
+        //temporal
+        let token = {headers: {'Authentication': sessionStorage.getItem("currentUser")}}
+        let payload = {'id': currentSerie.id}
+        api.addToUserViewed(payload, token)
+        .then(response => console.log(response.data))
+    }
+
+    function updateCurrentSeason(event){        
+        setCurrentSeason(currentSerie.seasons.find(elem => elem.title === event.target.name))
+    }
+
+    return (
+                
+        <>
+        {console.log(currentUser)}
+        <Nabvar/>
+
+        <div className="jumbotron jumbotron-fluid">           
+            <div class="media">
+                <img class="mr-3" src={currentSerie.poster} alt={currentSerie.title}/>
+                <div class="media-body">
+                    <h5 class="mt-0">{currentSerie.title}</h5>
+                    <p>{currentSerie.description}</p>
+                    <p>
+                        <Link to="#" className='btn btn-primary btn-lg' onClick={addToUserViewed}>Play from the begining</Link>                        
+                    </p>
+                    <p>
+                    <button className="btn btn-primary btn-lg" onClick={addToUserFavorites}>{buttonText}</button>
+                    </p>
+                </div>                  
+            </div>                   
+        </div>
+        <div className="container">
+            <ul class="nav justify-content-center">               
+                {currentSerie.seasons.map(season => buildTab(season))}
+            </ul>
+            <hr></hr>
+            <ul class="list-unstyled">
+                {currentSeason.chapters.map(chapter => buildChapterList(chapter))}
+            </ul>
+        </div>
+        <div className="container">            
+            <h5>Similar content</h5>
+            <hr></hr>
+            <div className="row">
+                {currentSerie.relatedContent.map(content => buildRelatedContentGrid(content))}
+            </div> 
+        </div>    
+        
+        <div>
+            
+        </div>
+        </>
+        
+    )
+
+}

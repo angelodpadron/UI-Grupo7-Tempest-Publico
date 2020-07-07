@@ -1,0 +1,9 @@
+.jumbotron img {
+    float: left;
+    height: 250px;
+    padding-left: 200px;
+}
+
+.container {
+    text-align: left;
+}

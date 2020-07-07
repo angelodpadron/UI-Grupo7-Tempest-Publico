@@ -3,6 +3,8 @@ import './LoginSignUp.css'
 import api from './Api';
 import { Redirect, Link } from 'react-router-dom';
 
+
+
 class Register extends React.Component{
     constructor (props){
         super(props);
@@ -56,35 +58,46 @@ class Register extends React.Component{
         return(                            
             
             <div className="container">
-                <h1>Sign up on UNQFlix</h1>
-                <hr></hr>
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp" onChange={this.handleChange}/>                                
-                </div>
-                <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" onChange={this.handleChange}/>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" onChange={this.handleChange}/>
-                </div>
-                <div class="form-group">
-                    <label for="imageURL">Image source</label>
-                    <input type="url" class="form-control" id="imageURL" name="imageURL" onChange={this.handleChange}/>
-                </div>
-                <div class="form-group">
-                    <label for="cardNumber">Credit card number</label>
-                    <input type="cardNumber" class="form-control" id="cardNumber" name="cardNumber" aria-describedby="emailHelp" onChange={this.handleChange}/>
-                    <small class="form-text text-muted">This app connection isn't encrypted, a middle man could sneak!</small>                                
-                </div>
-                <div className="registerButtons">
-                    <button className='btn btn-primary' disabled={this.canAtemptRegister()} onClick={this.atemptRegister}>Register</button>
-                    <button type="reset" className='btn btn-light'>Clear</button>
-                </div>
-                <hr></hr>
-                <p><Link to='/login'>Log in</Link> if you are registred already</p>
+                <div className="row">
+                    <div className="col-sm">
+                        <img className="login-logo" src={process.env.PUBLIC_URL + '/logo_transparent.png'}/>
+                    </div>
+                    <div className="col-sm">
+                        <h1>Sign up on UNQFlix</h1>
+                        <hr></hr>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp" onChange={this.handleChange}/>                                
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" onChange={this.handleChange}/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" onChange={this.handleChange}/>
+                        </div>
+                        <div class="form-group">
+                            <label for="imageURL">Image source</label>
+                            <input type="url" class="form-control" id="imageURL" name="imageURL" onChange={this.handleChange}/>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardNumber">Credit card number</label>
+                            <input type="cardNumber" class="form-control" id="cardNumber" name="cardNumber" aria-describedby="emailHelp" onChange={this.handleChange}/>
+                            <small class="form-text text-muted">This app connection isn't encrypted, a middle man could sneak!</small>                                
+                        </div>
+                        <div className="registerButtons">
+                            <button className='btn btn-primary' disabled={this.canAtemptRegister()} onClick={this.atemptRegister}>Register</button>
+                            <button type="reset" className='btn btn-light'>Clear</button>
+                        </div>
+                            <hr></hr>
+                            <p><Link to='/login'>Log in</Link> if you are registred already</p>
+                        </div>
+            </div>
+                
+                
+                
+                
             </div>
 
     );

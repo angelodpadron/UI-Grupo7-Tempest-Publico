@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import api from './Api';
 import { useLocation, Link, useHistory } from "react-router-dom";
+import Nabvar from './Navbar';
 
 function useQuery(){
     return new URLSearchParams(useLocation().search)
@@ -86,7 +87,7 @@ const SearchPage = () => {
         } else{ 
             return(
                 <>
-                    <div className="topnav">
+                    {/* <div className="topnav">
                         <Link to='/home'>UNQFlix</Link>
                         <div className="search-container">
                             <form onSubmit={useEffect}>
@@ -94,7 +95,10 @@ const SearchPage = () => {
                                 <input type="text" name="text" onChange={handleChange} placeholder="Search..."/>
                             </form>
                         </div>				
-                    </div>
+                    </div> */}
+
+                    <Nabvar/>
+
                     <div className="content">
                         <div className="banners">
                             <div className="searchContent">                                                                              
