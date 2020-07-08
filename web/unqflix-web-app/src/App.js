@@ -8,6 +8,7 @@ import Register from './Register';
 import Search from './Search'
 import Movie from './Movie.js'
 import Serie from './Serie.js'
+import VideoPlayer from'./VideoPlayer.js'
 
 import NotFoundPage from './NotFoundPage'
 
@@ -25,6 +26,8 @@ export default class App extends React.Component{
                     <Route exact path= '/search' component={Search}/>
                     <Route exact path= '/movie/:id' component= {Movie}/>
                     <Route exact path= '/serie/:id' component= {Serie}/>
+                    <Route exact path= '/videoplayer/:id' component= {VideoPlayer}/>
+                    
                     <Route path='*'  component={NotFoundPage}/>
                 </Switch>
             </Router>

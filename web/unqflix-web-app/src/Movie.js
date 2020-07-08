@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from 'react'
 import Api from './Api';
 import { Redirect ,Link } from 'react-router-dom';
+import Nabvar from './Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Content.css';
 
@@ -48,8 +49,9 @@ export default function Movie (props)  {
    
 
 return (
-        <>            
-        <div className="topnav">
+        <>  
+        <Nabvar/>          
+        {/* <div className="topnav">
             <Link to='/home'>UNQFlix</Link>					
             <div className="user-dropdown">
                 <button class="dropbtn"> Sign out</button>						
@@ -62,12 +64,13 @@ return (
             </div>
                                                             
         </div>
+*/}
         <div className ="jumbotron jumbotron-fluid">
-            <img  src={movie.poster}/>
-            <div className="container">
-              <h1 className ="display-4">{movie.title} </h1>
-              <p className ="lead">{movie.description}</p>
-              <Link to={`/videoplayer/${movie.id}`}className="btn btn-primary"> <img src={process.env.PUBLIC_URL + '/image/boton-de-reproduccion.svg'} className="reproduceBtnIcon" width="250px" /> Play </Link>
+            <img class="mr-3" src={movie.poster}/>
+            <div className="media-body">
+              <h1 className ="mt-0">{movie.title} </h1>
+              <p >{movie.description}</p>
+              <Link to={`/videoplayer/${movie.id}`} className="btn btn-primary">  Play </Link>
             </div>
         </div>
         <div className="container">
