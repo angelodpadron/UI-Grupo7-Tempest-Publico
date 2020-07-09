@@ -25,6 +25,7 @@ export default class App extends React.Component{
                     <Route exact path= '/search' component={Search}/>
                     <Route exact path= '/movie/:id' component= {Movie}/>
                     <Route exact path= '/serie/:id' component= {Serie}/>
+                    
                     <Route path='*'  component={NotFoundPage}/>
                 </Switch>
             </Router>
