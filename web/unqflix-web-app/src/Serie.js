@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import './Serie.css'
 import Nabvar from './Navbar';
+import VideoModal from './VideoModal';
 
 
 export default function Serie(props){
@@ -92,7 +93,7 @@ export default function Serie(props){
                         <p>{chapter.description}</p>
                         <p>Duration: {chapter.duration} minutes</p>
                         <p>
-                            <Link to={url} className="btn btn-success">Play</Link>    
+                            <VideoModal url={chapter.video}/>
                         </p>                        
                     </div>
                 </li>
