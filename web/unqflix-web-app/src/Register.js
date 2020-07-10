@@ -14,7 +14,8 @@ class Register extends React.Component{
             password: '',
             imageURL: '',
             cardNumber: '',
-            redirectToLogin: false
+            redirectToLogin: false,
+            errorRegister: false
         }
     }
 
@@ -39,6 +40,7 @@ class Register extends React.Component{
         })
         .catch((error) => {
             console.log(error.response)
+            this.setState({errorRegister: true})
             });
     }
 
@@ -51,7 +53,11 @@ class Register extends React.Component{
         
         if (this.state.redirectToLogin){
             return(
-                <Redirect to='/login'/>
+                <Redirect to={{
+                    pathname: '/login',
+                    state: { successRegister: true }
+                }}
+        />
             )
         }
 
@@ -89,11 +95,21 @@ class Register extends React.Component{
                         <div className="registerButtons">
                             <button className='btn btn-primary' disabled={this.canAtemptRegister()} onClick={this.atemptRegister}>Register</button>
                             <button type="reset" className='btn btn-light'>Clear</button>
+                            
+                            {this.state.errorRegister &&
+                            <>
+                            <hr></hr>
+                            <div class="alert alert-danger" role="alert">
+                            The entered email address is already in use
+                            </div>
+                            </>
+                        }
                         </div>
                             <hr></hr>
                             <p><Link to='/login'>Log in</Link> if you are registred already</p>
-                        </div>
+                        </div>                        
             </div>
+            
                 
                 
                 

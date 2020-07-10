@@ -7,7 +7,7 @@ import login from './Session'
 import './Login.css'
 
 
-export default function Login(){
+export default function Login(props){
     
     const [state, setState] = useState({
         email: '',
@@ -15,13 +15,22 @@ export default function Login(){
     })
 
     const [redirect, setRedirect] = useState(false)
-
     const [errorLogin, setErrorLogin] = useState(false)
+    const [fromSuccessRegister, setFromSuccessRegister] = useState(false)    
+    
 
     useEffect(() => {
+
         if (sessionStorage.length > 0){
             setRedirect(true)
         }
+
+        if (props.location.state !== undefined){
+            if (props.location.state.successRegister){
+                setFromSuccessRegister(true)                
+            }
+        }
+        
     })
 
     const handleChange = (e) => {
@@ -51,6 +60,7 @@ export default function Login(){
         .catch(e => {
             console.log(e.response)
             setErrorLogin(true)
+            setFromSuccessRegister(false)
         })       
             
     }
@@ -90,9 +100,20 @@ export default function Login(){
                 <hr></hr>
                 <p>If you're new 'round here, hit the Register button to sign up!</p>
                 {errorLogin &&
+                    <>
+                    <hr></hr>
                     <div class="alert alert-danger" role="alert">
-                    incorrect email or password! 
+                    Incorrect email or password! 
                     </div>
+                    </>
+                }
+                {fromSuccessRegister &&
+                    <>
+                    <hr></hr>
+                    <div class="alert alert-success" role="alert">
+                    You're registred! 
+                    </div>
+                    </>
                 }
 
             </div>
