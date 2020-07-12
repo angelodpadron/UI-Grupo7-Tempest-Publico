@@ -68,9 +68,14 @@ const Home = () => {
 		}
 
 		return (		
-		<Link to={url}>
-			<img src={contentData.poster} alt={contentData.title}/>
-		</Link>
+			<Link to={
+				{
+					pathname:url,
+					state:{userFavorites:currentUser.favorites}
+				}
+				}>
+				<img src={contentData.poster} alt={contentData.title}/>
+			</Link>
 		
 		);
 	}

@@ -10,7 +10,7 @@ import VideoModal from './VideoModal';
 export default function Serie(props){
 
     //consts
-    const seasonID = props.match.params.id
+    const serieID = props.match.params.id
     const [currentSerie, setCurrentSerie] = useState(undefined)
     const [currentSeason, setCurrentSeason] = useState(undefined)
     const [loadingPage, setLoadingPage] = useState(true)
@@ -18,8 +18,8 @@ export default function Serie(props){
     //user
     const [currentUser, setCurrentUser] = useState(undefined)
 
-    //button
-    const [buttonText, setButtonText] = useState('Add to Favorites')
+    //button (favorites)
+    const [onFavorites, setOnFavorites] = useState(false)
     
     
     
@@ -35,8 +35,17 @@ export default function Serie(props){
         .then(response => setCurrentUser(response.data))
         
 
+        if (props.location.state !== undefined) {
+            if (props.location.state.userFavorites.length > 0) {
+                var result = props.location.state.userFavorites.filter(elem => elem.id === serieID)
+                if (result.length > 0) {
+                    setOnFavorites(true)
+                }
+            }
+        }
+
         //find serie
-        api.getContentId(seasonID, token)
+        api.getContentId(serieID, token)
         .then(response => {
             setCurrentSerie(response.data)
             setCurrentSeason(response.data.seasons[0])
@@ -58,21 +67,12 @@ export default function Serie(props){
         )
     }
 
-    currentUser.favorites.map(favorite => (favorite) => {
-        if (favorite === setCurrentSerie.id){
-            setButtonText('Remove from Favorites');
-            
-        }        
-    })
-
-    function prueba(){
-        for (var i in currentUser.favorites){
-            if (currentUser.favorites[i].id === setCurrentSerie.id){
-                setButtonText("remove")
-            }
+    function checkOnFavorites() {
+        if (onFavorites) {
+            return <>Remove from Favorites</>
+        } else {
+            return <>Add to Favorites</>
         }
-
-        
     }
 
     function buildTab(season){
@@ -112,12 +112,15 @@ export default function Serie(props){
         
     }
 
-    function addToUserFavorites(){
-        //temporal
+    function handleUserFavorites(){
         let token = {headers: {'Authentication': sessionStorage.getItem("currentUser")}}
         let payload = {'id': currentSerie.id}
         api.addToUserFavorites(payload, token)
-        .then(response => console.log(response.data))
+        .then(response => 
+            {
+                console.log(response.data)
+                setOnFavorites(!onFavorites)
+            })
     }
 
     function addToUserViewed(){
@@ -148,7 +151,7 @@ export default function Serie(props){
                         <Link to="#" className='btn btn-primary btn-lg' onClick={addToUserViewed}>Play from the begining</Link>                        
                     </p>
                     <p>
-                    <button className="btn btn-primary btn-lg" onClick={addToUserFavorites}>{buttonText}</button>
+                    <button className="btn btn-primary btn-lg" onClick={handleUserFavorites}>{checkOnFavorites()}</button>
                     </p>
                 </div>                  
             </div>                   

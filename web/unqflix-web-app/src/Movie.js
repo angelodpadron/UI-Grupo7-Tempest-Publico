@@ -9,14 +9,27 @@ import VideoModal from './VideoModal';
 
 
 export default function Movie (props)  {
+  const movieID = props.match.params.id
 	const [movie, setMovie] = useState(undefined);	
   const [id] = useState(props.match.params.id);
   const [loading, setLoading] = useState(true)
-  
+
+  //button (favorites)
+  const [onFavorites, setOnFavorites] = useState(false)
+
 
   useEffect(() => {      
 
     const currentToken = {headers: {"Authentication": sessionStorage.getItem("currentUser")}}
+
+    if (props.location.state !== undefined) {
+      if (props.location.state.userFavorites.length > 0) {
+        var result = props.location.state.userFavorites.filter(elem => elem.id === movieID)
+          if (result.length > 0) {
+            setOnFavorites(true)
+          }
+        }
+    }
 
     Api.getContentId(id, currentToken)      
     .then(response => {
@@ -29,6 +42,25 @@ export default function Movie (props)  {
     return(
       <h1>Loading...</h1>
     )
+  }
+
+  function checkOnFavorites() {
+    if (onFavorites) {
+        return <>Remove from Favorites</>
+    } else {
+        return <>Add to Favorites</>
+    }
+  } 
+
+  function handleUserFavorites(){
+    let token = {headers: {'Authentication': sessionStorage.getItem("currentUser")}}
+    let payload = {'id': movie.id}
+    Api.addToUserFavorites(payload, token)
+    .then(response => 
+      {
+        console.log(response.data)
+        setOnFavorites(!onFavorites)
+      })
   }
 
   const poster = (contentData, id) => {
@@ -61,6 +93,9 @@ return (
               <p >{movie.description}</p>
               <p>
                 <VideoModal url={movie.video}/>
+              </p>
+              <p>
+                <button className="btn btn-primary btn-lg" onClick={handleUserFavorites}>{checkOnFavorites()}</button>
               </p>
             </div>
         </div>
