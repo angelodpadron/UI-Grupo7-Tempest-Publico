@@ -68,10 +68,10 @@ export default function Serie(props){
     }
 
     function checkOnFavorites() {
-        if (onFavorites) {
-            return <>Remove from Favorites</>
+        if (!onFavorites) {
+            return (<button className="btn btn-primary btn-lg" onClick={handleUserFavorites}>Add to Favorites</button>)
         } else {
-            return <>Add to Favorites</>
+            return (<button className="btn btn-danger btn-lg" onClick={handleUserFavorites}>Remove from Favorites</button>)
         }
     }
 
@@ -151,7 +151,7 @@ export default function Serie(props){
                         <Link to="#" className='btn btn-primary btn-lg' onClick={addToUserViewed}>Play from the begining</Link>                        
                     </p>
                     <p>
-                    <button className="btn btn-primary btn-lg" onClick={handleUserFavorites}>{checkOnFavorites()}</button>
+                        {checkOnFavorites()}
                     </p>
                 </div>                  
             </div>                   

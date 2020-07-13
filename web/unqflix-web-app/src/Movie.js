@@ -35,7 +35,7 @@ export default function Movie (props)  {
     .then(response => {
         setMovie(response.data)
         setLoading(false)})      
-  })
+  },  [])
 
 
   if (loading){
@@ -45,12 +45,12 @@ export default function Movie (props)  {
   }
 
   function checkOnFavorites() {
-    if (onFavorites) {
-        return <>Remove from Favorites</>
+    if (!onFavorites) {
+        return (<button className="btn btn-primary btn-lg" onClick={handleUserFavorites}>Add to Favorites</button>)
     } else {
-        return <>Add to Favorites</>
+        return (<button className="btn btn-danger btn-lg" onClick={handleUserFavorites}>Remove from Favorites</button>)
     }
-  } 
+  }
 
   function handleUserFavorites(){
     let token = {headers: {'Authentication': sessionStorage.getItem("currentUser")}}
@@ -95,7 +95,7 @@ return (
                 <VideoModal url={movie.video}/>
               </p>
               <p>
-                <button className="btn btn-primary btn-lg" onClick={handleUserFavorites}>{checkOnFavorites()}</button>
+                {checkOnFavorites()}
               </p>
             </div>
         </div>
