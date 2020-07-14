@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import api from './Api';
 import { useLocation, Link, useHistory } from "react-router-dom";
 import Nabvar from './Navbar';
+import './Search.css'
 
 function useQuery(){
     return new URLSearchParams(useLocation().search)
@@ -79,9 +80,12 @@ const SearchPage = () => {
     }else{
         if (searchContent.length === 0){
             return(
-                <div>
-                    <p>No hubo resultados...</p>
+                <>
+                <Nabvar/>
+                <div className="content content--not-found">
+                    <p>No matching context...</p>
                 </div>
+                </>
             );
 
         } else{ 
