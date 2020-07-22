@@ -31,8 +31,6 @@ class ChapterAppModel (var chapter: Chapter){
     }
 
 
-
-
     fun updateModel(){
         chapter.title = stageTitle
         title = stageTitle

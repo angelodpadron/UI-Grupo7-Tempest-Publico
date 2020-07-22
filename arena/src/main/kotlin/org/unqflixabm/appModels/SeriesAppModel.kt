@@ -16,7 +16,7 @@ class SeriesAppModel (var serie : Serie){
     var id = serie.id
     var title = serie.title
     var description = serie.description
-    var poster = serie .poster
+    var poster = serie.poster
     var state = serie.state
     var categories: MutableList<CategoryAppModel> = initCategories()
     var seasons: MutableList<SeasonAppModel> = initSeasons()
@@ -26,9 +26,10 @@ class SeriesAppModel (var serie : Serie){
     //STAGE
     var stageTitle = title
     var stagePoster = poster
+    var stageState = initState()
     var stageDescription = description
     var stageCategories = categories
-    var stageRelatedContent = relatedContent
+
 
 
     //SELECTIONS
@@ -36,8 +37,6 @@ class SeriesAppModel (var serie : Serie){
     var selectSeason: SeasonAppModel? = null
     var selectCategorySerie : CategoryAppModel? = null
     var selectContentSerie: ContentAppModel? = null
-    var testing : CategoryAppModel? = null
-
 
     //INITIATORS mapper appModel
 
@@ -53,15 +52,25 @@ class SeriesAppModel (var serie : Serie){
         return serie.relatedContent.map { ContentAppModel(it) }.toMutableList()
     }
 
+    private fun initState(): Boolean{
+        return (serie.state.toString().contains("Available"))
+    }
+
     //MODIFY
 
     fun updateModel(){
         serie.title = stageTitle
-        title = serie.title
+        title = stageTitle
+
         serie.poster = stagePoster
-        poster = serie.poster
+        poster = stagePoster
+
         serie.description = stageDescription
-        description = serie.description
+        description = stageDescription
+
+        serie.state = updateState()
+        state = serie.state
+
         updateCategories()
     }
 
@@ -69,6 +78,7 @@ class SeriesAppModel (var serie : Serie){
         stageTitle = title
         stagePoster = poster
         stageDescription = description
+        stageState = initState()
         stageCategories = initCategories()
     }
 
@@ -85,6 +95,14 @@ class SeriesAppModel (var serie : Serie){
         serie.categories = toModel
         categories = initCategories()
 
+    }
+
+    fun updateState(): ContentState{
+        return if (stageState){
+            Available()
+        }else{
+            Unavailable()
+        }
     }
 
     //ADDITIONS

@@ -62,7 +62,7 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?,system: UNQf
             asHorizontal()
             Label(it) with {text = "Availability"}
             CheckBox(it) with {
-                //bindTo("state")//.setTransformer(StateToBooleanTransformer())
+                bindTo("stageState")//.setTransformer(StateToBooleanTransformer())
             }
         }
 
