@@ -5,6 +5,7 @@ import domain.*
 import org.unqflixabm.exceptions.NonSelectException
 import org.uqbar.commons.model.annotations.Observable
 import org.uqbar.commons.model.exceptions.UserException
+import java.util.*
 
 @Observable
 
@@ -35,6 +36,7 @@ class SeriesAppModel (var serie : Serie){
     var selectSeason: SeasonAppModel? = null
     var selectCategorySerie : CategoryAppModel? = null
     var selectContentSerie: ContentAppModel? = null
+    var testing : CategoryAppModel? = null
 
 
     //INITIATORS mapper appModel
