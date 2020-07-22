@@ -5,6 +5,7 @@ import org.unqflixabm.appModels.ContentAppModel
 import org.unqflixabm.appModels.SeriesAppModel
 import org.unqflixabm.appModels.UNQflixAppModel
 import org.unqflixabm.transformers.StateToBooleanTransformer
+import org.uqbar.arena.bindings.ObservableProperty
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.windows.SimpleWindow
 import org.uqbar.arena.windows.WindowOwner
@@ -12,15 +13,18 @@ import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 import org.uqbar.arena.widgets.List
 
-class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
+class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?,system: UNQflixAppModel):
     SimpleWindow<SeriesAppModel>(owner,model ) {
-    var serie: SeriesAppModel = modelObject
+
+    var modelo : SeriesAppModel = modelObject
+
+    var sistema : UNQflixAppModel = system
 
     override fun addActions(p0: Panel?) {
     }
 
     override fun createFormPanel(p0: Panel) {
-        /*   title = "Modify a serie"
+        title = "Modify a serie"
         Panel(p0) with {
             asHorizontal()
             Label(it) with {text = "Title"}
@@ -58,16 +62,11 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
             asHorizontal()
             Label(it) with {text = "Availability"}
             CheckBox(it) with {
-                bindTo("state").setTransformer(StateToBooleanTransformer())
+                bindTo("state")//.setTransformer(StateToBooleanTransformer())
             }
         }
 
-        Panel(p0) with{
-            Label(it) with {
-                text = "Categories"
-                align = "left"
-            }
-        }
+        //CATEGORY PANEL
 
         Panel(p0) with {
             asHorizontal()
@@ -75,29 +74,26 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
                 width = 150
                 height = 100
                 bindItemsTo("categories").adaptWithProp<CategoryAppModel>("categoryName")
-
                 bindSelectedTo("selectCategorySerie")
             }
             Panel(it) with {
                 asVertical()
                 Button(it) with {
                     caption = "<"
-                    onClick {modifyCategoriesSerie()}
+                    onClick { addCategory() }
                 }
                 Button(it) with {
                     caption = ">"
-                    onClick {modifyDeleteCategories()}
+                    onClick { deleteCategory()}
                 }
             }
             List<CategoryAppModel>(it) with {
-                var unqflix: UNQflixAppModel
                 width = 150
                 height = 100
+                bindItems(ObservableProperty<UNQflixAppModel>(sistema,"categories")).adaptWithProp<CategoryAppModel>("categoryName")
                 bindSelectedTo("selectCategorySerie")
-                bindItemsTo("categoriesSyst").adaptWithProp<CategoryAppModel>("categoryName")
             }
         }
-
         Panel(p0) with{
             Label(it) with {
                 text = "Related content"
@@ -105,50 +101,59 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?):
             }
         }
 
+        //CONTENT PANEL
+
         Panel(p0) with {
             asHorizontal()
-            KeyWordTextArea(it) with {
+            List<ContentAppModel>(it) with {
                 width = 150
                 height = 100
-                //TODO: habría que printear el contenido existentes, eso es posible?
+                bindItemsTo("relatedContent").adaptWithProp<ContentAppModel>("contentDescription")
+                bindSelectedTo("selectContentSerie")
             }
-            Panel(it) with { it1 ->
+            Panel(it) with {
                 asVertical()
-                Button(it1) with {
+                Button(it) with {
                     caption = "<"
+                    onClick { addContent() }
                 }
-                Button(it1) with {
+                Button(it) with {
                     caption = ">"
+                    onClick { deleteContent() }
                 }
             }
             List<ContentAppModel>(it) with {
                 width = 150
                 height = 100
-                //TODO: tienen que aparecer todas las opciones de contenidos
+                bindItems(ObservableProperty<UNQflixAppModel>(sistema,"contents")).adaptWithProp<ContentAppModel>("contentDescription")
+                bindSelectedTo("selectContentSerie")
             }
         }
-        Panel(p0) with {
+
+        /*Panel(p0) with {
             asHorizontal()
             Button(it) with {
                 caption = "Accept"
                 onClick {
-                    updateModel()
-                    close()
-                }
+                    modelo.updateModel()
+                    close()}
             }
+
             Button(it) with {
                 caption = "Cancel"
                 onClick {
-                    resetModify()
-                    close()
-                }
+                    modelo.updateModel()
+                    close() }
             }
-        }
+
+        }*/
     }
-    private fun resetModify() = modelObject.resetModify()
-    private fun updateModel() = modelObject.updateModel()
-    private fun modifyCategoriesSerie()=modelObject.addCategory(modelObject.selectCategorySerie )
-    private fun modifyDeleteCategories() = modelObject.modifydeleteCategories(modelObject.selectCategorySerie)
-    */
-    }
+    private fun addCategory() = modelo.addCategory(modelo.selectCategorySerie!!)
+    private fun deleteCategory() = modelo.removeCategory (modelo.selectCategorySerie!!)
+    private fun addContent() = modelo.addContent(modelo.selectContentSerie!!)
+    private fun deleteContent() = modelo.removeContent(modelo.selectContentSerie!!)
+    /*
+        private fun resetModify() = modelObject.resetModify()
+        private fun updateModel() = modelObject.updateModel()
+   */
 }

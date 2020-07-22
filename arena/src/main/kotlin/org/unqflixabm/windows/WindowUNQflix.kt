@@ -84,7 +84,7 @@ class WindowUNQflix (owner: WindowOwner, model: UNQflixAppModel):
                 bgColor = Color.decode("#580AAF")
                 width = 200
                 onClick {tryNonSelectException()
-                    WindowModifieSerie(owner,modelo.selectSerie).open()}
+                    WindowModifieSerie(owner,modelo.selectSerie,modelo).open()}
             }
             Button(it) with {
                 caption = "Delete Serie"
