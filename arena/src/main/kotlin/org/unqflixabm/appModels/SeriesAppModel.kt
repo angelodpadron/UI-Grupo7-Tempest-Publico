@@ -9,6 +9,9 @@ import org.uqbar.commons.model.exceptions.UserException
 @Observable
 
 class SeriesAppModel (var serie : Serie){
+
+    constructor(): this(Serie("","","","",Unavailable(),categories = mutableListOf(),seasons = mutableListOf(),relatedContent = mutableListOf()))
+
     var id = serie.id
     var title = serie.title
     var description = serie.description
@@ -19,25 +22,20 @@ class SeriesAppModel (var serie : Serie){
     var numberOfSeasons = seasons.count()
     var relatedContent :MutableList<ContentAppModel> = initContents()
 
+    //STAGE
+    var stageTitle = title
+    var stagePoster = poster
+    var stageDescription = description
+    var stageCategories = categories
+    var stageRelatedContent = relatedContent
+
+
     //SELECTIONS
 
     var selectSeason: SeasonAppModel? = null
     var selectCategorySerie : CategoryAppModel? = null
     var selectContentSerie: ContentAppModel? = null
 
-    init {
-        id
-        title
-        description
-        poster
-        state
-        categories
-        seasons
-        numberOfSeasons
-        relatedContent
-    }
-
-    constructor(): this(Serie("","","","",Unavailable(),categories = mutableListOf(),seasons = mutableListOf(),relatedContent = mutableListOf()))
 
     //INITIATORS mapper appModel
 
@@ -51,6 +49,40 @@ class SeriesAppModel (var serie : Serie){
 
     private fun initContents(): MutableList<ContentAppModel>{
         return serie.relatedContent.map { ContentAppModel(it) }.toMutableList()
+    }
+
+    //MODIFY
+
+    fun updateModel(){
+        serie.title = stageTitle
+        title = serie.title
+        serie.poster = stagePoster
+        poster = serie.poster
+        serie.description = stageDescription
+        description = serie.description
+        updateCategories()
+    }
+
+    fun resetModify(){
+        stageTitle = title
+        stagePoster = poster
+        stageDescription = description
+        stageCategories = initCategories()
+    }
+
+    fun stageCategories(categoryAppModel: CategoryAppModel){
+
+        if (!stageCategories.any{it.id == categoryAppModel.id}){
+            stageCategories.add(categoryAppModel)
+        }
+
+    }
+
+    fun updateCategories(){
+        var toModel = stageCategories.map { it.toModel() }.toMutableList()
+        serie.categories = toModel
+        categories = initCategories()
+
     }
 
     //ADDITIONS
@@ -105,7 +137,14 @@ class SeriesAppModel (var serie : Serie){
 
     fun newSerieFormat(): Serie{
 
-        return Serie(idGenerator.nextSerieId(),title,description, poster, state, mutableListOf() /*categories.map {it.toModel()} as MutableList<Category>*/, mutableListOf(), mutableListOf())
+        return Serie(idGenerator.nextSerieId(),
+                title,
+                description,
+                poster,
+                state,
+                categories.map {it.toModel()} as MutableList<Category>,
+                mutableListOf(),
+                relatedContent.map { it.toModel() } as MutableList<Content>)
     }
 
     //EXCEPTIONS

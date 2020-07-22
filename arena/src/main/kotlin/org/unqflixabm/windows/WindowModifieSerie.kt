@@ -31,13 +31,13 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?,system: UNQf
             TextBox(it) with {
                 title = "Title"
                 width = 200
-                bindTo("title")
+                bindTo("stageTitle")
             }
             Label(it) with {text = "Poster"}
             TextBox(it) with {
                 title = "Poster"
                 width = 150
-                bindTo("poster")
+                bindTo("stagePoster")
             }
         }
 
@@ -53,7 +53,7 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?,system: UNQf
             KeyWordTextArea(it) with {
                 width = 400
                 height = 100
-                bindTo("description")
+                bindTo("stageDescription")
 
             }
         }
@@ -62,7 +62,7 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?,system: UNQf
             asHorizontal()
             Label(it) with {text = "Availability"}
             CheckBox(it) with {
-                bindTo("state")//.setTransformer(StateToBooleanTransformer())
+                //bindTo("state")//.setTransformer(StateToBooleanTransformer())
             }
         }
 
@@ -73,7 +73,7 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?,system: UNQf
             List<CategoryAppModel>(it) with {
                 width = 150
                 height = 100
-                bindItemsTo("categories").adaptWithProp<CategoryAppModel>("categoryName")
+                bindItemsTo("stageCategories").adaptWithProp<CategoryAppModel>("categoryName")
                 bindSelectedTo("selectCategorySerie")
             }
             Panel(it) with {
@@ -130,30 +130,29 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?,system: UNQf
             }
         }
 
-        /*Panel(p0) with {
+        Panel(p0) with {
             asHorizontal()
             Button(it) with {
                 caption = "Accept"
                 onClick {
-                    modelo.updateModel()
+                    updateModel()
                     close()}
             }
 
             Button(it) with {
                 caption = "Cancel"
                 onClick {
-                    modelo.updateModel()
+                    resetModify()
                     close() }
             }
 
-        }*/
+        }
     }
-    private fun addCategory() = modelo.addCategory(modelo.selectCategorySerie!!)
+    private fun addCategory() = modelo.stageCategories(modelo.selectCategorySerie!!)
     private fun deleteCategory() = modelo.removeCategory (modelo.selectCategorySerie!!)
     private fun addContent() = modelo.addContent(modelo.selectContentSerie!!)
     private fun deleteContent() = modelo.removeContent(modelo.selectContentSerie!!)
-    /*
-        private fun resetModify() = modelObject.resetModify()
-        private fun updateModel() = modelObject.updateModel()
-   */
+    private fun resetModify() = modelObject.resetModify()
+    private fun updateModel() = modelObject.updateModel()
+
 }
