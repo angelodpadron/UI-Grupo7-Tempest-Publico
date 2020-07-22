@@ -15,14 +15,12 @@ class ChapterAppModel (var chapter: Chapter){
     var video = chapter.video
     var thumbnail = chapter.thumbnail
 
-    init {
-        id
-        title
-        description
-        duration
-        video
-        thumbnail
-    }
+    //STAGING
+    var stageTitle = title
+    var stageDescription = description
+    var stageDuration = duration
+    var stageVideo = video
+    var stageThumbnail = thumbnail
 
     constructor() : this (Chapter("","","",0,"",""))
 
@@ -31,25 +29,36 @@ class ChapterAppModel (var chapter: Chapter){
     fun newChapterFormat(): Chapter{
         return Chapter(idGenerator.nextChapterId(),title,description,duration,video,thumbnail)
     }
-    /*---------- Modify
+
+
+
 
     fun updateModel(){
-        model.title = title
-        model.description = description
-        model.duration = duration
-        model.video = video
-        model.thumbnail = thumbnail
+        chapter.title = stageTitle
+        title = stageTitle
+
+        chapter.description = stageDescription
+        description = stageDescription
+
+        chapter.duration = stageDuration
+        duration = stageDuration
+
+        chapter.video = stageVideo
+        video = stageVideo
+
+        chapter.thumbnail = stageThumbnail
+        thumbnail = stageThumbnail
+
     }
 
     fun resetModify(){
-        this.title = model.title
-        this.description = model.description
-        this.duration = model.duration
-        this.video = model.video
-        this.thumbnail = model.thumbnail
+        this.stageTitle = title
+        this.stageDescription = chapter.description
+        this.stageDuration = chapter.duration
+        this.stageVideo = chapter.video
+        this.stageThumbnail = chapter.thumbnail
     }
 
-     */
 
-    //---------- ViewModel to Model
+
 }

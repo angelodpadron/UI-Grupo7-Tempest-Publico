@@ -14,38 +14,38 @@ class WindowModifiedChapter(owner: WindowOwner, chapterAppModel: ChapterAppModel
 
         override fun createFormPanel(p0: Panel) {
 
-          /*  Panel(p0) with {
+            Panel(p0) with {
                 asVertical()
                 Label(p0) with { text = "Title" }
                 TextBox(p0) with {
                     title = "Title:"
                     width = 200
-                    bindTo("title")
+                    bindTo("stageTitle")
                 }
                 Label(p0) with { text = "Description" }
                 KeyWordTextArea(p0) with {
                     title = "Description:"
                     width = 200
                     height = 200
-                    bindTo("description")
+                    bindTo("stageDescription")
                 }
                 Label(p0) with { text = "Duration" }
                 NumericField(p0) with {
                     title = "Duration:"
                     width = 200
-                    bindTo("duration")
+                    bindTo("stageDuration")
                 }
                 Label(p0) with { text = "Thumbnail" }
                 TextBox(p0) with {
                     title = "Thumbnail:"
                     width = 200
-                    bindTo("thumbnail")
+                    bindTo("stageThumbnail")
                 }
                 Label(p0) with { text = "Video" }
                 TextBox(p0) with {
                     title = "Video:"
                     width = 200
-                    bindTo("video")
+                    bindTo("stageVideo")
                 }
             }
 
@@ -66,8 +66,8 @@ class WindowModifiedChapter(owner: WindowOwner, chapterAppModel: ChapterAppModel
                 }
             }
 
-           */
+
         }
-    //fun updateModel() = modelObject.updateModel()
-    //fun resetModify() = modelObject.resetModify()
+    private fun updateModel() = modelObject.updateModel()
+    private fun resetModify() = modelObject.resetModify()
 }

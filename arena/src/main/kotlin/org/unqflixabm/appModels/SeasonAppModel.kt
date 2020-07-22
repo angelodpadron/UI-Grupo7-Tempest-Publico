@@ -17,18 +17,14 @@ class SeasonAppModel(var season : Season) {
     var chapters: MutableList<ChapterAppModel> = initChapters()
     var numberOfChapters = chapters.count()
 
+    //STAGING
+    var stageTitle = title
+    var stageDescription = description
+    var stagePoster = poster
+
     //SELECTIONS
 
     var selectChapter: ChapterAppModel? = null
-
-    init {
-        id
-        title
-        description
-        poster
-        chapters
-        numberOfChapters
-    }
 
     constructor() :this(Season("","","","",chapters = mutableListOf()))
 
@@ -73,27 +69,27 @@ class SeasonAppModel(var season : Season) {
             throw NonSelectException("Please select a chapter before continue")
         }
     }
-    /*
+
+
+
     fun updateModel(){
-        model.title = title
-        model.description = description
-        model.poster = poster
+        season.title = stageTitle
+        title = stageTitle
+
+        season.description = stageDescription
+        description = stageDescription
+
+        season.poster = stagePoster
+        poster = stagePoster
+
     }
 
     fun resetModify(){
-        title = model.title
-        description = model.description
-        poster = model.poster
+        stageTitle = title
+        stageDescription = description
+        stagePoster = poster
     }
 
-    fun resetAddChapter(){
-        titleChapter = ""
-        descriptionChapter = ""
-        durationChapter = 0
-        thumbNailChapter = ""
-        videoChapter = ""
-    }
 
-     */
 
 }

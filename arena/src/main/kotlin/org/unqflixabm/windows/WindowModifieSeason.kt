@@ -14,15 +14,15 @@ class WindowModifieSeason(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
         }
 
         override fun createFormPanel(p0: Panel) {
-        /*
+
             TextBox(p0) with {
-                bindTo("title")
+                bindTo("stageTitle")
             }
 
             Label(p0) with {text="Description:"}
 
             KeyWordTextArea(p0) with {
-                bindTo("description")
+                bindTo("stageDescription")
                 width = 400
                 height = 100
 
@@ -31,7 +31,7 @@ class WindowModifieSeason(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
             Label(p0) with {text="Poster:"}
 
             TextBox(p0) with {
-                bindTo("poster")
+                bindTo("stagePoster")
             }
 
             Panel(p0) with {
@@ -56,12 +56,11 @@ class WindowModifieSeason(owner: WindowOwner, seasonAppModel: SeasonAppModel?):
                 }
             }
 
-         */
         }
 
 
-    //fun updateModel() = modelObject.updateModel()
-    // fun resetModify() = modelObject.resetModify()
+    private fun updateModel() = modelObject.updateModel()
+    private fun resetModify() = modelObject.resetModify()
 
 
 }
