@@ -28,18 +28,16 @@ class SeriesAppModel (var serie : Serie){
     var stagePoster = poster
     var stageState = initState()
     var stageDescription = description
-    var stageCategories = categories
-
+    var stageCategory = initCategories()
+    var stageRelatedContent = initContents()
 
 
     //SELECTIONS
-
     var selectSeason: SeasonAppModel? = null
     var selectCategorySerie : CategoryAppModel? = null
     var selectContentSerie: ContentAppModel? = null
 
-    //INITIATORS mapper appModel
-
+    //INIT
     private fun initSeasons(): MutableList<SeasonAppModel>{
         return serie.seasons.map { SeasonAppModel(it) }.toMutableList()
     }
@@ -57,7 +55,6 @@ class SeriesAppModel (var serie : Serie){
     }
 
     //MODIFY
-
     fun updateModel(){
         serie.title = stageTitle
         title = stageTitle
@@ -71,7 +68,11 @@ class SeriesAppModel (var serie : Serie){
         serie.state = updateState()
         state = serie.state
 
-        updateCategories()
+        categories = initCategories()
+        stageCategory = initCategories()
+
+        relatedContent = initContents()
+        stageRelatedContent = initContents()
     }
 
     fun resetModify(){
@@ -79,22 +80,13 @@ class SeriesAppModel (var serie : Serie){
         stagePoster = poster
         stageDescription = description
         stageState = initState()
-        stageCategories = initCategories()
-    }
-
-    fun stageCategories(categoryAppModel: CategoryAppModel){
-
-        if (!stageCategories.any{it.id == categoryAppModel.id}){
-            stageCategories.add(categoryAppModel)
-        }
-
-    }
-
-    fun updateCategories(){
-        var toModel = stageCategories.map { it.toModel() }.toMutableList()
-        serie.categories = toModel
         categories = initCategories()
 
+        serie.categories = stageCategory.map { it.toModel() }.toMutableList()
+        categories = initCategories()
+
+        serie.relatedContent = stageRelatedContent.map { it.toModel() }.toMutableList()
+        relatedContent = initContents()
     }
 
     fun updateState(): ContentState{

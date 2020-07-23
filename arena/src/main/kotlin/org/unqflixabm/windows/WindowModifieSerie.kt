@@ -4,14 +4,12 @@ import org.unqflixabm.appModels.CategoryAppModel
 import org.unqflixabm.appModels.ContentAppModel
 import org.unqflixabm.appModels.SeriesAppModel
 import org.unqflixabm.appModels.UNQflixAppModel
-import org.unqflixabm.transformers.StateToBooleanTransformer
 import org.uqbar.arena.bindings.ObservableProperty
-import org.uqbar.arena.widgets.Panel
-import org.uqbar.arena.windows.SimpleWindow
-import org.uqbar.arena.windows.WindowOwner
 import org.uqbar.arena.kotlin.extensions.*
 import org.uqbar.arena.widgets.*
 import org.uqbar.arena.widgets.List
+import org.uqbar.arena.windows.SimpleWindow
+import org.uqbar.arena.windows.WindowOwner
 
 class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?,system: UNQflixAppModel):
     SimpleWindow<SeriesAppModel>(owner,model ) {
@@ -73,7 +71,7 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?,system: UNQf
             List<CategoryAppModel>(it) with {
                 width = 150
                 height = 100
-                bindItemsTo("stageCategories").adaptWithProp<CategoryAppModel>("categoryName")
+                bindItemsTo("categories").adaptWithProp<CategoryAppModel>("categoryName")
                 bindSelectedTo("selectCategorySerie")
             }
             Panel(it) with {
@@ -148,7 +146,7 @@ class WindowModifieSerie(owner: WindowOwner, model: SeriesAppModel?,system: UNQf
 
         }
     }
-    private fun addCategory() = modelo.stageCategories(modelo.selectCategorySerie!!)
+    private fun addCategory() = modelo.addCategory(modelo.selectCategorySerie!!)
     private fun deleteCategory() = modelo.removeCategory (modelo.selectCategorySerie!!)
     private fun addContent() = modelo.addContent(modelo.selectContentSerie!!)
     private fun deleteContent() = modelo.removeContent(modelo.selectContentSerie!!)
