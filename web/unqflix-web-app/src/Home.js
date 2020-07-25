@@ -7,6 +7,8 @@ import session from './Session';
 //temporal
 import axios from 'axios'
 import Nabvar from './Navbar';
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
 
 
 const Home = () => {
@@ -85,7 +87,31 @@ const Home = () => {
 		console.log(id)
 		const foundBanner = banners.find(elem => elem.id === id)
 		return (poster(foundBanner, foundBanner.id))
-	}	
+	}
+	const lastSeenContentIDs = () => {
+		var ids = new Array();
+		currentUser.lastSeen.map(content => ids.push(content.id))
+		return ids
+	}
+	const posterCarousel = (ids) => {
+		if (ids.length > 0) {
+
+			return (
+				<div className="slide-container">
+					<Slide>
+						{ids.map(idX => carouselItem(idX))}
+					</Slide>
+				</div>
+			)
+		}
+	}
+	const carouselItem = (idX) => {
+		return (
+			<div class="each-slide">
+      			{favPoster(idX)}
+    		</div>
+		)
+	}
 
 	//render
 	if (loading){
@@ -109,6 +135,7 @@ const Home = () => {
 					<h1>VIEWED</h1>
 					<div className="banners">						
 						{currentUser.lastSeen.map(content => favPoster(content.id))}
+						{/*posterCarousel(lastSeenContentIDs())*/}
 					</div>
 					<hr/>
 					</>
