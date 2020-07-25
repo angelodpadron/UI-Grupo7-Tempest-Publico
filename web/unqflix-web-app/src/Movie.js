@@ -92,7 +92,7 @@ return (
               <h1 className ="mt-0">{movie.title} </h1>
               <p >{movie.description}</p>
               <p>
-                <VideoModal url={movie.video}/>
+                <VideoModal url={movie.video} id={movieID}/>
               </p>
               <p>
                 {checkOnFavorites()}

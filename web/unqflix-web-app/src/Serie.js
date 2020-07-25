@@ -93,7 +93,7 @@ export default function Serie(props){
                         <p>{chapter.description}</p>
                         <p>Duration: {chapter.duration} minutes</p>
                         <p>
-                            <VideoModal url={chapter.video}/>
+                            <VideoModal url={chapter.video} id={serieID}/>
                         </p>                        
                     </div>
                 </li>
@@ -128,7 +128,8 @@ export default function Serie(props){
         let token = {headers: {'Authentication': sessionStorage.getItem("currentUser")}}
         let payload = {'id': currentSerie.id}
         api.addToUserViewed(payload, token)
-        .then(response => console.log(response.data))
+        .then(response => console.log("added to viewed", response.data))
+        .catch(e => console.log("error adding to viewed", e.response))
     }
 
     function updateCurrentSeason(event){        
