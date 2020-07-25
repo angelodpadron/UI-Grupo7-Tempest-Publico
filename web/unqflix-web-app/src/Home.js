@@ -85,11 +85,7 @@ const Home = () => {
 		console.log(id)
 		const foundBanner = banners.find(elem => elem.id === id)
 		return (poster(foundBanner, foundBanner.id))
-	}
-
-	const canSearch = () => {
-		return !(searchQuery.length > 0);
-	}
+	}	
 
 	//render
 	if (loading){
@@ -104,30 +100,29 @@ const Home = () => {
 		console.log("userData", currentUser)
 		return(			
 			<div className="wrapper">
-				<Nabvar/>
-				{/* <nav class="navbar navbar-light bg-light">
-  					<Link to='/home' class="navbar-brand">
-						<img src={process.env.PUBLIC_URL + '/logo_transparent.png'} width="30" height="30"/>
-					</Link>
-						<form class="form-inline my-2 my-lg-0" onSubmit={toSearchPage}>
-      						<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="text" onChange={handleChange}/>
-      						<button class="btn btn-outline-primary my-2 my-sm-0" type="submit" disabled={canSearch()}>Search</button>
-    					</form>
-						<button class="btn btn-danger my-2 my-sm-0" type="submit" onClick={performSignOut}>Sign out</button>						
-				</nav> */}
-							
+				<Nabvar/>						
 				
 				<div className="container">
+					
+					{currentUser.lastSeen.length > 0 &&
+					<>
 					<h1>VIEWED</h1>
 					<div className="banners">						
 						{currentUser.lastSeen.map(content => favPoster(content.id))}
 					</div>
-					<hr></hr>
+					<hr/>
+					</>
+					}
+					
+					{currentUser.favorites.length > 0 && 
+					<>
 					<h1>FAVORITES</h1>
 					<div className="banners">						
 						{currentUser.favorites.map(content => favPoster(content.id))}
 					</div>
 					<hr></hr>
+					</>
+					}
 					<h1>EXPLORE</h1>
 					<div className="banners">						
 						{banners.map(content => poster(content, content.id))}
